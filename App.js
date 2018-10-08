@@ -7,11 +7,11 @@
  */
 
 import React, { Component } from "react";
-import Home from "./Components/Home.js";
+import SignInPage from "./Components/SignInPage";
 
 // type Props = {};
 export default class App extends Component {
   render() {
-    return <Home />;
+    return <SignInPage />;
   }
 }

@@ -1,7 +1,20 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  Picker
+} from "react-native";
 
-export default class home extends Component {
+export default class SignInPage extends Component {
+  state = {
+    countryCode: ""
+  };
+  updateCode(value, index) {
+    this.setState({ countryCode: value });
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -9,6 +22,15 @@ export default class home extends Component {
         <Text style={styles.instructions}>
           Pleas Enter Your Phone Number To Get Started
         </Text>
+        <Picker
+          onValueChange={this.updateCode}
+          style={{ width: "30%", alignContent: "center" }}
+          mode="dropdown"
+        >
+          <Picker.Item label="Iran" value="+98" />
+          <Picker.Item label="USA" value="+1" />
+          <Picker.Item label="Germany" value="+49" />
+        </Picker>
         <TextInput placeholder="Phone Number" style={styles.phoneText} />
         <Button title="START" color="#9B59B6" style={styles.loginButton} />
       </View>
