@@ -45,32 +45,180 @@ export default class MainPage extends Component {
         </View>
         <FlatList
           data={[
-            { key: "Devin" },
-            { key: "Jackson" },
-            { key: "James" },
-            { key: "Joel" },
-            { key: "John" },
-            { key: "Jillian" },
-            { key: "Jimmy" },
-            { key: "Julie" },
-            { key: "Devin" },
-            { key: "Jackson" },
-            { key: "James" },
-            { key: "Joel" },
-            { key: "John" },
-            { key: "Jillian" },
-            { key: "Jimmy" },
-            { key: "Julie" },
-            { key: "Devin" },
-            { key: "Jackson" },
-            { key: "James" },
-            { key: "Joel" },
-            { key: "John" },
-            { key: "Jillian" },
-            { key: "Jimmy" },
-            { key: "Julie" }
+            {
+              key: "Devin",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Jackson",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "James",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Joel",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "John",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Jillian",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Jimmy",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Julie",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Devin",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Jackson",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "James",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Joel",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "John",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Jillian",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Jimmy",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Julie",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Devin",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Jackson",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "James",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Joel",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "John",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Jillian",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Jimmy",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            },
+            {
+              key: "Julie",
+              image: require("../RES/sampleprofileimage.jpg"),
+              lastMessage: "The last Message",
+              date: "16:05"
+            }
           ]}
-          renderItem={({ item }) => <Text style={styles.item}>{item.key}</Text>}
+          renderItem={({ item }) => {
+            return (
+              <View style={{ flexDirection: "row", margin: 2 }}>
+                <Image source={item.image} />
+                <View
+                  style={{
+                    flexDirection: "column",
+                    justifyContent: "space-around"
+                  }}
+                >
+                  <Text style={styles.item}>{item.key}</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "flex-start"
+                    }}
+                  >
+                    <Text style={{ fontSize: 12, width: "60%" }}>
+                      {item.lastMessage}
+                    </Text>
+                    <Text style={{ fontSize: 10, width: "40%" }}>
+                      {item.date}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            );
+          }}
         />
       </View>
     );
