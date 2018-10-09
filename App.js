@@ -9,10 +9,11 @@
 import React, { Component } from "react";
 import SignInPage from "./Components/SignInPage";
 import MainPage from "./Components/MainPage";
+import About from "./Components/About";
 
 // type Props = {};
 export default class App extends Component {
   render() {
-    return <MainPage />;
+    return <About />;
   }
 }
