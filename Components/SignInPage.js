@@ -7,6 +7,7 @@ import {
   Button,
   Picker
 } from "react-native";
+import { navigate } from "react-navigation";
 
 export default class SignInPage extends Component {
   state = {
@@ -32,7 +33,11 @@ export default class SignInPage extends Component {
           <Picker.Item label="Germany" value="+49" />
         </Picker>
         <TextInput placeholder="Phone Number" style={styles.phoneText} />
-        <Button title="START" color="#9B59B6" style={styles.loginButton} />
+        <Button
+          title="START"
+          color="#9B59B6"
+          style={styles.loginButton}
+        />
       </View>
     );
   }

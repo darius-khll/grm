@@ -37,6 +37,10 @@ export default class About extends Component {
                 style={{ margin: 2 }}
                 source={require("../RES/contact.png")}
               />
+              <Image
+                style={{ margin: 2 }}
+                source={require("../RES/shop.png")}
+              />
             </View>
             <View style={StyleSheet.downLeftBand}>
               <Image

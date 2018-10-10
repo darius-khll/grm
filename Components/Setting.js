@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-export default class About extends Component {
+export default class Setting extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -14,7 +14,7 @@ export default class About extends Component {
             backgroundColor: "gray"
           }}
         >
-          <Text style={{ fontSize: 20, textAlign: "center" }}>ABOUT</Text>
+          <Text style={{ fontSize: 20, textAlign: "center" }}>SETTINGS</Text>
         </View>
         <View style={{ flex: 13, flexDirection: "row" }}>
           <View
@@ -53,20 +53,7 @@ export default class About extends Component {
               />
             </View>
           </View>
-          <View style={{ flex: 7 }}>
-            <Text style={styles.welcome}>Welcome to Rich Messenger</Text>
-            <Text style={styles.version}>Rich Messenger Version 1.0.0 </Text>
-            <Text style={styles.creators}>
-              Created By Ali Khalili & Arash Heidary
-            </Text>
-            <Text style={{ marginBottom: 2, textAlign: "center" }}>
-              Website: www.richmessenger.com
-            </Text>
-            <Text style={{ marginBottom: 30, textAlign: "center" }}>
-              E-Mail: info@richmessenger.com
-            </Text>
-            <Text style={{ textAlign: "center" }}>©2018</Text>
-          </View>
+          <View style={{ flex: 7 }} />
         </View>
       </View>
     );
