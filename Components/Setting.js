@@ -9,10 +9,11 @@ import {
 import { createStackNavigator } from "react-navigation";
 
 class Setting extends Component {
+  static navigationOptions = { header: null };
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", flex: 1 }}>
           <View
             style={{
               backgroundColor: "gray",

@@ -10,13 +10,11 @@ import {
 import { createStackNavigator } from "react-navigation";
 
 class MainPage extends Component {
-  static navigationOptions = {
-    title: "Chats"
-  };
+  static navigationOptions = { header: null };
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", flex: 1 }}>
           <View
             style={{ backgroundColor: "gray", justifyContent: "space-between" }}
           >

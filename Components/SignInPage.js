@@ -10,6 +10,9 @@ import {
 import { createStackNavigator } from "react-navigation";
 
 class SignInPage extends Component {
+  static navigationOptions = {
+    header: null
+  };
   state = {
     countryCode: ""
   };

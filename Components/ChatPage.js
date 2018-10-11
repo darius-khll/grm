@@ -3,12 +3,14 @@ import { StyleSheet, Text, View, Image, TextInput } from "react-native";
 import { createStackNavigator } from "react-navigation";
 
 class ChatPage extends Component {
+  static navigationOptions = { header: null };
   render() {
     return (
       <View style={styles.container}>
         <View
           style={{
             flexDirection: "row",
+            flex: 1,
             width: "100%",
             alignItems: "center",
             borderBottomWidth: 2

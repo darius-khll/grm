@@ -21,37 +21,70 @@ import { createStackNavigator } from "react-navigation";
 const RootStack = createStackNavigator(
   {
     SignInPage: {
-      screen: SignInPage
+      screen: SignInPage,
+      navigationOptions: {
+        header: null
+      }
     },
     MainPage: {
-      screen: MainPage
+      screen: MainPage,
+      navigationOptions: {
+        title: "Chats",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
     },
     About: {
-      screen: About
+      screen: About,
+      navigationOptions: {
+        title: "About",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
     },
     Setting: {
-      screen: Setting
+      screen: Setting,
+      navigationOptions: {
+        title: "Setting",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
     },
     Profile: {
-      screen: Profile
+      screen: Profile,
+      navigationOptions: {
+        title: "Profile",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
     },
     Contacts: {
-      screen: Contacts
+      screen: Contacts,
+      navigationOptions: {
+        title: "Contacts",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
     },
     ChatPage: {
-      screen: ChatPage
+      screen: ChatPage,
+      navigationOptions: {
+        title: "Chats",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
     },
     Shop: {
-      screen: Shop
+      screen: Shop,
+      navigationOptions: {
+        title: "Shop",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
     }
   },
   {
-    initialRouteName: "SignInPage",
-    navigationOptions: {
-      // header: null,
-      // headerVisible: false,
-      // headerMode: "none"
-    }
+    initialRouteName: "SignInPage"
   }
 );
 
