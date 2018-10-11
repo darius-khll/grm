@@ -7,9 +7,9 @@ import {
   Button,
   Picker
 } from "react-native";
-import { navigate } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 
-export default class SignInPage extends Component {
+class SignInPage extends Component {
   state = {
     countryCode: ""
   };
@@ -36,6 +36,7 @@ export default class SignInPage extends Component {
         <Button
           title="START"
           color="#9B59B6"
+          onPress={() => this.props.navigation.navigate("MainPage")}
           style={styles.loginButton}
         />
       </View>
@@ -70,5 +71,11 @@ const styles = StyleSheet.create({
   loginButton: {
     textAlign: "center",
     fontSize: 12
+  }
+});
+
+export default createStackNavigator({
+  SignInPage: {
+    screen: SignInPage
   }
 });

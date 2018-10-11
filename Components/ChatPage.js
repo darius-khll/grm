@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Image, TextInput } from "react-native";
+import { createStackNavigator } from "react-navigation";
 
-export default class ChatPage extends Component {
+class ChatPage extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -40,5 +41,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#e2deef"
+  }
+});
+
+export default createStackNavigator({
+  ChatPage: {
+    screen: ChatPage
   }
 });
