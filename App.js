@@ -15,6 +15,7 @@ import Profile from "./Components/Profile";
 import Contacts from "./Components/Contacts";
 import ChatPage from "./Components/ChatPage";
 import Shop from "./Components/Shop";
+import MyProfile from "./Components/MyProfile";
 
 import { createStackNavigator } from "react-navigation";
 
@@ -52,10 +53,13 @@ const RootStack = createStackNavigator(
     },
     Profile: {
       screen: Profile,
-      navigationOptions: {
-        title: "Profile",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+      navigationOptions: ({ navigation }) => {
+        const tit = navigation.getParam("name", "Your Profile");
+        return {
+          title: tit,
+          headerStyle: { backgroundColor: "#2196f3" },
+          headerTintColor: "#fff"
+        };
       }
     },
     Contacts: {
@@ -66,12 +70,23 @@ const RootStack = createStackNavigator(
         headerTintColor: "#fff"
       }
     },
-    ChatPage: {
-      screen: ChatPage,
+    MyProfile: {
+      screen: MyProfile,
       navigationOptions: {
-        title: "Chats",
+        title: "Your Profile",
         headerStyle: { backgroundColor: "#2196f3" },
         headerTintColor: "#fff"
+      }
+    },
+    ChatPage: {
+      screen: ChatPage,
+      navigationOptions: ({ navigation }) => {
+        const tit = navigation.getParam("name", "NO-ID");
+        return {
+          title: tit,
+          headerStyle: { backgroundColor: "#2196f3" },
+          headerTintColor: "#fff"
+        };
       }
     },
     Shop: {

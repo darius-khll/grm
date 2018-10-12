@@ -16,24 +16,28 @@ class Contacts extends Component {
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
           <View
-            style={{ backgroundColor: "gray", justifyContent: "space-between" }}
+            style={{
+              backgroundColor: "gray",
+              justifyContent: "space-between",
+              flex: 1
+            }}
           >
             <View>
               <TouchableHighlight>
                 <View>
                   <Image
-                    style={{ margin: 2 }}
-                    source={require("../RES/expand.png")}
+                    style={styles.image}
+                    source={require("../RES/expand1.png")}
                   />
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("Profile")}
+                onPress={() => this.props.navigation.navigate("MyProfile")}
               >
                 <View>
                   <Image
-                    style={{ margin: 2 }}
-                    source={require("../RES/profile.png")}
+                    style={styles.image}
+                    source={require("../RES/profile1.png")}
                   />
                 </View>
               </TouchableHighlight>
@@ -42,8 +46,8 @@ class Contacts extends Component {
               >
                 <View>
                   <Image
-                    style={{ margin: 2 }}
-                    source={require("../RES/message.png")}
+                    style={styles.image}
+                    source={require("../RES/message1.png")}
                   />
                 </View>
               </TouchableHighlight>
@@ -52,8 +56,8 @@ class Contacts extends Component {
               >
                 <View>
                   <Image
-                    style={{ margin: 2 }}
-                    source={require("../RES/contact.png")}
+                    style={styles.image}
+                    source={require("../RES/contacts1.png")}
                   />
                 </View>
               </TouchableHighlight>
@@ -62,8 +66,8 @@ class Contacts extends Component {
               >
                 <View>
                   <Image
-                    style={{ margin: 2 }}
-                    source={require("../RES/shop.png")}
+                    style={styles.image}
+                    source={require("../RES/shop1.png")}
                   />
                 </View>
               </TouchableHighlight>
@@ -74,8 +78,8 @@ class Contacts extends Component {
               >
                 <View>
                   <Image
-                    style={{ margin: 2 }}
-                    source={require("../RES/setting.png")}
+                    style={styles.image}
+                    source={require("../RES/setting1.png")}
                   />
                 </View>
               </TouchableHighlight>
@@ -84,8 +88,8 @@ class Contacts extends Component {
               >
                 <View>
                   <Image
-                    style={{ margin: 2 }}
-                    source={require("../RES/about.png")}
+                    style={styles.image}
+                    source={require("../RES/about1.png")}
                   />
                 </View>
               </TouchableHighlight>
@@ -149,16 +153,25 @@ class Contacts extends Component {
               ]}
               renderItem={({ item }) => {
                 return (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      margin: 2,
-                      alignItems: "center"
-                    }}
+                  <TouchableHighlight
+                    onPress={() =>
+                      this.props.navigation.navigate("Profile", {
+                        name: item.name,
+                        image: item.image
+                      })
+                    }
                   >
-                    <Image source={item.image} />
-                    <Text style={{ margin: 5 }}>{item.name}</Text>
-                  </View>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        margin: 2,
+                        alignItems: "center"
+                      }}
+                    >
+                      <Image source={item.image} />
+                      <Text style={{ margin: 5 }}>{item.name}</Text>
+                    </View>
+                  </TouchableHighlight>
                 );
               }}
               renderSectionHeader={({ section }) => (
@@ -196,6 +209,12 @@ const styles = StyleSheet.create({
   creators: {
     textAlign: "center",
     marginBottom: 15
+  },
+  image: {
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
+    margin: 2
   }
 });
 

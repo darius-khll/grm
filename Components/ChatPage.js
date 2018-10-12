@@ -7,18 +7,6 @@ class ChatPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: "row",
-            flex: 1,
-            width: "100%",
-            alignItems: "center",
-            borderBottomWidth: 2
-          }}
-        >
-          <Image source={require("../RES/sampleprofileimage.jpg")} />
-          <Text style={{ marginLeft: 10 }}>Arash</Text>
-        </View>
         <View style={{ height: "75%" }} />
         <View
           style={{
