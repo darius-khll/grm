@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Button,
   TouchableHighlight,
   Image
 } from "react-native";
@@ -13,6 +14,10 @@ class Profile extends Component {
 
   render() {
     const { navigation } = this.props;
+    const profileImage = navigation.getParam(
+      "image",
+      require("../RES/myprofile.jpg")
+    );
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
@@ -98,11 +103,15 @@ class Profile extends Component {
           </View>
           <View style={{ flex: 7, marginTop: 6, alignItems: "center" }}>
             <Text> {navigation.getParam("name", "Your Profile")}</Text>
-            <Image
-              source={navigation.getParam(
-                "image",
-                require("../RES/myprofile.jpg")
-              )}
+            <Image style={{ margin: 10 }} source={profileImage} />
+            <Button
+              title="Send a message"
+              onPress={() =>
+                this.props.navigation.navigate("ChatPage", {
+                  name: navigation.getParam("name", "Your Profile"),
+                  image: profileImage
+                })
+              }
             />
           </View>
         </View>

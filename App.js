@@ -7,6 +7,13 @@
  */
 
 import React, { Component } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableHighlight
+} from "react-native";
 import SignInPage from "./Components/SignInPage";
 import MainPage from "./Components/MainPage";
 import About from "./Components/About";
@@ -82,8 +89,33 @@ const RootStack = createStackNavigator(
       screen: ChatPage,
       navigationOptions: ({ navigation }) => {
         const tit = navigation.getParam("name", "NO-ID");
+        const img = navigation.getParam(
+          "image",
+          require("./RES/sampleprofileimage.jpg")
+        );
         return {
           title: tit,
+          headerRight: (
+            <View
+              style={{
+                marginLeft: 40,
+                flexDirection: "row",
+                alignItems: "center"
+              }}
+            >
+              <TouchableHighlight
+                onPress={() =>
+                  navigation.navigate("Profile", {
+                    name: tit,
+                    image: img
+                  })
+                }
+              >
+                <Image source={img} style={styles.image} />
+              </TouchableHighlight>
+              {/* <Text>{tit}</Text> */}
+            </View>
+          ),
           headerStyle: { backgroundColor: "#2196f3" },
           headerTintColor: "#fff"
         };
@@ -109,3 +141,13 @@ export default class App extends Component {
     return <RootStack />;
   }
 }
+
+const styles = StyleSheet.create({
+  image: {
+    width: 50,
+    height: 50,
+    marginRight: 20,
+    resizeMode: "contain",
+    margin: 2
+  }
+});
