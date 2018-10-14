@@ -25,6 +25,8 @@ import Shop from "./Components/Shop";
 import MyProfile from "./Components/MyProfile";
 
 import { createStackNavigator } from "react-navigation";
+import OptionsMenu from "react-native-options-menu";
+const MoreIcon = require("./RES/more.png");
 
 const RootStack = createStackNavigator(
   {
@@ -98,11 +100,22 @@ const RootStack = createStackNavigator(
           headerRight: (
             <View
               style={{
-                marginLeft: 40,
-                flexDirection: "row",
+                flexDirection: "row-reverse",
+                marginLeft: 8,
                 alignItems: "center"
               }}
             >
+              <OptionsMenu
+                button={MoreIcon}
+                buttonStyle={{
+                  width: 28,
+                  height: 32,
+                  resizeMode: "contain"
+                }}
+                destructiveIndex={1}
+                options={["Block Contact"]}
+                // actions={[this.editPost, this.deletePost]}
+              />
               <TouchableHighlight
                 onPress={() =>
                   navigation.navigate("Profile", {
@@ -144,9 +157,11 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   image: {
-    width: 50,
-    height: 50,
-    marginRight: 20,
+    width: 48,
+    height: 48,
+    borderWidth: 1,
+    borderColor: "black",
+    marginRight: 40,
     resizeMode: "contain",
     margin: 2
   }

@@ -8,6 +8,21 @@ import {
   TouchableHighlight
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
+import { FloatingAction } from "react-native-floating-action";
+const actions = [
+  {
+    text: "Add New Member",
+    icon: require("../RES/addnewcontact.png"),
+    name: "add new member",
+    position: 2
+  },
+  {
+    text: "Search",
+    icon: require("../RES/search.png"),
+    name: "search",
+    position: 1
+  }
+];
 
 class Contacts extends Component {
   static navigationOptions = { header: null };
@@ -155,7 +170,7 @@ class Contacts extends Component {
                 return (
                   <TouchableHighlight
                     onPress={() =>
-                      this.props.navigation.navigate("Profile", {
+                      this.props.navigation.push("Profile", {
                         name: item.name,
                         image: item.image
                       })
@@ -183,6 +198,12 @@ class Contacts extends Component {
             />
           </View>
         </View>
+        <FloatingAction
+          actions={actions}
+          onPressItem={name => {
+            console.log(`selected button: ${name}`);
+          }}
+        />
       </View>
     );
   }
