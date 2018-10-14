@@ -61,7 +61,7 @@ const RootStack = createStackNavigator(
     Profile: {
       screen: Profile,
       navigationOptions: ({ navigation }) => {
-        const tit = navigation.getParam("name", "Your Profile");
+        const tit = navigation.getParam("name", "Unknown");
         return {
           title: tit,
           headerStyle: { backgroundColor: "#2196f3" },
@@ -80,7 +80,7 @@ const RootStack = createStackNavigator(
     MyProfile: {
       screen: MyProfile,
       navigationOptions: {
-        title: "Your Profile",
+        title: "My Profile",
         headerStyle: { backgroundColor: "#2196f3" },
         headerTintColor: "#fff"
       }
