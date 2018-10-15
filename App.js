@@ -23,6 +23,7 @@ import Contacts from "./Components/Contacts";
 import ChatPage from "./Components/ChatPage";
 import Shop from "./Components/Shop";
 import MyProfile from "./Components/MyProfile";
+import SearchPage from "./Components/SearchPage";
 
 import { createStackNavigator } from "react-navigation";
 import OptionsMenu from "react-native-options-menu";
@@ -56,6 +57,14 @@ const RootStack = createStackNavigator(
       screen: Setting,
       navigationOptions: {
         title: "Setting",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
+    },
+    SearchPage: {
+      screen: SearchPage,
+      navigationOptions: {
+        title: "Search",
         headerStyle: { backgroundColor: "#2196f3" },
         headerTintColor: "#fff"
       }

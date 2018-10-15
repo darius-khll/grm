@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+  TextInput,
   SectionList,
   TouchableHighlight
 } from "react-native";
@@ -13,11 +14,13 @@ const actions = [
   {
     text: "Add New Member",
     icon: require("../RES/addnewcontact.png"),
+    color: "black",
     name: "add new member",
     position: 2
   },
   {
     text: "Search",
+    color: "black",
     icon: require("../RES/search.png"),
     name: "search",
     position: 1
@@ -111,6 +114,9 @@ class Contacts extends Component {
             </View>
           </View>
           <View style={{ flex: 7 }}>
+            <View>
+              <TextInput placeholder="Search..." />
+            </View>
             <SectionList
               sections={[
                 {
@@ -200,8 +206,9 @@ class Contacts extends Component {
         </View>
         <FloatingAction
           actions={actions}
+          color="black"
           onPressItem={name => {
-            console.log(`selected button: ${name}`);
+            if (name === "search") this.props.navigation.navigate("SearchPage");
           }}
         />
       </View>
