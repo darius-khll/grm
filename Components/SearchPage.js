@@ -7,6 +7,7 @@ class BasedOnID extends React.Component {
     return (
       <View style={styles.container}>
         <TextInput
+          textContentType="username"
           style={{ width: "90%", borderBottomWidth: 1 }}
           placeholder="search for ID"
         />
@@ -20,6 +21,7 @@ class BasedOnPhoneNumber extends React.Component {
     return (
       <View style={styles.container}>
         <TextInput
+          textContentType="telephoneNumber"
           style={{ width: "90%", borderBottomWidth: 1 }}
           placeholder="Search for Phone Number"
         />

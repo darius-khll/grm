@@ -5,6 +5,7 @@ import {
   View,
   Image,
   TextInput,
+  Modal,
   SectionList,
   TouchableHighlight
 } from "react-native";
@@ -15,7 +16,7 @@ const actions = [
     text: "Add New Member",
     icon: require("../RES/addnewcontact.png"),
     color: "black",
-    name: "add new member",
+    name: "addNewContact",
     position: 2
   },
   {
@@ -29,9 +30,177 @@ const actions = [
 
 class Contacts extends Component {
   static navigationOptions = { header: null };
+  state = {
+    modal1Visible: false,
+    modal2Visible: false
+  };
+
+  setModal1Invisible() {
+    this.setState({ modal1Visible: false });
+  }
+  setModal2Invisible() {
+    this.setState({ modal2Visible: false });
+  }
+  setModal2Visible() {
+    this.setState({ modal2Visible: true });
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modal1Visible}
+          onRequestClose={() => {
+            this.setModal1Invisible();
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "rgba(0,0,0,0.5)"
+            }}
+          >
+            {this.props.children}
+            <View
+              style={{
+                borderWidth: 1.5,
+                padding: 5,
+                backgroundColor: "white",
+                width: "85%"
+              }}
+            >
+              <Text
+                style={{ marginBottom: "5%", fontWeight: "bold", fontSize: 20 }}
+              >
+                Add New Contact
+              </Text>
+              <Text>Please Enter The Number of your new contact: </Text>
+              <TextInput
+                placeholder="Number"
+                textContentType="telephoneNumber"
+                style={{
+                  marginTop: 5,
+                  padding: 0,
+                  borderBottomWidth: 0.5,
+                  width: "70%"
+                }}
+              />
+              <View
+                style={{
+                  marginTop: "10%",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  justifyContent: "flex-end"
+                }}
+              >
+                <TouchableHighlight
+                  onPress={() => {
+                    this.setModal1Invisible();
+                    this.setModal2Visible();
+                  }}
+                  style={{
+                    borderWidth: 0.5,
+                    padding: 3,
+                    margin: 2,
+                    marginBottom: 10
+                  }}
+                >
+                  <Text>Search For This Contact</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{
+                    borderWidth: 0.5,
+                    padding: 3,
+                    margin: 2,
+                    marginBottom: 10
+                  }}
+                  onPress={() => this.setModal1Invisible()}
+                >
+                  <Text>Cancle</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={this.state.modal2Visible}
+          onRequestClose={() => {
+            this.setModal2Invisible();
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "rgba(0,0,0,0.5)"
+            }}
+          >
+            {this.props.children}
+            <View
+              style={{
+                borderWidth: 1.5,
+                padding: 5,
+                backgroundColor: "white",
+                width: "85%"
+              }}
+            >
+              <Text
+                style={{ marginBottom: "5%", fontWeight: "bold", fontSize: 20 }}
+              >
+                Contact Found!
+              </Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Image source={require("../RES/sampleprofileimage.jpg")} />
+                <TextInput
+                  textContentType="name"
+                  style={{ borderBottomWidth: 0.5, padding: 1, marginLeft: 10 }}
+                  textContentType="name"
+                  placeholder="name from server"
+                />
+              </View>
+              <View
+                style={{
+                  marginTop: "10%",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  justifyContent: "flex-end"
+                }}
+              >
+                <TouchableHighlight
+                  onPress={() => {
+                    this.setModal2Invisible();
+                  }}
+                  style={{
+                    borderWidth: 0.5,
+                    padding: 3,
+                    margin: 2,
+                    marginBottom: 10
+                  }}
+                >
+                  <Text>Add</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{
+                    borderWidth: 0.5,
+                    padding: 3,
+                    margin: 2,
+                    marginBottom: 10
+                  }}
+                  onPress={() => this.setModal2Invisible()}
+                >
+                  <Text>Cancle</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
         <View style={{ flexDirection: "row", flex: 1 }}>
           <View
             style={{
@@ -209,6 +378,8 @@ class Contacts extends Component {
           color="black"
           onPressItem={name => {
             if (name === "search") this.props.navigation.navigate("SearchPage");
+            else if (name === "addNewContact")
+              this.setState({ modal1Visible: true });
           }}
         />
       </View>

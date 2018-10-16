@@ -35,7 +35,11 @@ class SignInPage extends Component {
           <Picker.Item label="USA" value="+1" />
           <Picker.Item label="Germany" value="+49" />
         </Picker>
-        <TextInput placeholder="Phone Number" style={styles.phoneText} />
+        <TextInput
+          textContentType="telephoneNumber"
+          placeholder="Phone Number"
+          style={styles.phoneText}
+        />
         <Button
           title="START"
           color="#9B59B6"
