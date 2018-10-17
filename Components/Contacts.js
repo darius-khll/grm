@@ -358,7 +358,7 @@ class Contacts extends Component {
                         alignItems: "center"
                       }}
                     >
-                      <Image source={item.image} />
+                      <Image source={item.image} style={styles.profileImage} />
                       <Text style={{ margin: 5 }}>{item.name}</Text>
                     </View>
                   </TouchableHighlight>
@@ -366,7 +366,7 @@ class Contacts extends Component {
               }}
               renderSectionHeader={({ section }) => (
                 <View style={{ borderTopWidth: 2, borderBottomWidth: 2 }}>
-                  <Text style={styles.sectionHeader}>{section.title}</Text>
+                  <Text style={{ marginLeft: 5 }}>{section.title}</Text>
                 </View>
               )}
               keyExtractor={(item, index) => index}
@@ -412,6 +412,13 @@ const styles = StyleSheet.create({
   image: {
     width: 40,
     height: 40,
+    resizeMode: "contain",
+    margin: 2
+  },
+  profileImage: {
+    marginRight: 30,
+    width: 75,
+    height: 75,
     resizeMode: "contain",
     margin: 2
   }

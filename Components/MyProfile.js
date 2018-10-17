@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Button,
   TouchableHighlight,
   Image
 } from "react-native";
@@ -12,7 +13,6 @@ class Profile extends Component {
   static navigationOptions = { header: null };
 
   render() {
-    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
@@ -97,13 +97,108 @@ class Profile extends Component {
             </View>
           </View>
           <View style={{ flex: 7, marginTop: 6, alignItems: "center" }}>
-            <Text> {navigation.getParam("name", "Your Profile")}</Text>
-            <Image
-              source={navigation.getParam(
-                "image",
-                require("../RES/myprofile.jpg")
-              )}
-            />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-evenly"
+              }}
+            >
+              <Image
+                style={styles.profileImage}
+                source={require("../RES/myprofile.jpg")}
+              />
+              <View>
+                <Button title="Change Profile PIC" />
+              </View>
+            </View>
+            <Text
+              style={{
+                margin: 5,
+                marginTop: 15,
+                borderBottomWidth: 0.5,
+                width: "85%"
+              }}
+            >
+              Information
+            </Text>
+            <View
+              style={{
+                width: "80%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text>Name:</Text>
+              <Text>Name Of Person From Server</Text>
+            </View>
+            <View
+              style={{
+                width: "80%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text>Age:</Text>
+              <Text>Age of Person From Server</Text>
+            </View>
+            <View
+              style={{
+                width: "80%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text>Gender:</Text>
+              <Text>From Server</Text>
+            </View>
+            <View
+              style={{
+                width: "80%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text>ID:</Text>
+              <Text>ID From Server</Text>
+            </View>
+            <View
+              style={{
+                width: "80%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text>Country:</Text>
+              <Text>Country From Server</Text>
+            </View>
+            <View
+              style={{
+                width: "80%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text>City:</Text>
+              <Text>City from Server</Text>
+            </View>
+            <View
+              style={{
+                width: "80%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text>Phone Number:</Text>
+              <Text>From Server</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -136,6 +231,13 @@ const styles = StyleSheet.create({
   image: {
     width: 40,
     height: 40,
+    resizeMode: "contain",
+    margin: 2
+  },
+  profileImage: {
+    marginRight: 30,
+    width: 75,
+    height: 75,
     resizeMode: "contain",
     margin: 2
   }

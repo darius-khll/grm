@@ -94,7 +94,20 @@ class Setting extends Component {
               </TouchableHighlight>
             </View>
           </View>
-          <View style={{ flex: 7 }} />
+          <View
+            style={{
+              flex: 7,
+              marginTop: 10,
+              alignItems: "center"
+            }}
+          >
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.5, width: "90%", padding: 5 }}
+              onPress={() => this.props.navigation.navigate("SignInPage")}
+            >
+              <Text style={{ fontSize: 18 }}>Log Out!</Text>
+            </TouchableHighlight>
+          </View>
         </View>
       </View>
     );

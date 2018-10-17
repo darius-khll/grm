@@ -253,7 +253,7 @@ class MainPage extends Component {
                     }
                   >
                     <View style={{ flexDirection: "row", margin: 2 }}>
-                      <Image source={item.image} />
+                      <Image source={item.image} style={styles.profileImage} />
                       <View
                         style={{
                           flexDirection: "column",
@@ -315,6 +315,12 @@ const styles = StyleSheet.create({
   creators: {
     textAlign: "center",
     marginBottom: 15
+  },
+  profileImage: {
+    width: 75,
+    height: 75,
+    resizeMode: "contain",
+    margin: 2
   }
 });
 
