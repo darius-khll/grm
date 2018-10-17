@@ -75,6 +75,27 @@ const RootStack = createStackNavigator(
         const tit = navigation.getParam("name", "Unknown");
         return {
           title: tit,
+          headerRight: (
+            <View
+              style={{
+                flexDirection: "row-reverse",
+                marginLeft: 8,
+                alignItems: "center"
+              }}
+            >
+              <OptionsMenu
+                button={MoreIcon}
+                buttonStyle={{
+                  width: 28,
+                  height: 32,
+                  resizeMode: "contain"
+                }}
+                destructiveIndex={1}
+                options={["Block Contact"]}
+                // actions={[this.editPost, this.deletePost]}
+              />
+            </View>
+          ),
           headerStyle: { backgroundColor: "#2196f3" },
           headerTintColor: "#fff"
         };
@@ -90,10 +111,33 @@ const RootStack = createStackNavigator(
     },
     MyProfile: {
       screen: MyProfile,
-      navigationOptions: {
-        title: "My Profile",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+      navigationOptions: () => {
+        return {
+          title: "My Profile",
+          headerRight: (
+            <View
+              style={{
+                flexDirection: "row-reverse",
+                marginLeft: 8,
+                alignItems: "center"
+              }}
+            >
+              <OptionsMenu
+                button={MoreIcon}
+                buttonStyle={{
+                  width: 28,
+                  height: 32,
+                  resizeMode: "contain"
+                }}
+                destructiveIndex={1}
+                options={["Edit Profile"]}
+                // actions={[this.editPost, this.deletePost]}
+              />
+            </View>
+          ),
+          headerStyle: { backgroundColor: "#2196f3" },
+          headerTintColor: "#fff"
+        };
       }
     },
     ChatPage: {

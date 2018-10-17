@@ -133,7 +133,7 @@ class Profile extends Component {
                 width: "85%"
               }}
             >
-              Information
+              General Informations
             </Text>
             <View
               style={{
@@ -179,6 +179,16 @@ class Profile extends Component {
               <Text>ID:</Text>
               <Text>ID From Server</Text>
             </View>
+            <Text
+              style={{
+                margin: 5,
+                marginTop: 15,
+                borderBottomWidth: 0.5,
+                width: "85%"
+              }}
+            >
+              Location Informations
+            </Text>
             <View
               style={{
                 width: "80%",
@@ -201,6 +211,16 @@ class Profile extends Component {
               <Text>City:</Text>
               <Text>City from Server</Text>
             </View>
+            <Text
+              style={{
+                margin: 5,
+                marginTop: 15,
+                borderBottomWidth: 0.5,
+                width: "85%"
+              }}
+            >
+              Contact Informations
+            </Text>
             <View
               style={{
                 width: "80%",
@@ -210,6 +230,17 @@ class Profile extends Component {
               }}
             >
               <Text>Phone Number:</Text>
+              <Text>From Server</Text>
+            </View>
+            <View
+              style={{
+                width: "80%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text>Email:</Text>
               <Text>From Server</Text>
             </View>
           </View>
