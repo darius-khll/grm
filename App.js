@@ -7,13 +7,7 @@
  */
 
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableHighlight
-} from "react-native";
+import { StyleSheet, View, Image, TouchableHighlight } from "react-native";
 import SignInPage from "./Components/SignInPage";
 import MainPage from "./Components/MainPage";
 import About from "./Components/About";
@@ -24,6 +18,7 @@ import ChatPage from "./Components/ChatPage";
 import Shop from "./Components/Shop";
 import MyProfile from "./Components/MyProfile";
 import SearchPage from "./Components/SearchPage";
+import EditProfile from "./Components/EditProfile";
 
 import { createStackNavigator } from "react-navigation";
 import OptionsMenu from "react-native-options-menu";
@@ -65,6 +60,14 @@ const RootStack = createStackNavigator(
       screen: SearchPage,
       navigationOptions: {
         title: "Search",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
+    },
+    EditProfile: {
+      screen: EditProfile,
+      navigationOptions: {
+        title: "Edit Profile",
         headerStyle: { backgroundColor: "#2196f3" },
         headerTintColor: "#fff"
       }
@@ -111,33 +114,10 @@ const RootStack = createStackNavigator(
     },
     MyProfile: {
       screen: MyProfile,
-      navigationOptions: () => {
-        return {
-          title: "My Profile",
-          headerRight: (
-            <View
-              style={{
-                flexDirection: "row-reverse",
-                marginLeft: 8,
-                alignItems: "center"
-              }}
-            >
-              <OptionsMenu
-                button={MoreIcon}
-                buttonStyle={{
-                  width: 28,
-                  height: 32,
-                  resizeMode: "contain"
-                }}
-                destructiveIndex={1}
-                options={["Edit Profile"]}
-                // actions={[this.editPost, this.deletePost]}
-              />
-            </View>
-          ),
-          headerStyle: { backgroundColor: "#2196f3" },
-          headerTintColor: "#fff"
-        };
+      navigationOptions: {
+        title: "My Profile",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
       }
     },
     ChatPage: {

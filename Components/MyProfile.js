@@ -109,7 +109,10 @@ class Profile extends Component {
                 source={require("../RES/myprofile.jpg")}
               />
               <View>
-                <Button title="Change Profile PIC" />
+                <Button
+                  title="Edit Profile"
+                  onPress={() => this.props.navigation.navigate("EditProfile")}
+                />
               </View>
             </View>
             <Text
