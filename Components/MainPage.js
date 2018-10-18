@@ -222,7 +222,7 @@ class MainPage extends Component {
                   key: "John",
                   image: require("../RES/sampleprofileimage.jpg"),
                   lastMessage: "The last Message",
-                  date: "16:05"
+                  date: "Tuesday 16:05"
                 },
                 {
                   key: "Jillian",
@@ -252,26 +252,32 @@ class MainPage extends Component {
                       })
                     }
                   >
-                    <View style={{ flexDirection: "row", margin: 2 }}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        margin: "1%"
+                      }}
+                    >
                       <Image source={item.image} style={styles.profileImage} />
                       <View
                         style={{
                           flexDirection: "column",
-                          justifyContent: "space-around"
+                          justifyContent: "space-around",
+                          marginLeft: "5%",
+                          flex: 1
                         }}
                       >
-                        <Text style={styles.item}>{item.key}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                          {item.key}
+                        </Text>
+                        <Text style={{ fontSize: 12 }}>{item.lastMessage}</Text>
                         <View
                           style={{
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            alignItems: "flex-start"
+                            flexDirection: "row-reverse",
+                            alignItems: "center"
                           }}
                         >
-                          <Text style={{ fontSize: 12, width: "60%" }}>
-                            {item.lastMessage}
-                          </Text>
-                          <Text style={{ fontSize: 10, width: "40%" }}>
+                          <Text style={{ fontSize: 10, marginRight: "5%" }}>
                             {item.date}
                           </Text>
                         </View>
@@ -295,32 +301,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#e2deef"
   },
-  welcome: {
-    fontSize: 25,
-    textAlign: "center",
-    margin: 30,
-    marginBottom: 12
-  },
-  version: {
-    textAlign: "center",
-    color: "#9B59B6",
-    marginBottom: 180
-  },
+
   image: {
     width: 40,
     height: 40,
     resizeMode: "contain",
     margin: 2
   },
-  creators: {
-    textAlign: "center",
-    marginBottom: 15
-  },
+
   profileImage: {
-    width: 75,
-    height: 75,
+    width: 65,
+    height: 65,
     resizeMode: "contain",
-    margin: 2
+    margin: "1%"
   }
 });
 

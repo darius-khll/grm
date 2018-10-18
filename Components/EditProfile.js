@@ -46,143 +46,171 @@ class EditProfile extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={{ marginTop: 7, width: "90%", borderBottomWidth: 0.5 }}>
-          Profile Picture
-        </Text>
-        <View
-          style={{
-            marginTop: 5,
-            flexDirection: "row",
-            alignItems: "center"
-          }}
-        >
-          <Button title="Change Profile Picture" />
-          <Image
-            style={styles.profileImage}
-            source={require("../RES/myprofile.jpg")}
-          />
-        </View>
-        <Text style={{ marginTop: 7, width: "90%", borderBottomWidth: 0.5 }}>
-          General Information
-        </Text>
-        <View
-          style={{
-            marginTop: 2,
-            flexDirection: "column",
-            width: "90%"
-          }}
-        >
-          <TextInput style={{ padding: 3 }} placeholder="name" />
-          <TextInput style={{ padding: 3 }} placeholder="ID" />
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center"
-            }}
-          >
-            <Text>I am a: </Text>
-            <RadioGroup
-              flexDirection="row"
-              radioButtons={this.state.data}
-              onPress={data => this.setState({ data })}
+        <ScrollView style={{ width: "100%" }}>
+          <View style={{ padding: "5%", paddingTop: "3%" }}>
+            <Text style={{ width: "100%", borderBottomWidth: 0.5 }}>
+              Profile Picture
+            </Text>
+            <View
+              style={{
+                marginTop: 5,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Button title="Change Profile Picture" />
+              <Image
+                style={styles.profileImage}
+                source={require("../RES/myprofile.jpg")}
+              />
+            </View>
+            <Text
+              style={{ marginTop: 7, width: "100%", borderBottomWidth: 0.5 }}
+            >
+              General Information
+            </Text>
+            <View
+              style={{
+                marginTop: 2,
+                flexDirection: "column",
+                width: "100%"
+              }}
+            >
+              <TextInput style={{ padding: 3 }} placeholder="name" />
+              <TextInput style={{ padding: 3 }} placeholder="ID" />
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center"
+                }}
+              >
+                <Text>I am a: </Text>
+                <RadioGroup
+                  flexDirection="row"
+                  radioButtons={this.state.data}
+                  onPress={data => this.setState({ data })}
+                />
+              </View>
+              <View
+                style={{
+                  marginTio: 3,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center"
+                }}
+              >
+                <Text>Birth Date:</Text>
+                <Text>{this.state.date.toDateString()}</Text>
+                <Button
+                  title="pick a date"
+                  onPress={this._showDateTimePicker}
+                />
+              </View>
+            </View>
+            <Text
+              style={{ marginTop: 7, width: "100%", borderBottomWidth: 0.5 }}
+            >
+              Location Information
+            </Text>
+            <View
+              style={{
+                marginTop: 2,
+                flexDirection: "column",
+                width: "100%"
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <Text style={{}}>Country:</Text>
+                <Picker
+                  style={{
+                    width: "68%"
+                  }}
+                >
+                  <Picker.Item label="Iran" />
+                  <Picker.Item label="USA" />
+                  <Picker.Item label="Germany" />
+                </Picker>
+              </View>
+              <TextInput style={{ padding: 3 }} placeholder="City" />
+            </View>
+            <Text
+              style={{ marginTop: 7, width: "100%", borderBottomWidth: 0.5 }}
+            >
+              Contact Information
+            </Text>
+            <View
+              style={{
+                marginTop: 2,
+                flexDirection: "column",
+                width: "100%"
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <TextInput style={{ padding: 3 }} placeholder="Email" />
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text>Show</Text>
+                  <CheckBox
+                    onClick={() => {
+                      this.setState({
+                        isCheckedEmail: !this.state.isCheckedEmail
+                      });
+                    }}
+                    isChecked={this.state.isCheckedEmail}
+                  />
+                </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <TextInput style={{ padding: 3 }} placeholder="Phone Number" />
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text>Show</Text>
+                  <CheckBox
+                    onClick={() => {
+                      this.setState({
+                        isCheckedPhone: !this.state.isCheckedPhone
+                      });
+                    }}
+                    isChecked={this.state.isCheckedPhone}
+                  />
+                </View>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 5,
+                alignItems: "center",
+                justifyContent: "space-around"
+              }}
+            >
+              <Button title="Save" />
+            </View>
+            <DateTimePicker
+              isVisible={this.state.isDateTimePickerVisible}
+              onConfirm={this._handleDatePicked}
+              onCancel={this._hideDateTimePicker}
             />
           </View>
-          <View
-            style={{
-              marginTio: 3,
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center"
-            }}
-          >
-            <Text>Birth Date:</Text>
-            <Text>{this.state.date.toDateString()}</Text>
-            <Button title="pick a date" onPress={this._showDateTimePicker} />
-          </View>
-        </View>
-        <Text style={{ marginTop: 7, width: "90%", borderBottomWidth: 0.5 }}>
-          Location Information
-        </Text>
-        <View
-          style={{
-            marginTop: 2,
-            flexDirection: "column",
-            width: "90%"
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between"
-            }}
-          >
-            <Text style={{}}>Country:</Text>
-            <Picker style={{ width: "40%" }}>
-              <Picker.Item label="Iran" />
-              <Picker.Item label="USA" />
-              <Picker.Item label="Germany" />
-            </Picker>
-          </View>
-          <TextInput style={{ padding: 3 }} placeholder="City" />
-        </View>
-        <Text style={{ marginTop: 7, width: "90%", borderBottomWidth: 0.5 }}>
-          Contact Information
-        </Text>
-        <View
-          style={{
-            marginTop: 2,
-            flexDirection: "column",
-            width: "90%"
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between"
-            }}
-          >
-            <TextInput style={{ padding: 3 }} placeholder="Email" />
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text>Show</Text>
-              <CheckBox
-                onClick={() => {
-                  this.setState({
-                    isCheckedEmail: !this.state.isCheckedEmail
-                  });
-                }}
-                isChecked={this.state.isCheckedEmail}
-              />
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between"
-            }}
-          >
-            <TextInput style={{ padding: 3 }} placeholder="Phone Number" />
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text>Show</Text>
-              <CheckBox
-                onClick={() => {
-                  this.setState({
-                    isCheckedPhone: !this.state.isCheckedPhone
-                  });
-                }}
-                isChecked={this.state.isCheckedPhone}
-              />
-            </View>
-          </View>
-        </View>
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this._handleDatePicked}
-          onCancel={this._hideDateTimePicker}
-        />
+        </ScrollView>
       </View>
     );
   }
@@ -195,11 +223,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#e2deef"
   },
   profileImage: {
-    marginLeft: "9%",
     width: 75,
     height: 75,
-    resizeMode: "contain",
-    margin: 2
+    resizeMode: "contain"
   }
 });
 
