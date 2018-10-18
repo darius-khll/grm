@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 
-class Profile extends Component {
+class MyProfile extends Component {
   static navigationOptions = { header: null };
 
   render() {
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
 });
 
 export default createStackNavigator({
-  Profile: {
-    screen: Profile
+  MyProfile: {
+    screen: MyProfile
   }
 });

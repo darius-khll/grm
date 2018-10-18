@@ -345,7 +345,7 @@ class Contacts extends Component {
                 return (
                   <TouchableHighlight
                     onPress={() =>
-                      this.props.navigation.push("Profile", {
+                      this.props.navigation.navigate("Profile", {
                         name: item.name,
                         image: item.image
                       })
