@@ -63,8 +63,25 @@ class EditProfile extends Component {
               <Button title="Change Profile Picture" />
               <Image
                 style={styles.profileImage}
-                source={require("../RES/myprofile.jpg")}
+                source={this.props.navigation.getParam(
+                  "image",
+                  require("../RES/anonymous.png")
+                )}
               />
+            </View>
+            <Text
+              style={{ marginTop: 7, width: "100%", borderBottomWidth: 0.5 }}
+            >
+              Bio
+            </Text>
+            <View
+              style={{
+                marginTop: 2,
+                flexDirection: "column",
+                width: "100%"
+              }}
+            >
+              <TextInput style={{ padding: 3 }} placeholder="Edit Your Bio" />
             </View>
             <Text
               style={{ marginTop: 7, width: "100%", borderBottomWidth: 0.5 }}
@@ -78,7 +95,7 @@ class EditProfile extends Component {
                 width: "100%"
               }}
             >
-              <TextInput style={{ padding: 3 }} placeholder="name" />
+              <TextInput style={{ padding: 3 }} placeholder="Name (Required)" />
               <TextInput style={{ padding: 3 }} placeholder="ID" />
               <View
                 style={{
@@ -444,7 +461,10 @@ class EditProfile extends Component {
                   justifyContent: "space-between"
                 }}
               >
-                <TextInput style={{ padding: 3 }} placeholder="Phone Number" />
+                <TextInput
+                  style={{ padding: 3 }}
+                  placeholder="Phone Number (Required)"
+                />
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text>Show</Text>
                   <CheckBox

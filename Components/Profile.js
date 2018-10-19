@@ -133,6 +133,23 @@ class Profile extends Component {
                 width: "85%"
               }}
             >
+              Bio
+            </Text>
+            <Text
+              style={{
+                width: "80%"
+              }}
+            >
+              Bio From The Server
+            </Text>
+            <Text
+              style={{
+                margin: 5,
+                marginTop: 15,
+                borderBottomWidth: 0.5,
+                width: "85%"
+              }}
+            >
               General Informations
             </Text>
             <View

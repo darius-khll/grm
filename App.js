@@ -19,6 +19,7 @@ import Shop from "./Components/Shop";
 import MyProfile from "./Components/MyProfile";
 import SearchPage from "./Components/SearchPage";
 import EditProfile from "./Components/EditProfile";
+import CheckCode from "./Components/CheckCode";
 
 import { createStackNavigator } from "react-navigation";
 import OptionsMenu from "react-native-options-menu";
@@ -28,6 +29,12 @@ const RootStack = createStackNavigator(
   {
     SignInPage: {
       screen: SignInPage,
+      navigationOptions: {
+        header: null
+      }
+    },
+    CheckCode: {
+      screen: CheckCode,
       navigationOptions: {
         header: null
       }

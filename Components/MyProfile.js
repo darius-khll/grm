@@ -106,15 +106,36 @@ class MyProfile extends Component {
             >
               <Image
                 style={styles.profileImage}
-                source={require("../RES/myprofile.jpg")}
+                source={require("../RES/anonymous.png")}
               />
               <View>
                 <Button
                   title="Edit Profile"
-                  onPress={() => this.props.navigation.navigate("EditProfile")}
+                  onPress={() =>
+                    this.props.navigation.navigate("EditProfile", {
+                      image: require("../RES/anonymous.png")
+                    })
+                  }
                 />
               </View>
             </View>
+            <Text
+              style={{
+                margin: 5,
+                marginTop: 15,
+                borderBottomWidth: 0.5,
+                width: "85%"
+              }}
+            >
+              Bio
+            </Text>
+            <Text
+              style={{
+                width: "80%"
+              }}
+            >
+              Bio From The Server
+            </Text>
             <Text
               style={{
                 margin: 5,
