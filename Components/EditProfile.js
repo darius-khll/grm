@@ -57,7 +57,7 @@ class EditProfile extends Component {
                 marginTop: 5,
                 flexDirection: "row",
                 alignItems: "center",
-                justifyContent: "space-between"
+                justifyContent: "space-around"
               }}
             >
               <Button title="Change Profile Picture" />

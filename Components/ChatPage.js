@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Text,
+  Image,
   View,
   StyleSheet,
   TextInput,
@@ -13,6 +14,12 @@ class NormalChat extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image
+          style={{
+            position: "absolute"
+          }}
+          source={require("../RES/background.jpg")}
+        />
         <ScrollView style={{ flexDirection: "column-reverse" }}>
           <View
             style={{
@@ -29,6 +36,7 @@ class NormalChat extends React.Component {
             />
             <Button title="Send" style={{ marginLeft: "5%" }} />
           </View>
+
           <ScrollView style={{}} />
         </ScrollView>
       </View>
@@ -40,10 +48,15 @@ class SecureChat extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Image
+          style={{
+            position: "absolute"
+          }}
+          source={require("../RES/background.jpg")}
+        />
         <View
           style={{
             flexDirection: "row",
-
             width: "100%",
             alignItems: "center",
             borderBottomWidth: 1

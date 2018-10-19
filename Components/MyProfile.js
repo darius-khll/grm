@@ -190,6 +190,17 @@ class MyProfile extends Component {
               <Text>ID:</Text>
               <Text>ID From Server</Text>
             </View>
+            <View
+              style={{
+                width: "80%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text>Days Remaining:</Text>
+              <Text>From Server</Text>
+            </View>
             <Text
               style={{
                 margin: 5,

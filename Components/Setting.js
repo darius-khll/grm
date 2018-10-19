@@ -97,15 +97,55 @@ class Setting extends Component {
           <View
             style={{
               flex: 7,
-              marginTop: 10,
               alignItems: "center"
             }}
           >
+            <Text
+              style={{
+                fontSize: 16,
+                marginTop: "2%",
+                width: "90%",
+                borderBottomWidth: 0.5
+              }}
+            >
+              General Settings
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                marginTop: "2%",
+                width: "90%",
+                borderBottomWidth: 0.5
+              }}
+            >
+              Chat Settings
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                marginTop: "2%",
+                width: "90%",
+                borderBottomWidth: 0.5
+              }}
+            >
+              Theme Settings
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                marginTop: "2%",
+                width: "90%",
+                borderBottomWidth: 0.5,
+                marginBottom: "1%"
+              }}
+            >
+              Privacy Settings
+            </Text>
             <TouchableHighlight
-              style={{ borderBottomWidth: 0.5, width: "90%", padding: 5 }}
+              style={{ borderBottomWidth: 0.25, width: "90%" }}
               onPress={() => this.props.navigation.navigate("SignInPage")}
             >
-              <Text style={{ fontSize: 18 }}>Log Out!</Text>
+              <Text>Log Out!</Text>
             </TouchableHighlight>
           </View>
         </View>

@@ -114,7 +114,11 @@ class CheckCode extends Component {
               placeholder="Enter Code Here"
               style={styles.phoneText}
             />
-            <View style={{ marginBottom: 40 }}>
+            <Text style={{ marginBottom: "5%", textAlign: "center" }}>
+              Please wait for at least a minute, before clicking on resend code
+              Button
+            </Text>
+            <View style={{ marginBottom: "10%" }}>
               <Button
                 title="Resend Code"
                 color="#9B59B6"
