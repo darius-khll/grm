@@ -4,97 +4,192 @@ import {
   Text,
   View,
   Image,
+  Dimensions,
+  Animated,
   TouchableHighlight
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
+let { width } = Dimensions.get("window");
 
 class About extends Component {
   static navigationOptions = { header: null };
+
+  state = {
+    expanded: false,
+    animation: new Animated.Value(width / 8),
+    animation2: new Animated.Value((7 * width) / 8),
+    collapseIcon: "",
+    myProfileIcon: "",
+    messagesIcon: "",
+    contactsIcon: "",
+    shopIcon: "",
+    settingIcon: "",
+    aboutIcon: ""
+  };
+
+  toggle() {
+    let initialValue = this.state.expanded ? width : width / 8,
+      finalValue = this.state.expanded ? width / 8 : width;
+
+    let initialValue2 = this.state.expanded ? 0 : (7 * width) / 8,
+      finalValue2 = this.state.expanded ? (7 * width) / 8 : 0;
+
+    this.setState({
+      expanded: !this.state.expanded
+    });
+    this.state.animation.setValue(initialValue);
+    this.state.animation2.setValue(initialValue2);
+
+    let animate = Animated.parallel([
+      Animated.spring(this.state.animation, {
+        toValue: finalValue,
+        speed: 2
+      }),
+
+      Animated.timing(this.state.animation2, {
+        toValue: finalValue2,
+        duration: 400
+      })
+    ]);
+    if (!this.state.expanded) {
+      this.setState({
+        collapseIcon: "Collapse",
+        myProfileIcon: "Profile",
+        messagesIcon: "Masseges",
+        contactsIcon: "Contacts",
+        shopIcon: "Shop",
+        settingIcon: "Setting",
+        aboutIcon: "About"
+      });
+    } else {
+      this.setState({
+        collapseIcon: "",
+        myProfileIcon: "",
+        messagesIcon: "",
+        contactsIcon: "",
+        shopIcon: "",
+        settingIcon: "",
+        aboutIcon: ""
+      });
+    }
+    animate.start();
+  }
+
   render() {
+    let icon = require("../RES/expand1.png");
+
+    if (this.state.expanded) {
+      icon = require("../RES/collapse.png"); //Step 4
+    }
+
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
-          <View
+          <Animated.View
             style={{
               backgroundColor: "gray",
+              alignItems: "center",
               justifyContent: "space-between",
-              flex: 1
+              width: this.state.animation
             }}
           >
-            <View>
-              <TouchableHighlight>
+            <View style={{ alignItems: "center" }}>
+              <TouchableHighlight onPress={this.toggle.bind(this)}>
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/expand1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image style={styles.image} source={icon} />
+                    <Text>{this.state.collapseIcon}</Text>
+                  </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("MyProfile")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("MyProfile");
+                }}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/profile1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={styles.image}
+                      source={require("../RES/profile1.png")}
+                    />
+                    <Text>{this.state.myProfileIcon}</Text>
+                  </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
                 onPress={() => this.props.navigation.navigate("MainPage")}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/message1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={styles.image}
+                      source={require("../RES/message1.png")}
+                    />
+                    <Text>{this.state.messagesIcon}</Text>
+                  </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
                 onPress={() => this.props.navigation.navigate("Contacts")}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/contacts1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={styles.image}
+                      source={require("../RES/contacts1.png")}
+                    />
+                    <Text>{this.state.contactsIcon}</Text>
+                  </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
                 onPress={() => this.props.navigation.navigate("Shop")}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/shop1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={styles.image}
+                      source={require("../RES/shop1.png")}
+                    />
+                    <Text>{this.state.shopIcon}</Text>
+                  </View>
                 </View>
               </TouchableHighlight>
             </View>
-            <View style={StyleSheet.downLeftBand}>
+            <View style={{ alignItems: "center" }}>
               <TouchableHighlight
                 onPress={() => this.props.navigation.navigate("Setting")}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/setting1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={styles.image}
+                      source={require("../RES/setting1.png")}
+                    />
+                    <Text>{this.state.settingIcon}</Text>
+                  </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
                 onPress={() => this.props.navigation.navigate("About")}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/about1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={styles.image}
+                      source={require("../RES/about1.png")}
+                    />
+                    <Text>{this.state.aboutIcon}</Text>
+                  </View>
                 </View>
               </TouchableHighlight>
             </View>
-          </View>
-          <View style={{ flex: 7 }}>
+          </Animated.View>
+          <Animated.View style={{ width: this.state.animation2 }}>
             <Text style={styles.welcome}>Welcome to Rich Messenger</Text>
             <Text style={styles.version}>Rich Messenger Version 1.0.0 </Text>
             <Text style={styles.creators}>
@@ -107,7 +202,7 @@ class About extends Component {
               E-Mail: info@richmessenger.com
             </Text>
             <Text style={{ textAlign: "center" }}>©2018</Text>
-          </View>
+          </Animated.View>
         </View>
       </View>
     );
