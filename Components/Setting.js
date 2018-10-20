@@ -105,7 +105,8 @@ class Setting extends Component {
                 fontSize: 16,
                 marginTop: "2%",
                 width: "90%",
-                borderBottomWidth: 0.5
+                borderBottomWidth: 0.5,
+                marginBottom: "1%"
               }}
             >
               General Settings
@@ -113,27 +114,37 @@ class Setting extends Component {
             <Text
               style={{
                 fontSize: 16,
-                marginTop: "2%",
+                marginTop: "5%",
                 width: "90%",
-                borderBottomWidth: 0.5
-              }}
-            >
-              Chat Settings
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                marginTop: "2%",
-                width: "90%",
-                borderBottomWidth: 0.5
+                borderBottomWidth: 0.5,
+                marginBottom: "1%"
               }}
             >
               Theme Settings
             </Text>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Theme</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Change Chat Background</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Chat Font</Text>
+            </TouchableHighlight>
+
             <Text
               style={{
                 fontSize: 16,
-                marginTop: "2%",
+                marginTop: "5%",
                 width: "90%",
                 borderBottomWidth: 0.5,
                 marginBottom: "1%"
@@ -142,10 +153,39 @@ class Setting extends Component {
               Privacy Settings
             </Text>
             <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%" }}
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Last Seen Status</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
               onPress={() => this.props.navigation.navigate("SignInPage")}
             >
               <Text>Log Out!</Text>
+            </TouchableHighlight>
+            <Text
+              style={{
+                fontSize: 16,
+                marginTop: "5%",
+                width: "90%",
+                borderBottomWidth: 0.5,
+                marginBottom: "1%"
+              }}
+            >
+              Support
+            </Text>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Ask a Question</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Rich Messenger FAQ</Text>
             </TouchableHighlight>
           </View>
         </View>

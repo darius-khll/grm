@@ -4,6 +4,7 @@ import {
   Text,
   View,
   TouchableHighlight,
+  ScrollView,
   Image
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
@@ -94,8 +95,112 @@ class Shop extends Component {
               </TouchableHighlight>
             </View>
           </View>
-          <View style={{ flex: 7 }}>
-            <Text>Welcome To Shop!</Text>
+          <View style={{ flex: 7, alignItems: "center" }}>
+            <Text style={{ marginTop: "1%", fontSize: 18, marginBottom: "5%" }}>
+              Welcome To Shop!
+            </Text>
+            <View style={{ width: "90%" }}>
+              <Text>You have 6 days left.</Text>
+              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
+                Buy some days!
+              </Text>
+              <ScrollView
+                style={{ marginTop: "2%" }}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+              </ScrollView>
+              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
+                Stickers
+              </Text>
+              <ScrollView
+                style={{ marginTop: "2%" }}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+              </ScrollView>
+              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
+                Profile Images
+              </Text>
+              <ScrollView
+                style={{ marginTop: "2%" }}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+              </ScrollView>
+            </View>
           </View>
         </View>
       </View>
@@ -130,6 +235,12 @@ const styles = StyleSheet.create({
     height: 40,
     resizeMode: "contain",
     margin: 2
+  },
+  shopImage: {
+    width: 65,
+    height: 65,
+    resizeMode: "contain",
+    marginLeft: 5
   }
 });
 
