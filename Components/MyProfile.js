@@ -4,99 +4,298 @@ import {
   Text,
   View,
   Button,
+  Dimensions,
+  Animated,
   TouchableHighlight,
   Image
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
+let { width } = Dimensions.get("window");
 
 class MyProfile extends Component {
   static navigationOptions = { header: null };
+
+  state = {
+    expanded: false,
+    animation: new Animated.Value(width / 8),
+    animation2: new Animated.Value((7 * width) / 8),
+    collapseText: "",
+    myProfileText: "",
+    messagesText: "",
+    contactsText: "",
+    shopText: "",
+    settingText: "",
+    aboutText: "",
+    collapseIcon: require("../RES/expand1.png"),
+    myProfileIcon: require("../RES/profile1.png"),
+    messagesIcon: require("../RES/message1.png"),
+    contactsIcon: require("../RES/contacts1.png"),
+    shopIcon: require("../RES/shop1.png"),
+    settingIcon: require("../RES/setting1.png"),
+    aboutIcon: require("../RES/about1.png"),
+    imageStyle: {
+      width: (0.85 * width) / 8,
+      height: (0.85 * width) / 8,
+      resizeMode: "contain",
+      margin: 2
+    },
+    textStyle: {
+      fontSize: 18,
+      fontWeight: "bold",
+      marginTop: "3%"
+    },
+    profileImage: {
+      marginRight: 30,
+      width: 75,
+      height: 75,
+      resizeMode: "contain",
+      margin: 2
+    }
+  };
+
+  toggle() {
+    let initialValue = this.state.expanded ? width : width / 8,
+      finalValue = this.state.expanded ? width / 8 : width;
+
+    let initialValue2 = this.state.expanded ? 0 : (7 * width) / 8,
+      finalValue2 = this.state.expanded ? (7 * width) / 8 : 0;
+
+    this.setState({
+      expanded: !this.state.expanded
+    });
+    this.state.animation.setValue(initialValue);
+    this.state.animation2.setValue(initialValue2);
+
+    let animate = Animated.parallel([
+      Animated.spring(this.state.animation, {
+        toValue: finalValue,
+        speed: 2
+      }),
+
+      Animated.timing(this.state.animation2, {
+        toValue: finalValue2,
+        duration: 800
+      })
+    ]);
+    if (!this.state.expanded) {
+      this.setState({
+        collapseText: "Collapse",
+        myProfileText: "Profile",
+        messagesText: "Masseges",
+        contactsText: "Contacts",
+        shopText: "Shop",
+        settingText: "Setting",
+        aboutText: "About",
+        collapseIcon: "",
+        myProfileIcon: "",
+        messagesIcon: "",
+        contactsIcon: "",
+        shopIcon: "",
+        settingIcon: "",
+        aboutIcon: "",
+        imageStyle: {
+          width: 0,
+          height: 0
+        },
+        profileImage: {
+          marginRight: 0,
+          width: 0,
+          height: 0,
+          resizeMode: "contain",
+          margin: 2
+        }
+      });
+    } else {
+      this.setState({
+        collapseText: "",
+        myProfileText: "",
+        messagesText: "",
+        contactsText: "",
+        shopText: "",
+        settingText: "",
+        aboutText: "",
+        collapseIcon: require("../RES/expand1.png"),
+        myProfileIcon: require("../RES/profile1.png"),
+        messagesIcon: require("../RES/message1.png"),
+        contactsIcon: require("../RES/contacts1.png"),
+        shopIcon: require("../RES/shop1.png"),
+        settingIcon: require("../RES/setting1.png"),
+        aboutIcon: require("../RES/about1.png"),
+        imageStyle: {
+          width: (0.85 * width) / 8,
+          height: (0.85 * width) / 8,
+          resizeMode: "contain",
+          margin: 2
+        },
+        profileImage: {
+          marginRight: 30,
+          width: 75,
+          height: 75,
+          resizeMode: "contain",
+          margin: 2
+        }
+      });
+    }
+    animate.start();
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
-          <View
+          <Animated.View
             style={{
-              backgroundColor: "gray",
+              backgroundColor: "blue",
+              alignItems: "center",
               justifyContent: "space-between",
-              flex: 1
+              width: this.state.animation
             }}
           >
-            <View>
-              <TouchableHighlight>
+            <View style={{ alignItems: "center" }}>
+              <TouchableHighlight onPress={this.toggle.bind(this)}>
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/expand1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={this.state.imageStyle}
+                      source={this.state.collapseIcon}
+                    />
+                    <Text style={this.state.textStyle}>
+                      {this.state.collapseText}
+                    </Text>
+                  </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("MyProfile")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("MyProfile");
+                }}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/profile1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={this.state.imageStyle}
+                      source={this.state.myProfileIcon}
+                    />
+                    <Text style={this.state.textStyle}>
+                      {this.state.myProfileText}
+                    </Text>
+                  </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("MainPage")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("MainPage");
+                }}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/message1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={this.state.imageStyle}
+                      source={this.state.messagesIcon}
+                    />
+                    <Text style={this.state.textStyle}>
+                      {this.state.messagesText}
+                    </Text>
+                  </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("Contacts")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("Contacts");
+                }}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/contacts1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={this.state.imageStyle}
+                      source={this.state.contactsIcon}
+                    />
+                    <Text style={this.state.textStyle}>
+                      {this.state.contactsText}
+                    </Text>
+                  </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("Shop")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("Shop");
+                }}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/shop1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={this.state.imageStyle}
+                      source={this.state.shopIcon}
+                    />
+                    <Text style={this.state.textStyle}>
+                      {this.state.shopText}
+                    </Text>
+                  </View>
                 </View>
               </TouchableHighlight>
             </View>
-            <View style={StyleSheet.downLeftBand}>
+            <View style={{ alignItems: "center" }}>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("Setting")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("Setting");
+                }}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/setting1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={this.state.imageStyle}
+                      source={this.state.settingIcon}
+                    />
+                    <Text style={this.state.textStyle}>
+                      {this.state.settingText}
+                    </Text>
+                  </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("About")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("About");
+                }}
               >
                 <View>
-                  <Image
-                    style={styles.image}
-                    source={require("../RES/about1.png")}
-                  />
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={this.state.imageStyle}
+                      source={this.state.aboutIcon}
+                    />
+                    <Text style={this.state.textStyle}>
+                      {this.state.aboutText}
+                    </Text>
+                  </View>
                 </View>
               </TouchableHighlight>
             </View>
-          </View>
-          <View style={{ flex: 7, marginTop: 6, alignItems: "center" }}>
+          </Animated.View>
+          <Animated.View
+            style={{
+              width: this.state.animation2,
+              marginTop: 6,
+              alignItems: "center"
+            }}
+          >
             <View
               style={{
                 flexDirection: "row",
@@ -105,7 +304,7 @@ class MyProfile extends Component {
               }}
             >
               <Image
-                style={styles.profileImage}
+                style={this.state.profileImage}
                 source={require("../RES/anonymous.png")}
               />
               <View>
@@ -265,7 +464,7 @@ class MyProfile extends Component {
               <Text>Email:</Text>
               <Text>From Server</Text>
             </View>
-          </View>
+          </Animated.View>
         </View>
       </View>
     );
@@ -293,19 +492,6 @@ const styles = StyleSheet.create({
   creators: {
     textAlign: "center",
     marginBottom: 15
-  },
-  image: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-    margin: 2
-  },
-  profileImage: {
-    marginRight: 30,
-    width: 75,
-    height: 75,
-    resizeMode: "contain",
-    margin: 2
   }
 });
 

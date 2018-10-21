@@ -18,13 +18,31 @@ class About extends Component {
     expanded: false,
     animation: new Animated.Value(width / 8),
     animation2: new Animated.Value((7 * width) / 8),
-    collapseIcon: "",
-    myProfileIcon: "",
-    messagesIcon: "",
-    contactsIcon: "",
-    shopIcon: "",
-    settingIcon: "",
-    aboutIcon: ""
+    collapseText: "",
+    myProfileText: "",
+    messagesText: "",
+    contactsText: "",
+    shopText: "",
+    settingText: "",
+    aboutText: "",
+    collapseIcon: require("../RES/expand1.png"),
+    myProfileIcon: require("../RES/profile1.png"),
+    messagesIcon: require("../RES/message1.png"),
+    contactsIcon: require("../RES/contacts1.png"),
+    shopIcon: require("../RES/shop1.png"),
+    settingIcon: require("../RES/setting1.png"),
+    aboutIcon: require("../RES/about1.png"),
+    imageStyle: {
+      width: (0.85 * width) / 8,
+      height: (0.85 * width) / 8,
+      resizeMode: "contain",
+      margin: 2
+    },
+    textStyle: {
+      fontSize: 18,
+      fontWeight: "bold",
+      marginTop: "3%"
+    }
   };
 
   toggle() {
@@ -48,46 +66,64 @@ class About extends Component {
 
       Animated.timing(this.state.animation2, {
         toValue: finalValue2,
-        duration: 400
+        duration: 800
       })
     ]);
     if (!this.state.expanded) {
       this.setState({
-        collapseIcon: "Collapse",
-        myProfileIcon: "Profile",
-        messagesIcon: "Masseges",
-        contactsIcon: "Contacts",
-        shopIcon: "Shop",
-        settingIcon: "Setting",
-        aboutIcon: "About"
-      });
-    } else {
-      this.setState({
+        collapseText: "Collapse",
+        myProfileText: "Profile",
+        messagesText: "Masseges",
+        contactsText: "Contacts",
+        shopText: "Shop",
+        settingText: "Setting",
+        aboutText: "About",
         collapseIcon: "",
         myProfileIcon: "",
         messagesIcon: "",
         contactsIcon: "",
         shopIcon: "",
         settingIcon: "",
-        aboutIcon: ""
+        aboutIcon: "",
+        imageStyle: {
+          width: 0,
+          height: 0
+        }
+      });
+    } else {
+      this.setState({
+        collapseText: "",
+        myProfileText: "",
+        messagesText: "",
+        contactsText: "",
+        shopText: "",
+        settingText: "",
+        aboutText: "",
+        collapseIcon: require("../RES/expand1.png"),
+        myProfileIcon: require("../RES/profile1.png"),
+        messagesIcon: require("../RES/message1.png"),
+        contactsIcon: require("../RES/contacts1.png"),
+        shopIcon: require("../RES/shop1.png"),
+        settingIcon: require("../RES/setting1.png"),
+        aboutIcon: require("../RES/about1.png"),
+        imageStyle: {
+          width: (0.85 * width) / 8,
+          height: (0.85 * width) / 8,
+          resizeMode: "contain",
+          margin: 2
+        }
       });
     }
     animate.start();
   }
 
   render() {
-    let icon = require("../RES/expand1.png");
-
-    if (this.state.expanded) {
-      icon = require("../RES/collapse.png"); //Step 4
-    }
-
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
           <Animated.View
             style={{
-              backgroundColor: "gray",
+              backgroundColor: "blue",
               alignItems: "center",
               justifyContent: "space-between",
               width: this.state.animation
@@ -97,8 +133,13 @@ class About extends Component {
               <TouchableHighlight onPress={this.toggle.bind(this)}>
                 <View>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image style={styles.image} source={icon} />
-                    <Text>{this.state.collapseIcon}</Text>
+                    <Image
+                      style={this.state.imageStyle}
+                      source={this.state.collapseIcon}
+                    />
+                    <Text style={this.state.textStyle}>
+                      {this.state.collapseText}
+                    </Text>
                   </View>
                 </View>
               </TouchableHighlight>
@@ -113,77 +154,114 @@ class About extends Component {
                 <View>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Image
-                      style={styles.image}
-                      source={require("../RES/profile1.png")}
+                      style={this.state.imageStyle}
+                      source={this.state.myProfileIcon}
                     />
-                    <Text>{this.state.myProfileIcon}</Text>
+                    <Text style={this.state.textStyle}>
+                      {this.state.myProfileText}
+                    </Text>
                   </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("MainPage")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("MainPage");
+                }}
               >
                 <View>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Image
-                      style={styles.image}
-                      source={require("../RES/message1.png")}
+                      style={this.state.imageStyle}
+                      source={this.state.messagesIcon}
                     />
-                    <Text>{this.state.messagesIcon}</Text>
+                    <Text style={this.state.textStyle}>
+                      {this.state.messagesText}
+                    </Text>
                   </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("Contacts")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("Contacts");
+                }}
               >
                 <View>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Image
-                      style={styles.image}
-                      source={require("../RES/contacts1.png")}
+                      style={this.state.imageStyle}
+                      source={this.state.contactsIcon}
                     />
-                    <Text>{this.state.contactsIcon}</Text>
+                    <Text style={this.state.textStyle}>
+                      {this.state.contactsText}
+                    </Text>
                   </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("Shop")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("Shop");
+                }}
               >
                 <View>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Image
-                      style={styles.image}
-                      source={require("../RES/shop1.png")}
+                      style={this.state.imageStyle}
+                      source={this.state.shopIcon}
                     />
-                    <Text>{this.state.shopIcon}</Text>
+                    <Text style={this.state.textStyle}>
+                      {this.state.shopText}
+                    </Text>
                   </View>
                 </View>
               </TouchableHighlight>
             </View>
             <View style={{ alignItems: "center" }}>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("Setting")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("Setting");
+                }}
               >
                 <View>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Image
-                      style={styles.image}
-                      source={require("../RES/setting1.png")}
+                      style={this.state.imageStyle}
+                      source={this.state.settingIcon}
                     />
-                    <Text>{this.state.settingIcon}</Text>
+                    <Text style={this.state.textStyle}>
+                      {this.state.settingText}
+                    </Text>
                   </View>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
-                onPress={() => this.props.navigation.navigate("About")}
+                onPress={() => {
+                  if (this.state.expanded) {
+                    this.toggle();
+                  }
+                  this.props.navigation.navigate("About");
+                }}
               >
                 <View>
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Image
-                      style={styles.image}
-                      source={require("../RES/about1.png")}
+                      style={this.state.imageStyle}
+                      source={this.state.aboutIcon}
                     />
-                    <Text>{this.state.aboutIcon}</Text>
+                    <Text style={this.state.textStyle}>
+                      {this.state.aboutText}
+                    </Text>
                   </View>
                 </View>
               </TouchableHighlight>
@@ -230,12 +308,6 @@ const styles = StyleSheet.create({
   creators: {
     textAlign: "center",
     marginBottom: 15
-  },
-  image: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-    margin: 2
   }
 });
 
