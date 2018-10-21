@@ -3,17 +3,17 @@ import {
   StyleSheet,
   Text,
   View,
-  Animated,
-  Button,
+  Image,
   Dimensions,
-  TouchableHighlight,
-  Image
+  Animated,
+  TouchableHighlight
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 let { width } = Dimensions.get("window");
 
-class Profile extends Component {
+class Notifications extends Component {
   static navigationOptions = { header: null };
+
   state = {
     expanded: false,
     animation: new Animated.Value(width / 8),
@@ -42,13 +42,6 @@ class Profile extends Component {
       fontSize: 18,
       fontWeight: "bold",
       marginTop: "3%"
-    },
-    profileImage: {
-      marginRight: 30,
-      width: 75,
-      height: 75,
-      resizeMode: "contain",
-      margin: 2
     }
   };
 
@@ -95,13 +88,6 @@ class Profile extends Component {
         imageStyle: {
           width: 0,
           height: 0
-        },
-        profileImage: {
-          marginRight: 0,
-          width: 0,
-          height: 0,
-          resizeMode: "contain",
-          margin: 2
         }
       });
     } else {
@@ -125,13 +111,6 @@ class Profile extends Component {
           height: (0.85 * width) / 8,
           resizeMode: "contain",
           margin: 2
-        },
-        profileImage: {
-          marginRight: 30,
-          width: 75,
-          height: 75,
-          resizeMode: "contain",
-          margin: 2
         }
       });
     }
@@ -139,10 +118,6 @@ class Profile extends Component {
   }
 
   render() {
-    const profileImage = this.props.navigation.getParam(
-      "image",
-      require("../RES/myprofile.jpg")
-    );
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
@@ -292,162 +267,7 @@ class Profile extends Component {
               </TouchableHighlight>
             </View>
           </Animated.View>
-          <Animated.View
-            style={{
-              width: this.state.animation2,
-              marginTop: 6,
-              alignItems: "center"
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-evenly"
-              }}
-            >
-              <Image style={this.state.profileImage} source={profileImage} />
-              <View>
-                <Button title="Add to Contacts" />
-                {/*This Button should be evaluated.*/}
-              </View>
-            </View>
-            <Text
-              style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
-                width: "85%"
-              }}
-            >
-              Bio
-            </Text>
-            <Text
-              style={{
-                width: "80%"
-              }}
-            >
-              Bio From The Server
-            </Text>
-            <Text
-              style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
-                width: "85%"
-              }}
-            >
-              General Informations
-            </Text>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Name:</Text>
-              <Text>Name Of Person From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Age:</Text>
-              <Text>Age of Person From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Gender:</Text>
-              <Text>From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>ID:</Text>
-              <Text>ID From Server</Text>
-            </View>
-            <Text
-              style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
-                width: "85%"
-              }}
-            >
-              Location Informations
-            </Text>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Country:</Text>
-              <Text>Country From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>City:</Text>
-              <Text>City from Server</Text>
-            </View>
-            <Text
-              style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
-                width: "85%"
-              }}
-            >
-              Contact Informations
-            </Text>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Phone Number:</Text>
-              <Text>From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Email:</Text>
-              <Text>From Server</Text>
-            </View>
-          </Animated.View>
+          <Animated.View style={{ width: this.state.animation2 }} />
         </View>
       </View>
     );
@@ -460,11 +280,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#e2deef"
+  },
+  welcome: {
+    fontSize: 25,
+    textAlign: "center",
+    margin: 30,
+    marginBottom: 12
+  },
+  version: {
+    textAlign: "center",
+    color: "#9B59B6",
+    marginBottom: 180
+  },
+  creators: {
+    textAlign: "center",
+    marginBottom: 15
   }
 });
 
 export default createStackNavigator({
-  Profile: {
-    screen: Profile
+  Notifications: {
+    screen: Notifications
   }
 });

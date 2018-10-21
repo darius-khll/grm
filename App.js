@@ -7,7 +7,13 @@
  */
 
 import React, { Component } from "react";
-import { StyleSheet, View, Image, TouchableHighlight } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableHighlight
+} from "react-native";
 import SignInPage from "./Components/SignInPage";
 import MainPage from "./Components/MainPage";
 import About from "./Components/About";
@@ -20,10 +26,12 @@ import MyProfile from "./Components/MyProfile";
 import SearchPage from "./Components/SearchPage";
 import EditProfile from "./Components/EditProfile";
 import CheckCode from "./Components/CheckCode";
+import Notifications from "./Components/Notifications";
 
 import { createStackNavigator } from "react-navigation";
 import OptionsMenu from "react-native-options-menu";
 const MoreIcon = require("./RES/more.png");
+let { width } = Dimensions.get("window");
 
 const RootStack = createStackNavigator(
   {
@@ -41,10 +49,30 @@ const RootStack = createStackNavigator(
     },
     MainPage: {
       screen: MainPage,
-      navigationOptions: {
-        title: "Chats",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+      navigationOptions: ({ navigation }) => {
+        return {
+          title: "Rich Messenger",
+          headerRight: (
+            <View
+              style={{
+                flexDirection: "row-reverse",
+                marginRight: width / 20,
+                alignItems: "center"
+              }}
+            >
+              <TouchableHighlight
+                onPress={() => navigation.navigate("Notifications")}
+              >
+                <Image
+                  source={require("./RES/notification.png")}
+                  style={styles.image}
+                />
+              </TouchableHighlight>
+            </View>
+          ),
+          headerStyle: { backgroundColor: "#2196f3" },
+          headerTintColor: "#fff"
+        };
       }
     },
     About: {
@@ -75,6 +103,14 @@ const RootStack = createStackNavigator(
       screen: EditProfile,
       navigationOptions: {
         title: "Edit Profile",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
+    },
+    Notifications: {
+      screen: Notifications,
+      navigationOptions: {
+        title: "Notifications",
         headerStyle: { backgroundColor: "#2196f3" },
         headerTintColor: "#fff"
       }
@@ -113,10 +149,30 @@ const RootStack = createStackNavigator(
     },
     Contacts: {
       screen: Contacts,
-      navigationOptions: {
-        title: "Contacts",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+      navigationOptions: ({ navigation }) => {
+        return {
+          title: "Contacts",
+          headerRight: (
+            <View
+              style={{
+                flexDirection: "row-reverse",
+                marginRight: width / 20,
+                alignItems: "center"
+              }}
+            >
+              <TouchableHighlight
+                onPress={() => navigation.navigate("Notifications")}
+              >
+                <Image
+                  source={require("./RES/notification.png")}
+                  style={styles.image}
+                />
+              </TouchableHighlight>
+            </View>
+          ),
+          headerStyle: { backgroundColor: "#2196f3" },
+          headerTintColor: "#fff"
+        };
       }
     },
     MyProfile: {
@@ -164,7 +220,15 @@ const RootStack = createStackNavigator(
                   })
                 }
               >
-                <Image source={img} style={styles.image} />
+                <Image
+                  source={img}
+                  style={{
+                    width: width / 8,
+                    height: width / 8,
+                    resizeMode: "contain",
+                    marginRight: width / 15
+                  }}
+                />
               </TouchableHighlight>
               {/* <Text>{tit}</Text> */}
             </View>
@@ -199,10 +263,6 @@ const styles = StyleSheet.create({
   image: {
     width: 48,
     height: 48,
-    borderWidth: 1,
-    borderColor: "black",
-    marginRight: 40,
-    resizeMode: "contain",
-    margin: 2
+    resizeMode: "contain"
   }
 });
