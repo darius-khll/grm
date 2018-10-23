@@ -1,10 +1,17 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Animated,
+  TouchableHighlight
+} from "react-native";
 import { createStackNavigator } from "react-navigation";
-import SideBar from "../Parts/SideBar";
+import SideBar from "../Components/SideBar";
 let { width } = Dimensions.get("window");
 
-class About extends Component {
+class Setting extends Component {
   static navigationOptions = { header: null };
 
   state = {
@@ -37,6 +44,25 @@ class About extends Component {
       marginTop: "3%"
     }
   };
+
+  navigationToMyProfile() {
+    this.props.navigation.navigate("MyProfile");
+  }
+  navigationToMainPage() {
+    this.props.navigation.navigate("MainPage");
+  }
+  navigationToShop() {
+    this.props.navigation.navigate("Shop");
+  }
+  navigationToContacts() {
+    this.props.navigation.navigate("Contacts");
+  }
+  navigationToSetting() {
+    this.props.navigation.navigate("Setting");
+  }
+  navigationToAbout() {
+    this.props.navigation.navigate("About");
+  }
 
   toggle() {
     let initialValue = this.state.expanded ? width : width / 8,
@@ -110,25 +136,6 @@ class About extends Component {
     animate.start();
   }
 
-  navigationToMyProfile() {
-    this.props.navigation.navigate("MyProfile");
-  }
-  navigationToMainPage() {
-    this.props.navigation.navigate("MainPage");
-  }
-  navigationToShop() {
-    this.props.navigation.navigate("Shop");
-  }
-  navigationToContacts() {
-    this.props.navigation.navigate("Contacts");
-  }
-  navigationToSetting() {
-    this.props.navigation.navigate("Setting");
-  }
-  navigationToAbout() {
-    this.props.navigation.navigate("About");
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -160,19 +167,99 @@ class About extends Component {
             navigationToSetting={this.navigationToSetting.bind(this)}
             navigationToAbout={this.navigationToAbout.bind(this)}
           />
-          <Animated.View style={{ width: this.state.animation2 }}>
-            <Text style={styles.welcome}>Welcome to Rich Messenger</Text>
-            <Text style={styles.version}>Rich Messenger Version 1.0.0 </Text>
-            <Text style={styles.creators}>
-              Created By Ali Khalili & Arash Heidary
+          <Animated.View
+            style={{
+              width: this.state.animation2,
+              alignItems: "center"
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                marginTop: "2%",
+                width: "90%",
+                borderBottomWidth: 0.5,
+                marginBottom: "1%"
+              }}
+            >
+              General Settings
             </Text>
-            <Text style={{ marginBottom: 2, textAlign: "center" }}>
-              Website: www.richmessenger.com
+            <Text
+              style={{
+                fontSize: 16,
+                marginTop: "5%",
+                width: "90%",
+                borderBottomWidth: 0.5,
+                marginBottom: "1%"
+              }}
+            >
+              Theme Settings
             </Text>
-            <Text style={{ marginBottom: 30, textAlign: "center" }}>
-              E-Mail: info@richmessenger.com
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Theme</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Change Chat Background</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Chat Font</Text>
+            </TouchableHighlight>
+
+            <Text
+              style={{
+                fontSize: 16,
+                marginTop: "5%",
+                width: "90%",
+                borderBottomWidth: 0.5,
+                marginBottom: "1%"
+              }}
+            >
+              Privacy Settings
             </Text>
-            <Text style={{ textAlign: "center" }}>©2018</Text>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Last Seen Status</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => this.props.navigation.navigate("SignInPage")}
+            >
+              <Text>Log Out!</Text>
+            </TouchableHighlight>
+            <Text
+              style={{
+                fontSize: 16,
+                marginTop: "5%",
+                width: "90%",
+                borderBottomWidth: 0.5,
+                marginBottom: "1%"
+              }}
+            >
+              Support
+            </Text>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Ask a Question</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
+              onPress={() => {}}
+            >
+              <Text>Rich Messenger FAQ</Text>
+            </TouchableHighlight>
           </Animated.View>
         </View>
       </View>
@@ -201,11 +288,17 @@ const styles = StyleSheet.create({
   creators: {
     textAlign: "center",
     marginBottom: 15
+  },
+  image: {
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
+    margin: 2
   }
 });
 
 export default createStackNavigator({
-  About: {
-    screen: About
+  Setting: {
+    screen: Setting
   }
 });

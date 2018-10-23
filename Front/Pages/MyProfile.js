@@ -3,17 +3,18 @@ import {
   StyleSheet,
   Text,
   View,
-  Animated,
   Button,
   Dimensions,
+  Animated,
   Image
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import SideBar from "../Parts/SideBar";
+import SideBar from "../Components/SideBar";
 let { width } = Dimensions.get("window");
 
-class Profile extends Component {
+class MyProfile extends Component {
   static navigationOptions = { header: null };
+
   state = {
     expanded: false,
     animation: new Animated.Value(width / 8),
@@ -51,7 +52,6 @@ class Profile extends Component {
       margin: 2
     }
   };
-
   navigationToMyProfile() {
     this.props.navigation.navigate("MyProfile");
   }
@@ -158,10 +158,6 @@ class Profile extends Component {
   }
 
   render() {
-    const profileImage = this.props.navigation.getParam(
-      "image",
-      require("../RES/myprofile.jpg")
-    );
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
@@ -206,10 +202,19 @@ class Profile extends Component {
                 justifyContent: "space-evenly"
               }}
             >
-              <Image style={this.state.profileImage} source={profileImage} />
+              <Image
+                style={this.state.profileImage}
+                source={require("../RES/anonymous.png")}
+              />
               <View>
-                <Button title="Add to Contacts" />
-                {/*This Button should be evaluated.*/}
+                <Button
+                  title="Edit Profile"
+                  onPress={() =>
+                    this.props.navigation.navigate("EditProfile", {
+                      image: require("../RES/anonymous.png")
+                    })
+                  }
+                />
               </View>
             </View>
             <Text
@@ -282,6 +287,17 @@ class Profile extends Component {
             >
               <Text>ID:</Text>
               <Text>ID From Server</Text>
+            </View>
+            <View
+              style={{
+                width: "80%",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Text>Days Remaining:</Text>
+              <Text>From Server</Text>
             </View>
             <Text
               style={{
@@ -360,11 +376,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#e2deef"
+  },
+  welcome: {
+    fontSize: 25,
+    textAlign: "center",
+    margin: 30,
+    marginBottom: 12
+  },
+  version: {
+    textAlign: "center",
+    color: "#9B59B6",
+    marginBottom: 180
+  },
+  creators: {
+    textAlign: "center",
+    marginBottom: 15
   }
 });
 
 export default createStackNavigator({
-  Profile: {
-    screen: Profile
+  MyProfile: {
+    screen: MyProfile
   }
 });

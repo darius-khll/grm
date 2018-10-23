@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { FloatingAction } from "react-native-floating-action";
-import SideBar from "../Parts/SideBar";
+import SideBar from "../Components/SideBar";
 
 const actions = [
   {

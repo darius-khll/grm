@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Dimensions, Animated } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import SideBar from "../Parts/SideBar";
+import SideBar from "../Components/SideBar";
 let { width } = Dimensions.get("window");
 
 class Notifications extends Component {

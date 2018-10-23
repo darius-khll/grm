@@ -14,19 +14,19 @@ import {
   Dimensions,
   TouchableHighlight
 } from "react-native";
-import SignInPage from "./Components/SignInPage";
-import MainPage from "./Components/MainPage";
-import About from "./Components/About";
-import Setting from "./Components/Setting";
-import Profile from "./Components/Profile";
-import Contacts from "./Components/Contacts";
-import ChatPage from "./Components/ChatPage";
-import Shop from "./Components/Shop";
-import MyProfile from "./Components/MyProfile";
-import SearchPage from "./Components/SearchPage";
-import EditProfile from "./Components/EditProfile";
-import CheckCode from "./Components/CheckCode";
-import Notifications from "./Components/Notifications";
+import SignInPage from "./Pages/SignInPage";
+import MainPage from "./Pages/MainPage";
+import About from "./Pages/About";
+import Setting from "./Pages/Setting";
+import Profile from "./Pages/Profile";
+import Contacts from "./Pages/Contacts";
+import ChatPage from "./Pages/ChatPage";
+import Shop from "./Pages/Shop";
+import MyProfile from "./Pages/MyProfile";
+import SearchPage from "./Pages/SearchPage";
+import EditProfile from "./Pages/EditProfile";
+import CheckCode from "./Pages/CheckCode";
+import Notifications from "./Pages/Notifications";
 
 import { createStackNavigator } from "react-navigation";
 import OptionsMenu from "react-native-options-menu";

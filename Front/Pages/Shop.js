@@ -3,15 +3,16 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions,
   Animated,
-  TouchableHighlight
+  ScrollView,
+  Dimensions,
+  Image
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import SideBar from "../Parts/SideBar";
+import SideBar from "../Components/SideBar";
 let { width } = Dimensions.get("window");
 
-class Setting extends Component {
+class Shop extends Component {
   static navigationOptions = { header: null };
 
   state = {
@@ -44,25 +45,6 @@ class Setting extends Component {
       marginTop: "3%"
     }
   };
-
-  navigationToMyProfile() {
-    this.props.navigation.navigate("MyProfile");
-  }
-  navigationToMainPage() {
-    this.props.navigation.navigate("MainPage");
-  }
-  navigationToShop() {
-    this.props.navigation.navigate("Shop");
-  }
-  navigationToContacts() {
-    this.props.navigation.navigate("Contacts");
-  }
-  navigationToSetting() {
-    this.props.navigation.navigate("Setting");
-  }
-  navigationToAbout() {
-    this.props.navigation.navigate("About");
-  }
 
   toggle() {
     let initialValue = this.state.expanded ? width : width / 8,
@@ -136,6 +118,25 @@ class Setting extends Component {
     animate.start();
   }
 
+  navigationToMyProfile() {
+    this.props.navigation.navigate("MyProfile");
+  }
+  navigationToMainPage() {
+    this.props.navigation.navigate("MainPage");
+  }
+  navigationToShop() {
+    this.props.navigation.navigate("Shop");
+  }
+  navigationToContacts() {
+    this.props.navigation.navigate("Contacts");
+  }
+  navigationToSetting() {
+    this.props.navigation.navigate("Setting");
+  }
+  navigationToAbout() {
+    this.props.navigation.navigate("About");
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -168,98 +169,113 @@ class Setting extends Component {
             navigationToAbout={this.navigationToAbout.bind(this)}
           />
           <Animated.View
-            style={{
-              width: this.state.animation2,
-              alignItems: "center"
-            }}
+            style={{ width: this.state.animation2, alignItems: "center" }}
           >
-            <Text
-              style={{
-                fontSize: 16,
-                marginTop: "2%",
-                width: "90%",
-                borderBottomWidth: 0.5,
-                marginBottom: "1%"
-              }}
-            >
-              General Settings
+            <Text style={{ marginTop: "1%", fontSize: 18, marginBottom: "5%" }}>
+              Welcome To Shop!
             </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                marginTop: "5%",
-                width: "90%",
-                borderBottomWidth: 0.5,
-                marginBottom: "1%"
-              }}
-            >
-              Theme Settings
-            </Text>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Theme</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Change Chat Background</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Chat Font</Text>
-            </TouchableHighlight>
-
-            <Text
-              style={{
-                fontSize: 16,
-                marginTop: "5%",
-                width: "90%",
-                borderBottomWidth: 0.5,
-                marginBottom: "1%"
-              }}
-            >
-              Privacy Settings
-            </Text>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Last Seen Status</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => this.props.navigation.navigate("SignInPage")}
-            >
-              <Text>Log Out!</Text>
-            </TouchableHighlight>
-            <Text
-              style={{
-                fontSize: 16,
-                marginTop: "5%",
-                width: "90%",
-                borderBottomWidth: 0.5,
-                marginBottom: "1%"
-              }}
-            >
-              Support
-            </Text>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Ask a Question</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Rich Messenger FAQ</Text>
-            </TouchableHighlight>
+            <View style={{ width: "90%" }}>
+              <Text>You have 6 days left.</Text>
+              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
+                Buy some days!
+              </Text>
+              <ScrollView
+                style={{ marginTop: "2%" }}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+              </ScrollView>
+              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
+                Stickers
+              </Text>
+              <ScrollView
+                style={{ marginTop: "2%" }}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+              </ScrollView>
+              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
+                Profile Images
+              </Text>
+              <ScrollView
+                style={{ marginTop: "2%" }}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+                <Image
+                  source={require("../RES/sampleprofileimage.jpg")}
+                  style={styles.shopImage}
+                />
+              </ScrollView>
+            </View>
           </Animated.View>
         </View>
       </View>
@@ -274,31 +290,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#e2deef"
   },
-  welcome: {
-    fontSize: 25,
-    textAlign: "center",
-    margin: 30,
-    marginBottom: 12
-  },
-  version: {
-    textAlign: "center",
-    color: "#9B59B6",
-    marginBottom: 180
-  },
-  creators: {
-    textAlign: "center",
-    marginBottom: 15
-  },
-  image: {
-    width: 40,
-    height: 40,
+  shopImage: {
+    width: 65,
+    height: 65,
     resizeMode: "contain",
-    margin: 2
+    marginLeft: 5
   }
 });
 
 export default createStackNavigator({
-  Setting: {
-    screen: Setting
+  Shop: {
+    screen: Shop
   }
 });

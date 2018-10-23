@@ -1,18 +1,10 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Animated,
-  ScrollView,
-  Dimensions,
-  Image
-} from "react-native";
+import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import SideBar from "../Parts/SideBar";
+import SideBar from "../Components/SideBar";
 let { width } = Dimensions.get("window");
 
-class Shop extends Component {
+class About extends Component {
   static navigationOptions = { header: null };
 
   state = {
@@ -168,114 +160,19 @@ class Shop extends Component {
             navigationToSetting={this.navigationToSetting.bind(this)}
             navigationToAbout={this.navigationToAbout.bind(this)}
           />
-          <Animated.View
-            style={{ width: this.state.animation2, alignItems: "center" }}
-          >
-            <Text style={{ marginTop: "1%", fontSize: 18, marginBottom: "5%" }}>
-              Welcome To Shop!
+          <Animated.View style={{ width: this.state.animation2 }}>
+            <Text style={styles.welcome}>Welcome to Rich Messenger</Text>
+            <Text style={styles.version}>Rich Messenger Version 1.0.0 </Text>
+            <Text style={styles.creators}>
+              Created By Ali Khalili & Arash Heidary
             </Text>
-            <View style={{ width: "90%" }}>
-              <Text>You have 6 days left.</Text>
-              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
-                Buy some days!
-              </Text>
-              <ScrollView
-                style={{ marginTop: "2%" }}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-              </ScrollView>
-              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
-                Stickers
-              </Text>
-              <ScrollView
-                style={{ marginTop: "2%" }}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-              </ScrollView>
-              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
-                Profile Images
-              </Text>
-              <ScrollView
-                style={{ marginTop: "2%" }}
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-                <Image
-                  source={require("../RES/sampleprofileimage.jpg")}
-                  style={styles.shopImage}
-                />
-              </ScrollView>
-            </View>
+            <Text style={{ marginBottom: 2, textAlign: "center" }}>
+              Website: www.richmessenger.com
+            </Text>
+            <Text style={{ marginBottom: 30, textAlign: "center" }}>
+              E-Mail: info@richmessenger.com
+            </Text>
+            <Text style={{ textAlign: "center" }}>©2018</Text>
           </Animated.View>
         </View>
       </View>
@@ -290,16 +187,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#e2deef"
   },
-  shopImage: {
-    width: 65,
-    height: 65,
-    resizeMode: "contain",
-    marginLeft: 5
+  welcome: {
+    fontSize: 25,
+    textAlign: "center",
+    margin: 30,
+    marginBottom: 12
+  },
+  version: {
+    textAlign: "center",
+    color: "#9B59B6",
+    marginBottom: 180
+  },
+  creators: {
+    textAlign: "center",
+    marginBottom: 15
   }
 });
 
 export default createStackNavigator({
-  Shop: {
-    screen: Shop
+  About: {
+    screen: About
   }
 });
