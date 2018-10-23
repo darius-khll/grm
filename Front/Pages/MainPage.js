@@ -12,39 +12,22 @@ import {
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
+import { observer } from "mobx-react";
+import mainPageStore from "../MobX/MainPageStore";
 let { width } = Dimensions.get("window");
 
+@observer
 class MainPage extends Component {
   static navigationOptions = { header: null };
 
   state = {
-    expanded: false,
     animation: new Animated.Value(width / 8),
     animation2: new Animated.Value((7 * width) / 8),
-    collapseText: "",
-    myProfileText: "",
-    messagesText: "",
-    contactsText: "",
-    shopText: "",
-    settingText: "",
-    aboutText: "",
-    collapseIcon: require("../RES/expand1.png"),
-    myProfileIcon: require("../RES/profile1.png"),
-    messagesIcon: require("../RES/message1.png"),
-    contactsIcon: require("../RES/contacts1.png"),
-    shopIcon: require("../RES/shop1.png"),
-    settingIcon: require("../RES/setting1.png"),
-    aboutIcon: require("../RES/about1.png"),
     imageStyle: {
       width: (0.85 * width) / 8,
       height: (0.85 * width) / 8,
       resizeMode: "contain",
       margin: 2
-    },
-    textStyle: {
-      fontSize: 18,
-      fontWeight: "bold",
-      marginTop: "3%"
     }
   };
   navigationToMyProfile() {
@@ -148,7 +131,7 @@ class MainPage extends Component {
             expanded={this.state.expanded}
             imageStyle={this.state.imageStyle}
             textStyle={this.state.textStyle}
-            collapseIcon={this.state.collapseIcon}
+            collapseIcon={mainPageStore.collapseIcon}
             collapseText={this.state.collapseText}
             myProfileIcon={this.state.myProfileIcon}
             myProfileText={this.state.myProfileText}
