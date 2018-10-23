@@ -4,12 +4,12 @@ import {
   Text,
   View,
   Animated,
-  TouchableHighlight,
   ScrollView,
   Dimensions,
   Image
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
+import SideBar from "../Parts/SideBar";
 let { width } = Dimensions.get("window");
 
 class Shop extends Component {
@@ -118,156 +118,56 @@ class Shop extends Component {
     animate.start();
   }
 
+  navigationToMyProfile() {
+    this.props.navigation.navigate("MyProfile");
+  }
+  navigationToMainPage() {
+    this.props.navigation.navigate("MainPage");
+  }
+  navigationToShop() {
+    this.props.navigation.navigate("Shop");
+  }
+  navigationToContacts() {
+    this.props.navigation.navigate("Contacts");
+  }
+  navigationToSetting() {
+    this.props.navigation.navigate("Setting");
+  }
+  navigationToAbout() {
+    this.props.navigation.navigate("About");
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
-          <Animated.View
-            style={{
-              backgroundColor: "blue",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: this.state.animation
-            }}
-          >
-            <View style={{ alignItems: "center" }}>
-              <TouchableHighlight onPress={this.toggle.bind(this)}>
-                <View>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image
-                      style={this.state.imageStyle}
-                      source={this.state.collapseIcon}
-                    />
-                    <Text style={this.state.textStyle}>
-                      {this.state.collapseText}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-              <TouchableHighlight
-                onPress={() => {
-                  if (this.state.expanded) {
-                    this.toggle();
-                  }
-                  this.props.navigation.navigate("MyProfile");
-                }}
-              >
-                <View>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image
-                      style={this.state.imageStyle}
-                      source={this.state.myProfileIcon}
-                    />
-                    <Text style={this.state.textStyle}>
-                      {this.state.myProfileText}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-              <TouchableHighlight
-                onPress={() => {
-                  if (this.state.expanded) {
-                    this.toggle();
-                  }
-                  this.props.navigation.navigate("MainPage");
-                }}
-              >
-                <View>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image
-                      style={this.state.imageStyle}
-                      source={this.state.messagesIcon}
-                    />
-                    <Text style={this.state.textStyle}>
-                      {this.state.messagesText}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-              <TouchableHighlight
-                onPress={() => {
-                  if (this.state.expanded) {
-                    this.toggle();
-                  }
-                  this.props.navigation.navigate("Contacts");
-                }}
-              >
-                <View>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image
-                      style={this.state.imageStyle}
-                      source={this.state.contactsIcon}
-                    />
-                    <Text style={this.state.textStyle}>
-                      {this.state.contactsText}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-              <TouchableHighlight
-                onPress={() => {
-                  if (this.state.expanded) {
-                    this.toggle();
-                  }
-                  this.props.navigation.navigate("Shop");
-                }}
-              >
-                <View>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image
-                      style={this.state.imageStyle}
-                      source={this.state.shopIcon}
-                    />
-                    <Text style={this.state.textStyle}>
-                      {this.state.shopText}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-            </View>
-            <View style={{ alignItems: "center" }}>
-              <TouchableHighlight
-                onPress={() => {
-                  if (this.state.expanded) {
-                    this.toggle();
-                  }
-                  this.props.navigation.navigate("Setting");
-                }}
-              >
-                <View>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image
-                      style={this.state.imageStyle}
-                      source={this.state.settingIcon}
-                    />
-                    <Text style={this.state.textStyle}>
-                      {this.state.settingText}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-              <TouchableHighlight
-                onPress={() => {
-                  if (this.state.expanded) {
-                    this.toggle();
-                  }
-                  this.props.navigation.navigate("About");
-                }}
-              >
-                <View>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image
-                      style={this.state.imageStyle}
-                      source={this.state.aboutIcon}
-                    />
-                    <Text style={this.state.textStyle}>
-                      {this.state.aboutText}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableHighlight>
-            </View>
-          </Animated.View>
+          <SideBar
+            width={this.state.animation}
+            toggle={this.toggle.bind(this)}
+            expanded={this.state.expanded}
+            imageStyle={this.state.imageStyle}
+            textStyle={this.state.textStyle}
+            collapseIcon={this.state.collapseIcon}
+            collapseText={this.state.collapseText}
+            myProfileIcon={this.state.myProfileIcon}
+            myProfileText={this.state.myProfileText}
+            messagesIcon={this.state.messagesIcon}
+            messagesText={this.state.messagesText}
+            contactsIcon={this.state.contactsIcon}
+            contactsText={this.state.contactsText}
+            shopIcon={this.state.shopIcon}
+            shopText={this.state.shopText}
+            settingIcon={this.state.settingIcon}
+            settingText={this.state.settingText}
+            aboutIcon={this.state.aboutIcon}
+            aboutText={this.state.aboutText}
+            navigationToMyProfile={this.navigationToMyProfile.bind(this)}
+            navigationToMainPage={this.navigationToMainPage.bind(this)}
+            navigationToContacts={this.navigationToContacts.bind(this)}
+            navigationToShop={this.navigationToShop.bind(this)}
+            navigationToSetting={this.navigationToSetting.bind(this)}
+            navigationToAbout={this.navigationToAbout.bind(this)}
+          />
           <Animated.View
             style={{ width: this.state.animation2, alignItems: "center" }}
           >
