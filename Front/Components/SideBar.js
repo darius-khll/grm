@@ -18,17 +18,17 @@ export default class SideBar extends Component {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   style={this.props.imageStyle}
-                  source={this.props.collapseIcon}
+                  source={this.props.store.collapseIcon}
                 />
                 <Text style={this.props.textStyle}>
-                  {this.props.collapseText}
+                  {this.props.store.collapseText}
                 </Text>
               </View>
             </View>
           </TouchableHighlight>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.expanded) {
+              if (this.props.store.expanded) {
                 this.props.toggle();
               }
               this.props.navigationToMyProfile();
@@ -38,17 +38,17 @@ export default class SideBar extends Component {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   style={this.props.imageStyle}
-                  source={this.props.myProfileIcon}
+                  source={this.props.store.myProfileIcon}
                 />
                 <Text style={this.props.textStyle}>
-                  {this.props.myProfileText}
+                  {this.props.store.myProfileText}
                 </Text>
               </View>
             </View>
           </TouchableHighlight>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.expanded) {
+              if (this.props.store.expanded) {
                 this.props.toggle();
               }
               this.props.navigationToMainPage();
@@ -58,17 +58,17 @@ export default class SideBar extends Component {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   style={this.props.imageStyle}
-                  source={this.props.messagesIcon}
+                  source={this.props.store.messagesIcon}
                 />
                 <Text style={this.props.textStyle}>
-                  {this.props.messagesText}
+                  {this.props.store.messagesText}
                 </Text>
               </View>
             </View>
           </TouchableHighlight>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.expanded) {
+              if (this.props.store.expanded) {
                 this.props.toggle();
               }
               this.props.navigationToContacts();
@@ -78,17 +78,17 @@ export default class SideBar extends Component {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   style={this.props.imageStyle}
-                  source={this.props.contactsIcon}
+                  source={this.props.store.contactsIcon}
                 />
                 <Text style={this.props.textStyle}>
-                  {this.props.contactsText}
+                  {this.props.store.contactsText}
                 </Text>
               </View>
             </View>
           </TouchableHighlight>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.expanded) {
+              if (this.props.store.expanded) {
                 this.props.toggle();
               }
               this.props.navigationToShop();
@@ -98,9 +98,11 @@ export default class SideBar extends Component {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   style={this.props.imageStyle}
-                  source={this.props.shopIcon}
+                  source={this.props.store.shopIcon}
                 />
-                <Text style={this.props.textStyle}>{this.props.shopText}</Text>
+                <Text style={this.props.textStyle}>
+                  {this.props.store.shopText}
+                </Text>
               </View>
             </View>
           </TouchableHighlight>
@@ -108,7 +110,7 @@ export default class SideBar extends Component {
         <View style={{ alignItems: "center" }}>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.expanded) {
+              if (this.props.store.expanded) {
                 this.props.toggle();
               }
               this.props.navigationToSetting();
@@ -118,17 +120,17 @@ export default class SideBar extends Component {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   style={this.props.imageStyle}
-                  source={this.props.settingIcon}
+                  source={this.props.store.settingIcon}
                 />
                 <Text style={this.props.textStyle}>
-                  {this.props.settingText}
+                  {this.props.store.settingText}
                 </Text>
               </View>
             </View>
           </TouchableHighlight>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.expanded) {
+              if (this.props.store.expanded) {
                 this.props.toggle();
               }
               this.props.navigationToAbout();
@@ -138,9 +140,11 @@ export default class SideBar extends Component {
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   style={this.props.imageStyle}
-                  source={this.props.aboutIcon}
+                  source={this.props.store.aboutIcon}
                 />
-                <Text style={this.props.textStyle}>{this.props.aboutText}</Text>
+                <Text style={this.props.textStyle}>
+                  {this.props.store.aboutText}
+                </Text>
               </View>
             </View>
           </TouchableHighlight>

@@ -31,12 +31,6 @@ class MainPageStore {
   settingIcon = require("../RES/setting1.png");
   @observable
   aboutIcon = require("../RES/about1.png");
-  @observable
-  textStyle = {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginTop: "3%"
-  };
 }
 
 const mainPageStore = new MainPageStore();

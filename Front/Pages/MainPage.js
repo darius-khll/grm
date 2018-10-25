@@ -50,15 +50,13 @@ class MainPage extends Component {
   }
 
   toggle() {
-    let initialValue = this.state.expanded ? width : width / 8,
-      finalValue = this.state.expanded ? width / 8 : width;
+    let initialValue = mainPageStore.expanded ? width : width / 8,
+      finalValue = mainPageStore.expanded ? width / 8 : width;
 
-    let initialValue2 = this.state.expanded ? 0 : (7 * width) / 8,
-      finalValue2 = this.state.expanded ? (7 * width) / 8 : 0;
+    let initialValue2 = mainPageStore.expanded ? 0 : (7 * width) / 8,
+      finalValue2 = mainPageStore.expanded ? (7 * width) / 8 : 0;
 
-    this.setState({
-      expanded: !this.state.expanded
-    });
+    mainPageStore.expanded = !mainPageStore.expanded;
     this.state.animation.setValue(initialValue);
     this.state.animation2.setValue(initialValue2);
 
@@ -73,50 +71,50 @@ class MainPage extends Component {
         duration: 800
       })
     ]);
-    if (!this.state.expanded) {
-      this.setState({
-        collapseText: "Collapse",
-        myProfileText: "Profile",
-        messagesText: "Masseges",
-        contactsText: "Contacts",
-        shopText: "Shop",
-        settingText: "Setting",
-        aboutText: "About",
-        collapseIcon: "",
-        myProfileIcon: "",
-        messagesIcon: "",
-        contactsIcon: "",
-        shopIcon: "",
-        settingIcon: "",
-        aboutIcon: "",
-        imageStyle: {
-          width: 0,
-          height: 0
-        }
-      });
+    if (mainPageStore.expanded) {
+      (mainPageStore.collapseText = "Collapse"),
+        (mainPageStore.myProfileText = "Profile"),
+        (mainPageStore.messagesText = "Masseges"),
+        (mainPageStore.contactsText = "Contacts"),
+        (mainPageStore.shopText = "Shop"),
+        (mainPageStore.settingText = "Setting"),
+        (mainPageStore.aboutText = "About"),
+        (mainPageStore.collapseIcon = ""),
+        (mainPageStore.myProfileIcon = ""),
+        (mainPageStore.messagesIcon = ""),
+        (mainPageStore.contactsIcon = ""),
+        (mainPageStore.shopIcon = ""),
+        (mainPageStore.settingIcon = ""),
+        (mainPageStore.aboutIcon = ""),
+        this.setState({
+          imageStyle: {
+            width: 0,
+            height: 0
+          }
+        });
     } else {
-      this.setState({
-        collapseText: "",
-        myProfileText: "",
-        messagesText: "",
-        contactsText: "",
-        shopText: "",
-        settingText: "",
-        aboutText: "",
-        collapseIcon: require("../RES/expand1.png"),
-        myProfileIcon: require("../RES/profile1.png"),
-        messagesIcon: require("../RES/message1.png"),
-        contactsIcon: require("../RES/contacts1.png"),
-        shopIcon: require("../RES/shop1.png"),
-        settingIcon: require("../RES/setting1.png"),
-        aboutIcon: require("../RES/about1.png"),
-        imageStyle: {
-          width: (0.85 * width) / 8,
-          height: (0.85 * width) / 8,
-          resizeMode: "contain",
-          margin: 2
-        }
-      });
+      (mainPageStore.collapseText = ""),
+        (mainPageStore.myProfileText = ""),
+        (mainPageStore.messagesText = ""),
+        (mainPageStore.contactsText = ""),
+        (mainPageStore.shopText = ""),
+        (mainPageStore.settingText = ""),
+        (mainPageStore.aboutText = ""),
+        (mainPageStore.collapseIcon = require("../RES/expand1.png")),
+        (mainPageStore.myProfileIcon = require("../RES/profile1.png")),
+        (mainPageStore.messagesIcon = require("../RES/message1.png")),
+        (mainPageStore.contactsIcon = require("../RES/contacts1.png")),
+        (mainPageStore.shopIcon = require("../RES/shop1.png")),
+        (mainPageStore.settingIcon = require("../RES/setting1.png")),
+        (mainPageStore.aboutIcon = require("../RES/about1.png")),
+        this.setState({
+          imageStyle: {
+            width: (0.85 * width) / 8,
+            height: (0.85 * width) / 8,
+            resizeMode: "contain",
+            margin: 2
+          }
+        });
     }
     animate.start();
   }
@@ -128,23 +126,9 @@ class MainPage extends Component {
           <SideBar
             width={this.state.animation}
             toggle={this.toggle.bind(this)}
-            expanded={this.state.expanded}
             imageStyle={this.state.imageStyle}
-            textStyle={this.state.textStyle}
-            collapseIcon={mainPageStore.collapseIcon}
-            collapseText={this.state.collapseText}
-            myProfileIcon={this.state.myProfileIcon}
-            myProfileText={this.state.myProfileText}
-            messagesIcon={this.state.messagesIcon}
-            messagesText={this.state.messagesText}
-            contactsIcon={this.state.contactsIcon}
-            contactsText={this.state.contactsText}
-            shopIcon={this.state.shopIcon}
-            shopText={this.state.shopText}
-            settingIcon={this.state.settingIcon}
-            settingText={this.state.settingText}
-            aboutIcon={this.state.aboutIcon}
-            aboutText={this.state.aboutText}
+            textStyle={styles.textStyle}
+            store={mainPageStore}
             navigationToMyProfile={this.navigationToMyProfile.bind(this)}
             navigationToMainPage={this.navigationToMainPage.bind(this)}
             navigationToContacts={this.navigationToContacts.bind(this)}
@@ -188,102 +172,6 @@ class MainPage extends Component {
                   image: require("../RES/sampleprofileimage.jpg"),
                   lastMessage: "The last Message",
                   date: "16:05"
-                },
-                {
-                  key: "Jillian",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Jimmy",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Julie",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Devin",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Jackson",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "James",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Joel",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "John",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Jillian",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Jimmy",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Julie",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Devin",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Jackson",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "James",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Joel",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "John",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "Tuesday 16:05"
                 },
                 {
                   key: "Jillian",
@@ -367,6 +255,11 @@ const styles = StyleSheet.create({
     height: 65,
     resizeMode: "contain",
     margin: "1%"
+  },
+  textStyle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: "3%"
   }
 });
 
