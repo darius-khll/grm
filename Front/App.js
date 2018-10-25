@@ -5,7 +5,10 @@
  * @format
  * @flow
  */
-
+import "core-js/es6/symbol";
+import "core-js/fn/symbol/iterator";
+import "es6-symbol/implement";
+import "core-js/es6/set";
 import React, { Component } from "react";
 import {
   StyleSheet,
