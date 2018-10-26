@@ -14,6 +14,7 @@ import { createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
 import mainPageStore from "../MobX/MainPageStore";
+import toggler from "../APIs/toggler";
 let { width } = Dimensions.get("window");
 
 @observer
@@ -30,6 +31,7 @@ class MainPage extends Component {
       margin: 2
     }
   };
+
   navigationToMyProfile() {
     this.props.navigation.navigate("MyProfile");
   }
@@ -68,54 +70,27 @@ class MainPage extends Component {
 
       Animated.timing(this.state.animation2, {
         toValue: finalValue2,
-        duration: 800
+        duration: 600
       })
     ]);
     if (mainPageStore.expanded) {
-      (mainPageStore.collapseText = "Collapse"),
-        (mainPageStore.myProfileText = "Profile"),
-        (mainPageStore.messagesText = "Masseges"),
-        (mainPageStore.contactsText = "Contacts"),
-        (mainPageStore.shopText = "Shop"),
-        (mainPageStore.settingText = "Setting"),
-        (mainPageStore.aboutText = "About"),
-        (mainPageStore.collapseIcon = ""),
-        (mainPageStore.myProfileIcon = ""),
-        (mainPageStore.messagesIcon = ""),
-        (mainPageStore.contactsIcon = ""),
-        (mainPageStore.shopIcon = ""),
-        (mainPageStore.settingIcon = ""),
-        (mainPageStore.aboutIcon = ""),
-        this.setState({
-          imageStyle: {
-            width: 0,
-            height: 0
-          }
-        });
+      this.setState({
+        imageStyle: {
+          width: 0,
+          height: 0
+        }
+      });
     } else {
-      (mainPageStore.collapseText = ""),
-        (mainPageStore.myProfileText = ""),
-        (mainPageStore.messagesText = ""),
-        (mainPageStore.contactsText = ""),
-        (mainPageStore.shopText = ""),
-        (mainPageStore.settingText = ""),
-        (mainPageStore.aboutText = ""),
-        (mainPageStore.collapseIcon = require("../RES/expand1.png")),
-        (mainPageStore.myProfileIcon = require("../RES/profile1.png")),
-        (mainPageStore.messagesIcon = require("../RES/message1.png")),
-        (mainPageStore.contactsIcon = require("../RES/contacts1.png")),
-        (mainPageStore.shopIcon = require("../RES/shop1.png")),
-        (mainPageStore.settingIcon = require("../RES/setting1.png")),
-        (mainPageStore.aboutIcon = require("../RES/about1.png")),
-        this.setState({
-          imageStyle: {
-            width: (0.85 * width) / 8,
-            height: (0.85 * width) / 8,
-            resizeMode: "contain",
-            margin: 2
-          }
-        });
+      this.setState({
+        imageStyle: {
+          width: (0.85 * width) / 8,
+          height: (0.85 * width) / 8,
+          resizeMode: "contain",
+          margin: 2
+        }
+      });
     }
+    toggler(mainPageStore);
     animate.start();
   }
 

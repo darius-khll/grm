@@ -13,7 +13,10 @@ import {
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { FloatingAction } from "react-native-floating-action";
+import contactsStore from "../MobX/ContactsStore";
+import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
+import { observer } from "mobx-react";
 
 const actions = [
   {
@@ -33,39 +36,18 @@ const actions = [
 ];
 let { width } = Dimensions.get("window");
 
+@observer
 class Contacts extends Component {
   static navigationOptions = { header: null };
 
   state = {
-    modal1Visible: false,
-    modal2Visible: false,
-    expanded: false,
     animation: new Animated.Value(width / 8),
     animation2: new Animated.Value((7 * width) / 8),
-    collapseText: "",
-    myProfileText: "",
-    messagesText: "",
-    contactsText: "",
-    shopText: "",
-    settingText: "",
-    aboutText: "",
-    collapseIcon: require("../RES/expand1.png"),
-    myProfileIcon: require("../RES/profile1.png"),
-    messagesIcon: require("../RES/message1.png"),
-    contactsIcon: require("../RES/contacts1.png"),
-    shopIcon: require("../RES/shop1.png"),
-    settingIcon: require("../RES/setting1.png"),
-    aboutIcon: require("../RES/about1.png"),
     imageStyle: {
       width: (0.85 * width) / 8,
       height: (0.85 * width) / 8,
       resizeMode: "contain",
       margin: 2
-    },
-    textStyle: {
-      fontSize: 18,
-      fontWeight: "bold",
-      marginTop: "3%"
     }
   };
   navigationToMyProfile() {
@@ -88,15 +70,13 @@ class Contacts extends Component {
   }
 
   toggle() {
-    let initialValue = this.state.expanded ? width : width / 8,
-      finalValue = this.state.expanded ? width / 8 : width;
+    let initialValue = contactsStore.expanded ? width : width / 8,
+      finalValue = contactsStore.expanded ? width / 8 : width;
 
-    let initialValue2 = this.state.expanded ? 0 : (7 * width) / 8,
-      finalValue2 = this.state.expanded ? (7 * width) / 8 : 0;
+    let initialValue2 = contactsStore.expanded ? 0 : (7 * width) / 8,
+      finalValue2 = contactsStore.expanded ? (7 * width) / 8 : 0;
 
-    this.setState({
-      expanded: !this.state.expanded
-    });
+    contactsStore.expanded = !contactsStore.expanded;
     this.state.animation.setValue(initialValue);
     this.state.animation2.setValue(initialValue2);
 
@@ -108,25 +88,11 @@ class Contacts extends Component {
 
       Animated.timing(this.state.animation2, {
         toValue: finalValue2,
-        duration: 800
+        duration: 600
       })
     ]);
-    if (!this.state.expanded) {
+    if (contactsStore.expanded) {
       this.setState({
-        collapseText: "Collapse",
-        myProfileText: "Profile",
-        messagesText: "Masseges",
-        contactsText: "Contacts",
-        shopText: "Shop",
-        settingText: "Setting",
-        aboutText: "About",
-        collapseIcon: "",
-        myProfileIcon: "",
-        messagesIcon: "",
-        contactsIcon: "",
-        shopIcon: "",
-        settingIcon: "",
-        aboutIcon: "",
         imageStyle: {
           width: 0,
           height: 0
@@ -134,20 +100,6 @@ class Contacts extends Component {
       });
     } else {
       this.setState({
-        collapseText: "",
-        myProfileText: "",
-        messagesText: "",
-        contactsText: "",
-        shopText: "",
-        settingText: "",
-        aboutText: "",
-        collapseIcon: require("../RES/expand1.png"),
-        myProfileIcon: require("../RES/profile1.png"),
-        messagesIcon: require("../RES/message1.png"),
-        contactsIcon: require("../RES/contacts1.png"),
-        shopIcon: require("../RES/shop1.png"),
-        settingIcon: require("../RES/setting1.png"),
-        aboutIcon: require("../RES/about1.png"),
         imageStyle: {
           width: (0.85 * width) / 8,
           height: (0.85 * width) / 8,
@@ -156,17 +108,18 @@ class Contacts extends Component {
         }
       });
     }
+    toggler(contactsStore);
     animate.start();
   }
 
   setModal1Invisible() {
-    this.setState({ modal1Visible: false });
+    contactsStore.modal1Visible = false;
   }
   setModal2Invisible() {
-    this.setState({ modal2Visible: false });
+    contactsStore.modal2Visible = false;
   }
   setModal2Visible() {
-    this.setState({ modal2Visible: true });
+    contactsStore.modal2Visible = true;
   }
 
   render() {
@@ -175,7 +128,7 @@ class Contacts extends Component {
         <Modal
           animationType="fade"
           transparent={true}
-          visible={this.state.modal1Visible}
+          visible={contactsStore.modal1Visible}
           onRequestClose={() => {
             this.setModal1Invisible();
           }}
@@ -253,7 +206,7 @@ class Contacts extends Component {
         <Modal
           animationType="fade"
           transparent={true}
-          visible={this.state.modal2Visible}
+          visible={contactsStore.modal2Visible}
           onRequestClose={() => {
             this.setModal2Invisible();
           }}
@@ -281,7 +234,10 @@ class Contacts extends Component {
                 Contact Found!
               </Text>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Image source={require("../RES/sampleprofileimage.jpg")} />
+                <Image
+                  style={styles.profileImage}
+                  source={require("../RES/sampleprofileimage.jpg")}
+                />
                 <TextInput
                   textContentType="name"
                   style={{ borderBottomWidth: 0.5, padding: 1, marginLeft: 10 }}
@@ -329,23 +285,9 @@ class Contacts extends Component {
           <SideBar
             width={this.state.animation}
             toggle={this.toggle.bind(this)}
-            expanded={this.state.expanded}
             imageStyle={this.state.imageStyle}
-            textStyle={this.state.textStyle}
-            collapseIcon={this.state.collapseIcon}
-            collapseText={this.state.collapseText}
-            myProfileIcon={this.state.myProfileIcon}
-            myProfileText={this.state.myProfileText}
-            messagesIcon={this.state.messagesIcon}
-            messagesText={this.state.messagesText}
-            contactsIcon={this.state.contactsIcon}
-            contactsText={this.state.contactsText}
-            shopIcon={this.state.shopIcon}
-            shopText={this.state.shopText}
-            settingIcon={this.state.settingIcon}
-            settingText={this.state.settingText}
-            aboutIcon={this.state.aboutIcon}
-            aboutText={this.state.aboutText}
+            textStyle={styles.textStyle}
+            store={contactsStore}
             navigationToMyProfile={this.navigationToMyProfile.bind(this)}
             navigationToMainPage={this.navigationToMainPage.bind(this)}
             navigationToContacts={this.navigationToContacts.bind(this)}
@@ -454,13 +396,13 @@ class Contacts extends Component {
           </Animated.View>
         </View>
         <FloatingAction
-          visible={!this.state.expanded}
+          visible={!contactsStore.expanded}
           actions={actions}
           color="black"
           onPressItem={name => {
             if (name === "search") this.props.navigation.navigate("SearchPage");
             else if (name === "addNewContact")
-              this.setState({ modal1Visible: true });
+              contactsStore.modal1Visible = true;
           }}
         />
       </View>
@@ -475,33 +417,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#e2deef"
   },
-  welcome: {
-    fontSize: 25,
-    textAlign: "center",
-    margin: 30,
-    marginBottom: 12
-  },
-  version: {
-    textAlign: "center",
-    color: "#9B59B6",
-    marginBottom: 180
-  },
-  creators: {
-    textAlign: "center",
-    marginBottom: 15
-  },
-  image: {
-    width: 40,
-    height: 40,
-    resizeMode: "contain",
-    margin: 2
-  },
   profileImage: {
     marginRight: 30,
     width: 75,
     height: 75,
     resizeMode: "contain",
     margin: 2
+  },
+  textStyle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: "3%"
   }
 });
 

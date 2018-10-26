@@ -10,19 +10,17 @@ import {
   Button
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
+import checkCodeStore from "../MobX/CheckCodeStore";
+import { observer } from "mobx-react";
 
+@observer
 class CheckCode extends Component {
   static navigationOptions = {
     header: null
   };
 
-  state = {
-    code: "",
-    isModalVisible: false
-  };
-
   setModalInvisible() {
-    this.setState({ isModalVisible: false });
+    checkCodeStore.isModalVisible = false;
   }
 
   render() {
@@ -33,7 +31,7 @@ class CheckCode extends Component {
             <Modal
               animationType="fade"
               transparent={true}
-              visible={this.state.isModalVisible}
+              visible={checkCodeStore.isModalVisible}
               onRequestClose={() => {
                 this.setModalInvisible();
               }}
@@ -110,7 +108,7 @@ class CheckCode extends Component {
               Please Enter The Code We Have Sent You
             </Text>
             <TextInput
-              onChangeText={code => this.setState({ code })}
+              onChangeText={code => (checkCodeStore.code = code)}
               placeholder="Enter Code Here"
               style={styles.phoneText}
             />
@@ -122,7 +120,7 @@ class CheckCode extends Component {
               <Button
                 title="Resend Code"
                 color="#9B59B6"
-                onPress={() => this.setState({ isModalVisible: true })}
+                onPress={() => (checkCodeStore.isModalVisible = true)}
                 style={styles.resendButton}
               />
             </View>
