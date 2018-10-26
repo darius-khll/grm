@@ -6,12 +6,14 @@ import {
   ScrollView,
   TextInput,
   Modal,
+  Alert,
   TouchableHighlight,
   Button
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import checkCodeStore from "../MobX/CheckCodeStore";
 import { observer } from "mobx-react";
+import CheckBox from "react-native-check-box";
 
 @observer
 class CheckCode extends Component {
@@ -124,10 +126,28 @@ class CheckCode extends Component {
                 style={styles.resendButton}
               />
             </View>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text>I accept the user agreement!</Text>
+              <CheckBox
+                onClick={() =>
+                  (checkCodeStore.isCheckedAgree = !checkCodeStore.isCheckedAgree)
+                }
+                isChecked={checkCodeStore.isCheckedAgree}
+              />
+            </View>
             <Button
               title="Get Started!"
               color="#9B59B6"
-              onPress={() => this.props.navigation.navigate("MainPage")}
+              onPress={() => {
+                if (checkCodeStore.isCheckedAgree)
+                  this.props.navigation.navigate("MainPage");
+                else {
+                  Alert.alert(
+                    "User Agreement",
+                    "Please agree to the user agreements"
+                  );
+                }
+              }}
               style={styles.loginButton}
             />
           </View>

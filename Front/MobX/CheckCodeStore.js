@@ -5,6 +5,8 @@ class CheckCodeStore {
   code = "";
   @observable
   isModalVisible = false;
+  @observable
+  isCheckedAgree = false;
 }
 
 const checkCodeStore = new CheckCodeStore();

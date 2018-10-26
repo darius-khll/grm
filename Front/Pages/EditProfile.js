@@ -13,36 +13,24 @@ import { createStackNavigator } from "react-navigation";
 import RadioGroup from "react-native-radio-buttons-group";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import CheckBox from "react-native-check-box";
+import editProfileStore from "../MobX/EditProfileStore";
+import { observer } from "mobx-react";
 
+@observer
 class EditProfile extends Component {
   static navigationOptions = { header: null };
   state = {
-    data: [
-      {
-        label: "Man",
-        size: 15
-      },
-      {
-        label: "Woman",
-        size: 15
-      },
-      {
-        label: "Other",
-        size: 15
-      }
-    ],
-    isDateTimePickerVisible: false,
-    date: new Date(),
-    isCheckedEmail: false,
-    isCheckedPhone: false,
-    country: ""
+    date: new Date()
   };
-  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+  _showDateTimePicker = () => (editProfileStore.isDateTimePickerVisible = true);
 
-  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+  _hideDateTimePicker = () =>
+    (editProfileStore.isDateTimePickerVisible = false);
 
   _handleDatePicked = date => {
-    this.setState({ date });
+    this.setState({
+      date
+    });
   };
   render() {
     return (
@@ -107,8 +95,8 @@ class EditProfile extends Component {
                 <Text>I am a: </Text>
                 <RadioGroup
                   flexDirection="row"
-                  radioButtons={this.state.data}
-                  onPress={data => this.setState({ data })}
+                  radioButtons={editProfileStore.data}
+                  onPress={data => (editProfileStore.data = data)}
                 />
               </View>
               <View
@@ -151,8 +139,10 @@ class EditProfile extends Component {
                   style={{
                     width: "68%"
                   }}
-                  onValueChange={country => this.setState({ country })}
-                  selectedValue={this.state.country}
+                  onValueChange={country =>
+                    (editProfileStore.country = country)
+                  }
+                  selectedValue={editProfileStore.country}
                 >
                   <Picker.Item label="Afghanistan" value="Afghanistan" />
                   <Picker.Item label="Albania" value="Albania" />
@@ -445,12 +435,10 @@ class EditProfile extends Component {
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text>Show</Text>
                   <CheckBox
-                    onClick={() => {
-                      this.setState({
-                        isCheckedEmail: !this.state.isCheckedEmail
-                      });
-                    }}
-                    isChecked={this.state.isCheckedEmail}
+                    onClick={() =>
+                      (editProfileStore.isCheckedEmail = !editProfileStore.isCheckedEmail)
+                    }
+                    isChecked={editProfileStore.isCheckedEmail}
                   />
                 </View>
               </View>
@@ -468,12 +456,10 @@ class EditProfile extends Component {
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text>Show</Text>
                   <CheckBox
-                    onClick={() => {
-                      this.setState({
-                        isCheckedPhone: !this.state.isCheckedPhone
-                      });
-                    }}
-                    isChecked={this.state.isCheckedPhone}
+                    onClick={() =>
+                      (editProfileStore.isCheckedPhone = !editProfileStore.isCheckedPhone)
+                    }
+                    isChecked={editProfileStore.isCheckedPhone}
                   />
                 </View>
               </View>
@@ -489,7 +475,7 @@ class EditProfile extends Component {
               <Button title="Save" />
             </View>
             <DateTimePicker
-              isVisible={this.state.isDateTimePickerVisible}
+              isVisible={editProfileStore.isDateTimePickerVisible}
               onConfirm={this._handleDatePicked}
               onCancel={this._hideDateTimePicker}
             />
