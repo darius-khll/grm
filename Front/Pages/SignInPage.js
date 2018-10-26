@@ -12,26 +12,24 @@ import {
   Picker
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
+import { observer } from "mobx-react";
+import signInPageStore from "../MobX/SignInPageStore";
 
+@observer
 class SignInPage extends Component {
   static navigationOptions = {
     header: null
   };
-  state = {
-    code: "+44",
-    modalVisible: false,
-    modal2Visible: false,
-    number: ""
-  };
+
   updateCode(value) {
-    this.setState({ countryCode: value });
+    signInPageStore.countryCode = value;
   }
 
   setModalInvisible() {
-    this.setState({ modalVisible: false });
+    signInPageStore.modalVisible = false;
   }
   setModal2Invisible() {
-    this.setState({ modal2Visible: false });
+    signInPageStore.modal2Visible = false;
   }
   render() {
     return (
@@ -41,7 +39,7 @@ class SignInPage extends Component {
             <Modal
               animationType="fade"
               transparent={true}
-              visible={this.state.modalVisible}
+              visible={signInPageStore.modalVisible}
               onRequestClose={() => {
                 this.setModalInvisible();
               }}
@@ -107,7 +105,7 @@ class SignInPage extends Component {
             <Modal
               animationType="fade"
               transparent={true}
-              visible={this.state.modal2Visible}
+              visible={signInPageStore.modal2Visible}
               onRequestClose={() => {
                 this.setModal2Invisible();
               }}
@@ -139,8 +137,8 @@ class SignInPage extends Component {
                     Proceed?
                   </Text>
                   <Text>
-                    Are You sure {this.state.code} {this.state.number} is your
-                    number?
+                    Are You sure {signInPageStore.countryCode}{" "}
+                    {signInPageStore.number} is your number?
                   </Text>
                   <View
                     style={{
@@ -167,8 +165,8 @@ class SignInPage extends Component {
                       onPress={() => {
                         this.setModal2Invisible();
                         this.props.navigation.navigate("CheckCode", {
-                          code: this.state.code,
-                          number: this.state.number
+                          code: signInPageStore.countryCode,
+                          number: signInPageStore.number
                         });
                       }}
                       style={{
@@ -190,9 +188,9 @@ class SignInPage extends Component {
             </Text>
 
             <Picker
-              onValueChange={code => this.setState({ code })}
+              onValueChange={code => (signInPageStore.countryCode = code)}
               style={{ width: "58%", alignContent: "center" }}
-              selectedValue={this.state.code}
+              selectedValue={signInPageStore.countryCode}
             >
               <Picker.Item label="Afghanistan" value="+93" />
               <Picker.Item label="Albania" value="+355" />
@@ -407,17 +405,19 @@ class SignInPage extends Component {
             </Picker>
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ marginRight: 5 }}>{this.state.code}</Text>
+              <Text style={{ marginRight: 5 }}>
+                {signInPageStore.countryCode}
+              </Text>
               <TextInput
-                onChangeText={number => this.setState({ number })}
+                onChangeText={number => (signInPageStore.number = number)}
                 textContentType="telephoneNumber"
                 placeholder="Phone Number"
                 style={styles.phoneText}
               >
-                {this.state.number}
+                {signInPageStore.number}
               </TextInput>
               <TouchableHighlight
-                onPress={() => this.setState({ modalVisible: true })}
+                onPress={() => (signInPageStore.modalVisible = true)}
               >
                 <Image
                   style={styles.image}
@@ -428,7 +428,7 @@ class SignInPage extends Component {
             <Button
               title="START"
               color="#9B59B6"
-              onPress={() => this.setState({ modal2Visible: true })}
+              onPress={() => (signInPageStore.modal2Visible = true)}
               style={styles.loginButton}
             />
           </View>
