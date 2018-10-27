@@ -6,12 +6,19 @@ export default class SideBar extends Component {
     return (
       <Animated.View
         style={{
-          backgroundColor: "blue",
           alignItems: "center",
           justifyContent: "space-between",
           width: this.props.width
         }}
       >
+        <Image
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%"
+          }}
+          source={require("../RES/background.jpg")}
+        />
         <View style={{ alignItems: "center" }}>
           <TouchableHighlight onPress={this.props.toggle}>
             <View>
