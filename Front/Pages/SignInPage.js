@@ -14,6 +14,7 @@ import {
 import { createStackNavigator } from "react-navigation";
 import { observer } from "mobx-react";
 import signInPageStore from "../MobX/SignInPageStore";
+import BackGround from "../Components/BackGround";
 
 @observer
 class SignInPage extends Component {
@@ -34,6 +35,7 @@ class SignInPage extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <BackGround source={require("../RES/firstbackground.jpg")} />
         <ScrollView>
           <View style={styles.container1}>
             <Modal
@@ -442,14 +444,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#e2deef"
+    alignItems: "center"
   },
   container1: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#e2deef",
     padding: "5%"
   },
   welcome: {

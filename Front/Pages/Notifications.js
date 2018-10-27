@@ -5,6 +5,7 @@ import SideBar from "../Components/SideBar";
 import notificationStore from "../MobX/NotificationStore";
 import { observer } from "mobx-react";
 import toggler from "../APIs/toggler";
+import BackGround from "../Components/BackGround";
 let { width } = Dimensions.get("window");
 
 @observer
@@ -101,7 +102,9 @@ class Notifications extends Component {
             navigationToSetting={this.navigationToSetting.bind(this)}
             navigationToAbout={this.navigationToAbout.bind(this)}
           />
-          <Animated.View style={{ width: this.state.animation2 }} />
+          <Animated.View style={{ width: this.state.animation2 }}>
+            <BackGround source={require("../RES/background.jpg")} />
+          </Animated.View>
         </View>
       </View>
     );

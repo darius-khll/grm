@@ -9,6 +9,7 @@ import {
   Image
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
+import BackGround from "../Components/BackGround";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
 import myProfileStore from "../MobX/MyProfileStore";
@@ -127,14 +128,15 @@ class MyProfile extends Component {
           <Animated.View
             style={{
               width: this.state.animation2,
-              marginTop: 6,
               alignItems: "center"
             }}
           >
+            <BackGround source={require("../RES/background.jpg")} />
             <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
+                marginTop: "3%",
                 justifyContent: "space-evenly"
               }}
             >

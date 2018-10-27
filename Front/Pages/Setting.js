@@ -10,6 +10,7 @@ import {
 import { createStackNavigator } from "react-navigation";
 import toggler from "../APIs/toggler";
 import settingStore from "../MobX/SettingStore";
+import BackGround from "../Components/BackGround";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
 let { width } = Dimensions.get("window");
@@ -114,6 +115,7 @@ class Setting extends Component {
               alignItems: "center"
             }}
           >
+            <BackGround source={require("../RES/background.jpg")} />
             <Text
               style={{
                 fontSize: 16,

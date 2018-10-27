@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { FloatingAction } from "react-native-floating-action";
+import BackGround from "../Components/BackGround";
 import contactsStore from "../MobX/ContactsStore";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
@@ -298,6 +299,7 @@ class Contacts extends Component {
           <Animated.View
             style={{ width: this.state.animation2, alignItems: "center" }}
           >
+            <BackGround source={require("../RES/background.jpg")} />
             <TextInput placeholder="Search..." />
             <SectionList
               style={{ width: "100%" }}

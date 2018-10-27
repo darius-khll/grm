@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, Image, Animated, TouchableHighlight } from "react-native";
+import BackGround from "./BackGround";
 
 export default class SideBar extends Component {
   render() {
@@ -11,14 +12,7 @@ export default class SideBar extends Component {
           width: this.props.width
         }}
       >
-        <Image
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%"
-          }}
-          source={require("../RES/background.jpg")}
-        />
+        <BackGround source={require("../RES/sidebarbackground.jpg")} />
         <View style={{ alignItems: "center" }}>
           <TouchableHighlight onPress={this.props.toggle}>
             <View>

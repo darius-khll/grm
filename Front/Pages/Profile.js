@@ -13,6 +13,7 @@ import profileStore from "../MobX/ProfileStore";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
+import BackGround from "../Components/BackGround";
 let { width } = Dimensions.get("window");
 
 @observer
@@ -132,15 +133,16 @@ class Profile extends Component {
           <Animated.View
             style={{
               width: this.state.animation2,
-              marginTop: 6,
               alignItems: "center"
             }}
           >
+            <BackGround source={require("../RES/background.jpg")} />
             <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                justifyContent: "space-evenly"
+                justifyContent: "space-evenly",
+                marginTop: "3%"
               }}
             >
               <Image style={this.state.profileImage} source={profileImage} />
