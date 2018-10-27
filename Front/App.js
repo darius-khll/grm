@@ -134,7 +134,7 @@ const RootStack = createStackNavigator(
       screen: Contacts,
       navigationOptions: ({ navigation }) => {
         return {
-          title: "Contacts",
+          title: "Friends",
           headerRight: (
             <View
               style={{

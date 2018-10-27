@@ -11,7 +11,7 @@ import {
 import { createStackNavigator } from "react-navigation";
 import toggler from "../APIs/toggler";
 import shopStore from "../MobX/ShopStore";
-import BackGround from "../Components/BackGround";
+import Wallpaper from "../Components/Wallpaper";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
 let { width } = Dimensions.get("window");
@@ -113,7 +113,7 @@ class Shop extends Component {
           <Animated.View
             style={{ width: this.state.animation2, alignItems: "center" }}
           >
-            <BackGround source={require("../RES/background.jpg")} />
+            <Wallpaper source={require("../RES/background.jpg")} />
             <Text style={{ marginTop: "1%", fontSize: 18, marginBottom: "5%" }}>
               Welcome To Shop!
             </Text>
@@ -230,8 +230,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#e2deef"
+    alignItems: "center"
   },
   shopImage: {
     width: 65,

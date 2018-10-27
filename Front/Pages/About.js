@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
 import aboutStore from "../MobX/AboutStore";
-import BackGround from "../Components/BackGround";
+import Wallpaper from "../Components/Wallpaper";
 import toggler from "../APIs/toggler";
 import { observer } from "mobx-react";
 let { width } = Dimensions.get("window");
@@ -103,7 +103,7 @@ class About extends Component {
             navigationToAbout={this.navigationToAbout.bind(this)}
           />
           <Animated.View style={{ width: this.state.animation2 }}>
-            <BackGround source={require("../RES/background.jpg")} />
+            <Wallpaper source={require("../RES/background.jpg")} />
             <Text style={styles.welcome}>Welcome to Rich Messenger</Text>
             <Text style={styles.version}>Rich Messenger Version 1.0.0 </Text>
             <Text style={styles.creators}>
@@ -127,8 +127,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#e2deef"
+    alignItems: "center"
   },
   welcome: {
     fontSize: 25,

@@ -14,7 +14,7 @@ import { createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
 import mainPageStore from "../MobX/MainPageStore";
-import BackGround from "../Components/BackGround";
+import Wallpaper from "../Components/Wallpaper";
 import toggler from "../APIs/toggler";
 let { width } = Dimensions.get("window");
 
@@ -115,7 +115,7 @@ class MainPage extends Component {
           <Animated.View
             style={{ alignItems: "center", width: this.state.animation2 }}
           >
-            <BackGround source={require("../RES/background.jpg")} />
+            <Wallpaper source={require("../RES/background.jpg")} />
             <TextInput style={{ width: "100%" }} placeholder="Search..." />
             <FlatList
               style={{ width: "100%" }}
@@ -224,8 +224,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#e2deef"
+    alignItems: "center"
   },
   profileImage: {
     width: 65,

@@ -9,13 +9,13 @@ import {
   ScrollView
 } from "react-native";
 import { createMaterialTopTabNavigator } from "react-navigation";
-import BackGround from "../Components/BackGround";
+import Wallpaper from "../Components/Wallpaper";
 
 class NormalChat extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <BackGround source={require("../RES/background.jpg")} />
+        <Wallpaper source={require("../RES/background.jpg")} />
         <ScrollView style={{ flexDirection: "column-reverse" }}>
           <View
             style={{
@@ -44,7 +44,7 @@ class SecureChat extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <BackGround source={require("../RES/background.jpg")} />
+        <Wallpaper source={require("../RES/background.jpg")} />
         <View
           style={{
             flexDirection: "row",
@@ -86,8 +86,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-start",
-    alignItems: "center",
-    backgroundColor: "#e2deef"
+    alignItems: "center"
   }
 });
 

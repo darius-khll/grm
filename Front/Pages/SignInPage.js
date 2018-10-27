@@ -14,7 +14,7 @@ import {
 import { createStackNavigator } from "react-navigation";
 import { observer } from "mobx-react";
 import signInPageStore from "../MobX/SignInPageStore";
-import BackGround from "../Components/BackGround";
+import Wallpaper from "../Components/Wallpaper";
 
 @observer
 class SignInPage extends Component {
@@ -35,7 +35,7 @@ class SignInPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <BackGround source={require("../RES/firstbackground.jpg")} />
+        <Wallpaper source={require("../RES/firstbackground.jpg")} />
         <ScrollView>
           <View style={styles.container1}>
             <Modal

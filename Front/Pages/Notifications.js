@@ -5,7 +5,7 @@ import SideBar from "../Components/SideBar";
 import notificationStore from "../MobX/NotificationStore";
 import { observer } from "mobx-react";
 import toggler from "../APIs/toggler";
-import BackGround from "../Components/BackGround";
+import Wallpaper from "../Components/Wallpaper";
 let { width } = Dimensions.get("window");
 
 @observer
@@ -103,7 +103,7 @@ class Notifications extends Component {
             navigationToAbout={this.navigationToAbout.bind(this)}
           />
           <Animated.View style={{ width: this.state.animation2 }}>
-            <BackGround source={require("../RES/background.jpg")} />
+            <Wallpaper source={require("../RES/background.jpg")} />
           </Animated.View>
         </View>
       </View>
@@ -115,8 +115,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#e2deef"
+    alignItems: "center"
   },
   textStyle: {
     fontSize: 18,

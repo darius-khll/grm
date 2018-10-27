@@ -14,7 +14,7 @@ import { createStackNavigator } from "react-navigation";
 import checkCodeStore from "../MobX/CheckCodeStore";
 import { observer } from "mobx-react";
 import CheckBox from "react-native-check-box";
-import BackGround from "../Components/BackGround";
+import Wallpaper from "../Components/Wallpaper";
 
 @observer
 class CheckCode extends Component {
@@ -29,7 +29,7 @@ class CheckCode extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <BackGround source={require("../RES/firstbackground.jpg")} />
+        <Wallpaper source={require("../RES/firstbackground.jpg")} />
         <ScrollView>
           <View style={styles.container1}>
             <Modal

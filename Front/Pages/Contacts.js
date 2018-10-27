@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { FloatingAction } from "react-native-floating-action";
-import BackGround from "../Components/BackGround";
+import Wallpaper from "../Components/Wallpaper";
 import contactsStore from "../MobX/ContactsStore";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
@@ -21,7 +21,7 @@ import { observer } from "mobx-react";
 
 const actions = [
   {
-    text: "Add New Member",
+    text: "Add New Friend",
     icon: require("../RES/addnewcontact.png"),
     color: "black",
     name: "addNewContact",
@@ -299,7 +299,7 @@ class Contacts extends Component {
           <Animated.View
             style={{ width: this.state.animation2, alignItems: "center" }}
           >
-            <BackGround source={require("../RES/background.jpg")} />
+            <Wallpaper source={require("../RES/background.jpg")} />
             <TextInput placeholder="Search..." />
             <SectionList
               style={{ width: "100%" }}
@@ -416,8 +416,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#e2deef"
+    alignItems: "center"
   },
   profileImage: {
     marginRight: 30,
