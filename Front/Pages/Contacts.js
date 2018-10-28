@@ -303,96 +303,52 @@ class Contacts extends Component {
             <TextInput placeholder="Search..." />
             <SectionList
               style={{ width: "100%" }}
-              sections={[
-                {
-                  title: "A",
-                  data: [
-                    {
-                      name: "Ali",
-                      image: require("../RES/sampleprofileimage.jpg")
-                    },
-                    {
-                      name: "Arash",
-                      image: require("../RES/sampleprofileimage.jpg")
-                    }
-                  ]
-                },
-                {
-                  title: "J",
-                  data: [
-                    {
-                      name: "Jason",
-                      image: require("../RES/sampleprofileimage.jpg")
-                    },
-                    {
-                      name: "Jili",
-                      image: require("../RES/sampleprofileimage.jpg")
-                    }
-                  ]
-                },
-                {
-                  title: "F",
-                  data: [
-                    {
-                      name: "Farid",
-                      image: require("../RES/sampleprofileimage.jpg")
-                    },
-                    {
-                      name: "Farbod",
-                      image: require("../RES/sampleprofileimage.jpg")
-                    }
-                  ]
-                },
-                {
-                  title: "Y",
-                  data: [
-                    {
-                      name: "Yazdan",
-                      image: require("../RES/sampleprofileimage.jpg")
-                    },
-                    {
-                      name: "Yas",
-                      image: require("../RES/sampleprofileimage.jpg")
-                    }
-                  ]
-                }
-              ]}
+              sections={contactsStore.sections.slice()}
               renderItem={({ item }) => {
                 return (
-                  <TouchableHighlight
-                    onPress={() =>
-                      this.props.navigation.navigate("Profile", {
-                        name: item.name,
-                        image: item.image
-                      })
-                    }
-                  >
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        margin: 2,
-                        alignItems: "center"
-                      }}
+                  <View style={{ alignItems: "center" }}>
+                    <TouchableHighlight
+                      style={{ width: "90%" }}
+                      onPress={() =>
+                        this.props.navigation.navigate("Profile", {
+                          name: item.name,
+                          image: item.image
+                        })
+                      }
                     >
-                      <Image source={item.image} style={styles.profileImage} />
-                      <Text style={{ margin: 5 }}>{item.name}</Text>
-                    </View>
-                  </TouchableHighlight>
+                      <View
+                        style={{
+                          flexDirection: "row",
+
+                          alignItems: "center"
+                        }}
+                      >
+                        <Image
+                          source={item.image}
+                          style={styles.profileImage}
+                        />
+                        <Text style={{ margin: 5 }}>{item.name}</Text>
+                      </View>
+                    </TouchableHighlight>
+                  </View>
                 );
               }}
-              renderSectionHeader={({ section }) => (
-                <View
-                  style={{
-                    borderTopWidth: 2,
-                    width: "90%",
-                    marginLeft: "5%",
-                    alignItems: "center",
-                    borderBottomWidth: 2
-                  }}
-                >
-                  <Text style={{ marginLeft: 5 }}>{section.title}</Text>
-                </View>
-              )}
+              renderSectionHeader={({ section: { title, data } }) => {
+                if (data.length)
+                  return (
+                    <View
+                      style={{
+                        borderTopWidth: 2,
+                        width: "92%",
+                        marginLeft: "4%",
+                        alignItems: "center",
+                        borderBottomWidth: 2
+                      }}
+                    >
+                      <Text style={{ marginLeft: 5 }}>{title}</Text>
+                    </View>
+                  );
+              }}
               keyExtractor={(item, index) => index}
             />
           </Animated.View>
@@ -419,9 +375,9 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   profileImage: {
-    marginRight: 30,
-    width: 75,
-    height: 75,
+    margin: "1%",
+    width: 65,
+    height: 65,
     resizeMode: "contain",
     margin: 2
   },

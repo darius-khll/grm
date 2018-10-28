@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Dimensions,
+  ScrollView,
   Animated,
   TouchableHighlight
 } from "react-native";
@@ -116,93 +117,166 @@ class Setting extends Component {
             }}
           >
             <Wallpaper source={require("../RES/background.jpg")} />
-            <Text
-              style={{
-                fontSize: 16,
-                marginTop: "2%",
-                width: "90%",
-                borderBottomWidth: 0.5,
-                marginBottom: "1%"
-              }}
-            >
-              General Settings
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                marginTop: "5%",
-                width: "90%",
-                borderBottomWidth: 0.5,
-                marginBottom: "1%"
-              }}
-            >
-              Theme Settings
-            </Text>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Theme</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Change Chat Background</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Chat Font</Text>
-            </TouchableHighlight>
+            <ScrollView style={{ width: "100%" }}>
+              <View style={{ alignItems: "center" }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    marginTop: "2%",
+                    width: "90%",
+                    borderBottomWidth: 0.5,
+                    marginBottom: "1%"
+                  }}
+                >
+                  General Settings
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    marginTop: "5%",
+                    width: "90%",
+                    borderBottomWidth: 0.5,
+                    marginBottom: "1%"
+                  }}
+                >
+                  Theme Settings
+                </Text>
+                <TouchableHighlight
+                  style={{
+                    borderBottomWidth: 0.25,
+                    width: "90%",
+                    padding: "1%"
+                  }}
+                  onPress={() => {}}
+                >
+                  <Text>Theme</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{
+                    borderBottomWidth: 0.25,
+                    width: "90%",
+                    padding: "1%"
+                  }}
+                  onPress={() => {}}
+                >
+                  <Text>Change Chat Background</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{
+                    borderBottomWidth: 0.25,
+                    width: "90%",
+                    padding: "1%"
+                  }}
+                  onPress={() => {}}
+                >
+                  <Text>Chat Font</Text>
+                </TouchableHighlight>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    marginTop: "5%",
+                    width: "90%",
+                    borderBottomWidth: 0.5,
+                    marginBottom: "1%"
+                  }}
+                >
+                  Notification Settings
+                </Text>
+                <TouchableHighlight
+                  style={{
+                    borderBottomWidth: 0.25,
+                    width: "90%",
+                    padding: "1%"
+                  }}
+                  onPress={() => {}}
+                >
+                  <Text>LED Color</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{
+                    borderBottomWidth: 0.25,
+                    width: "90%",
+                    padding: "1%"
+                  }}
+                  onPress={() => {}}
+                >
+                  <Text>Vibration</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{
+                    borderBottomWidth: 0.25,
+                    width: "90%",
+                    padding: "1%"
+                  }}
+                  onPress={() => {}}
+                >
+                  <Text>Notificarion Sound</Text>
+                </TouchableHighlight>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    marginTop: "5%",
+                    width: "90%",
+                    borderBottomWidth: 0.5,
+                    marginBottom: "1%"
+                  }}
+                >
+                  Privacy Settings
+                </Text>
+                <TouchableHighlight
+                  style={{
+                    borderBottomWidth: 0.25,
+                    width: "90%",
+                    padding: "1%"
+                  }}
+                  onPress={() => {}}
+                >
+                  <Text>Last Seen Status</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{
+                    borderBottomWidth: 0.25,
+                    width: "90%",
+                    padding: "1%"
+                  }}
+                  onPress={() => this.props.navigation.navigate("SignInPage")}
+                >
+                  <Text>Log Out!</Text>
+                </TouchableHighlight>
 
-            <Text
-              style={{
-                fontSize: 16,
-                marginTop: "5%",
-                width: "90%",
-                borderBottomWidth: 0.5,
-                marginBottom: "1%"
-              }}
-            >
-              Privacy Settings
-            </Text>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Last Seen Status</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => this.props.navigation.navigate("SignInPage")}
-            >
-              <Text>Log Out!</Text>
-            </TouchableHighlight>
-            <Text
-              style={{
-                fontSize: 16,
-                marginTop: "5%",
-                width: "90%",
-                borderBottomWidth: 0.5,
-                marginBottom: "1%"
-              }}
-            >
-              Support
-            </Text>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Ask a Question</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ borderBottomWidth: 0.25, width: "90%", padding: "1%" }}
-              onPress={() => {}}
-            >
-              <Text>Rich Messenger FAQ</Text>
-            </TouchableHighlight>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    marginTop: "5%",
+                    width: "90%",
+                    borderBottomWidth: 0.5,
+                    marginBottom: "1%"
+                  }}
+                >
+                  Support
+                </Text>
+                <TouchableHighlight
+                  style={{
+                    borderBottomWidth: 0.25,
+                    width: "90%",
+                    padding: "1%"
+                  }}
+                  onPress={() => {}}
+                >
+                  <Text>Ask a Question</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={{
+                    borderBottomWidth: 0.25,
+                    width: "90%",
+                    padding: "1%"
+                  }}
+                  onPress={() => {}}
+                >
+                  <Text>Rich Messenger FAQ</Text>
+                </TouchableHighlight>
+              </View>
+            </ScrollView>
           </Animated.View>
         </View>
       </View>
