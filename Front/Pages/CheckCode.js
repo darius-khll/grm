@@ -49,24 +49,10 @@ class CheckCode extends Component {
                 }}
               >
                 {this.props.children}
-                <View
-                  style={{
-                    borderWidth: 1.5,
-                    padding: 5,
-                    backgroundColor: "white",
-                    width: "85%"
-                  }}
-                >
-                  <Text
-                    style={{
-                      marginBottom: "5%",
-                      fontWeight: "bold",
-                      fontSize: 20
-                    }}
-                  >
-                    Resend?
-                  </Text>
-                  <Text>
+                <View style={styles.modalView}>
+                  <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                  <Text style={styles.modalHeader}>Resend?</Text>
+                  <Text style={styles.modalBody}>
                     Resend Code to {this.props.navigation.getParam("code", "")}{" "}
                     {this.props.navigation.getParam("number", "")}?
                   </Text>
@@ -74,35 +60,25 @@ class CheckCode extends Component {
                     style={{
                       marginTop: "10%",
                       alignItems: "center",
-                      flexDirection: "row",
-                      justifyContent: "flex-end"
+                      flexDirection: "row"
                     }}
                   >
                     <TouchableHighlight
                       onPress={() => {
                         this.setModalInvisible();
                       }}
-                      style={{
-                        borderWidth: 0.5,
-                        padding: 3,
-                        margin: 2,
-                        marginBottom: 10
-                      }}
+                      style={styles.modalTouchable}
                     >
-                      <Text>Cancle</Text>
+                      <Text style={styles.modalButton}>NO</Text>
                     </TouchableHighlight>
+                    <View style={{ width: "10%" }} />
                     <TouchableHighlight
                       onPress={() => {
                         this.setModalInvisible();
                       }}
-                      style={{
-                        borderWidth: 0.5,
-                        padding: 3,
-                        margin: 2,
-                        marginBottom: 10
-                      }}
+                      style={styles.modalTouchable}
                     >
-                      <Text>OK</Text>
+                      <Text style={styles.modalButton}>YES</Text>
                     </TouchableHighlight>
                   </View>
                 </View>
@@ -190,6 +166,37 @@ const styles = StyleSheet.create({
   resendButton: {
     textAlign: "center",
     fontSize: 9
+  },
+  modalHeader: {
+    marginTop: "3%",
+    color: "white",
+    marginBottom: "5%",
+    fontWeight: "bold",
+    fontSize: 20
+  },
+  modalBody: {
+    color: "white",
+    marginLeft: "5%",
+    marginRight: "5%",
+    marginTop: "2%"
+  },
+  modalTouchable: {
+    borderWidth: 0.5,
+    borderColor: "white",
+    borderRadius: 5,
+    padding: 3,
+    marginBottom: "7%"
+  },
+  modalView: {
+    borderWidth: 1.5,
+    alignItems: "center",
+    width: "85%"
+  },
+  modalButton: {
+    color: "white",
+    fontWeight: "bold",
+    paddingRight: "5%",
+    paddingLeft: "5%"
   }
 });
 

@@ -143,36 +143,29 @@ class Contacts extends Component {
             }}
           >
             {this.props.children}
-            <View
-              style={{
-                borderWidth: 1.5,
-                padding: 5,
-                backgroundColor: "white",
-                width: "85%"
-              }}
-            >
-              <Text
-                style={{ marginBottom: "5%", fontWeight: "bold", fontSize: 20 }}
-              >
-                Add New Contact
+            <View style={styles.modalView}>
+              <Wallpaper source={require("../RES/modalbackground.jpg")} />
+              <Text style={styles.modalHeader}>Add New Contact</Text>
+              <Text style={styles.modalBody}>
+                Please Enter The Number of your new contact:{" "}
               </Text>
-              <Text>Please Enter The Number of your new contact: </Text>
               <TextInput
                 placeholder="Number"
                 textContentType="telephoneNumber"
+                placeholderTextColor="#cccccc"
                 style={{
-                  marginTop: 5,
-                  padding: 0,
-                  borderBottomWidth: 0.5,
-                  width: "70%"
+                  marginTop: "5%",
+                  padding: "1%",
+                  borderBottmWidth: 0.5,
+                  width: "70%",
+                  color: "white"
                 }}
               />
               <View
                 style={{
                   marginTop: "10%",
                   alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "flex-end"
+                  flexDirection: "row"
                 }}
               >
                 <TouchableHighlight
@@ -180,25 +173,18 @@ class Contacts extends Component {
                     this.setModal1Invisible();
                     this.setModal2Visible();
                   }}
-                  style={{
-                    borderWidth: 0.5,
-                    padding: 3,
-                    margin: 2,
-                    marginBottom: 10
-                  }}
+                  style={styles.modalTouchable}
                 >
-                  <Text>Search For This Contact</Text>
+                  <Text style={styles.modalButton}>
+                    Search For This Contact
+                  </Text>
                 </TouchableHighlight>
+                <View style={{ width: "5%" }} />
                 <TouchableHighlight
-                  style={{
-                    borderWidth: 0.5,
-                    padding: 3,
-                    margin: 2,
-                    marginBottom: 10
-                  }}
+                  style={styles.modalTouchable}
                   onPress={() => this.setModal1Invisible()}
                 >
-                  <Text>Cancle</Text>
+                  <Text style={styles.modalButton}>Cancle</Text>
                 </TouchableHighlight>
               </View>
             </View>
@@ -221,62 +207,48 @@ class Contacts extends Component {
             }}
           >
             {this.props.children}
-            <View
-              style={{
-                borderWidth: 1.5,
-                padding: 5,
-                backgroundColor: "white",
-                width: "85%"
-              }}
-            >
-              <Text
-                style={{ marginBottom: "5%", fontWeight: "bold", fontSize: 20 }}
-              >
-                Contact Found!
-              </Text>
+            <View style={styles.modalView}>
+              <Wallpaper source={require("../RES/modalbackground.jpg")} />
+              <Text style={styles.modalHeader}>Contact Found!</Text>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image
                   style={styles.profileImage}
                   source={require("../RES/sampleprofileimage.jpg")}
                 />
+                <View style={{ width: "15%" }} />
                 <TextInput
                   textContentType="name"
-                  style={{ borderBottomWidth: 0.5, padding: 1, marginLeft: 10 }}
+                  style={{
+                    borderBottomWidth: 0.5,
+                    color: "white",
+                    padding: 1
+                  }}
                   textContentType="name"
                   placeholder="name from server"
+                  placeholderTextColor="#cccccc"
                 />
               </View>
               <View
                 style={{
                   marginTop: "10%",
                   alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "flex-end"
+                  flexDirection: "row"
                 }}
               >
                 <TouchableHighlight
                   onPress={() => {
                     this.setModal2Invisible();
                   }}
-                  style={{
-                    borderWidth: 0.5,
-                    padding: 3,
-                    margin: 2,
-                    marginBottom: 10
-                  }}
+                  style={styles.modalTouchable}
                 >
-                  <Text>Add</Text>
+                  <Text style={styles.modalButton}>Add</Text>
                 </TouchableHighlight>
+                <View style={{ width: "10%" }} />
                 <TouchableHighlight
-                  style={{
-                    borderWidth: 0.5,
-                    padding: 3,
-                    margin: 2,
-                    marginBottom: 10
-                  }}
+                  style={styles.modalTouchable}
                   onPress={() => this.setModal2Invisible()}
                 >
-                  <Text>Cancle</Text>
+                  <Text style={styles.modalButton}>Cancle</Text>
                 </TouchableHighlight>
               </View>
             </View>
@@ -385,6 +357,37 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginTop: "3%"
+  },
+  modalHeader: {
+    marginTop: "3%",
+    color: "white",
+    marginBottom: "5%",
+    fontWeight: "bold",
+    fontSize: 20
+  },
+  modalBody: {
+    color: "white",
+    marginLeft: "5%",
+    marginRight: "5%",
+    marginTop: "2%"
+  },
+  modalTouchable: {
+    borderWidth: 0.5,
+    borderColor: "white",
+    borderRadius: 5,
+    padding: 3,
+    marginBottom: "7%"
+  },
+  modalView: {
+    borderWidth: 1.5,
+    alignItems: "center",
+    width: "85%"
+  },
+  modalButton: {
+    color: "white",
+    fontWeight: "bold",
+    paddingRight: "5%",
+    paddingLeft: "5%"
   }
 });
 

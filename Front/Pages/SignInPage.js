@@ -22,10 +22,6 @@ class SignInPage extends Component {
     header: null
   };
 
-  updateCode(value) {
-    signInPageStore.countryCode = value;
-  }
-
   setModalInvisible() {
     signInPageStore.modalVisible = false;
   }
@@ -55,24 +51,10 @@ class SignInPage extends Component {
                 }}
               >
                 {this.props.children}
-                <View
-                  style={{
-                    borderWidth: 1.5,
-                    padding: 5,
-                    backgroundColor: "white",
-                    width: "85%"
-                  }}
-                >
-                  <Text
-                    style={{
-                      marginBottom: "5%",
-                      fontWeight: "bold",
-                      fontSize: 20
-                    }}
-                  >
-                    Help
-                  </Text>
-                  <Text>
+                <View style={styles.modalView}>
+                  <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                  <Text style={styles.modalHeader}>Help</Text>
+                  <Text style={styles.modalBody}>
                     Choose your country and enter your phone number. You will
                     recieve a sms with a code to proceed. If you can't find your
                     country name here, chose 'Other' at the end of the list and
@@ -91,14 +73,9 @@ class SignInPage extends Component {
                       onPress={() => {
                         this.setModalInvisible();
                       }}
-                      style={{
-                        borderWidth: 0.5,
-                        padding: 3,
-                        margin: 2,
-                        marginBottom: 10
-                      }}
+                      style={styles.modalTouchable}
                     >
-                      <Text>OK</Text>
+                      <Text style={styles.modalButton}>OK</Text>
                     </TouchableHighlight>
                   </View>
                 </View>
@@ -121,48 +98,29 @@ class SignInPage extends Component {
                 }}
               >
                 {this.props.children}
-                <View
-                  style={{
-                    borderWidth: 1.5,
-                    padding: 5,
-                    backgroundColor: "white",
-                    width: "85%"
-                  }}
-                >
-                  <Text
-                    style={{
-                      marginBottom: "5%",
-                      fontWeight: "bold",
-                      fontSize: 20
-                    }}
-                  >
-                    Proceed?
-                  </Text>
-                  <Text>
+                <View style={styles.modalView}>
+                  <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                  <Text style={styles.modalHeader}>Proceed?</Text>
+                  <Text style={styles.modalBody}>
                     Are You sure {signInPageStore.countryCode}{" "}
-                    {signInPageStore.number} is your number?
+                    {signInPageStore.number} is your phone number?
                   </Text>
                   <View
                     style={{
                       marginTop: "10%",
                       alignItems: "center",
-                      flexDirection: "row",
-                      justifyContent: "flex-end"
+                      flexDirection: "row"
                     }}
                   >
                     <TouchableHighlight
                       onPress={() => {
                         this.setModal2Invisible();
                       }}
-                      style={{
-                        borderWidth: 0.5,
-                        padding: 3,
-                        margin: 2,
-                        marginBottom: 10
-                      }}
+                      style={styles.modalTouchable}
                     >
-                      <Text>Cancle</Text>
+                      <Text style={styles.modalButton}>NO</Text>
                     </TouchableHighlight>
+                    <View style={{ width: "10%" }} />
                     <TouchableHighlight
                       onPress={() => {
                         this.setModal2Invisible();
@@ -171,14 +129,9 @@ class SignInPage extends Component {
                           number: signInPageStore.number
                         });
                       }}
-                      style={{
-                        borderWidth: 0.5,
-                        padding: 3,
-                        margin: 2,
-                        marginBottom: 10
-                      }}
+                      style={styles.modalTouchable}
                     >
-                      <Text>OK</Text>
+                      <Text style={styles.modalButton}>YES</Text>
                     </TouchableHighlight>
                   </View>
                 </View>
@@ -475,6 +428,37 @@ const styles = StyleSheet.create({
     height: 20,
     resizeMode: "contain",
     marginLeft: 15
+  },
+  modalHeader: {
+    marginTop: "3%",
+    color: "white",
+    marginBottom: "5%",
+    fontWeight: "bold",
+    fontSize: 20
+  },
+  modalBody: {
+    color: "white",
+    marginLeft: "5%",
+    marginRight: "5%",
+    marginTop: "2%"
+  },
+  modalTouchable: {
+    borderWidth: 0.5,
+    borderColor: "white",
+    borderRadius: 5,
+    padding: 3,
+    marginBottom: "7%"
+  },
+  modalView: {
+    borderWidth: 1.5,
+    alignItems: "center",
+    width: "85%"
+  },
+  modalButton: {
+    color: "white",
+    fontWeight: "bold",
+    paddingRight: "5%",
+    paddingLeft: "5%"
   },
   loginButton: {
     textAlign: "center",
