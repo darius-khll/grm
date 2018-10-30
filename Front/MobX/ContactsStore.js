@@ -32,9 +32,9 @@ class ContactsStore {
   @observable
   aboutIcon = require("../RES/about1.png");
   @observable
-  modal1Visible = false;
+  isModalAdd = false;
   @observable
-  modal2Visible = false;
+  isModalFound = false;
   @observable
   sections = [
     {
@@ -184,6 +184,23 @@ class ContactsStore {
     {
       title: "Others",
       data: []
+    }
+  ];
+  @observable
+  actions = [
+    {
+      text: "Add New Friend",
+      icon: require("../RES/addnewcontact.png"),
+      color: "black",
+      name: "addNewContact",
+      position: 2
+    },
+    {
+      text: "Search",
+      color: "black",
+      icon: require("../RES/search.png"),
+      name: "search",
+      position: 1
     }
   ];
 }

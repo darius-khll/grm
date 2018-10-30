@@ -3,8 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   Dimensions,
+  TouchableHighlight,
   Animated,
   Image
 } from "react-native";
@@ -36,6 +36,13 @@ class MyProfile extends Component {
       resizeMode: "contain"
     }
   };
+
+  componentWillMount() {
+    this.props.navigation.addListener("didBlur", () => {
+      if (myProfileStore.expanded) this.toggle();
+    });
+  }
+
   navigationToMyProfile() {
     this.props.navigation.navigate("MyProfile");
   }
@@ -144,16 +151,16 @@ class MyProfile extends Component {
                 style={this.state.profileImage}
                 source={require("../RES/anonymous.png")}
               />
-              <View>
-                <Button
-                  title="Edit Profile"
-                  onPress={() =>
-                    this.props.navigation.navigate("EditProfile", {
-                      image: require("../RES/anonymous.png")
-                    })
-                  }
-                />
-              </View>
+              <TouchableHighlight
+                onPress={() =>
+                  this.props.navigation.navigate("EditProfile", {
+                    image: require("../RES/anonymous.png")
+                  })
+                }
+                style={styles.button}
+              >
+                <Text style={{ fontWeight: "bold" }}>Edit Profile</Text>
+              </TouchableHighlight>
             </View>
             <Text
               style={{
@@ -324,6 +331,13 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     resizeMode: "contain"
+  },
+  button: {
+    borderWidth: width / 180,
+    borderRadius: 5,
+    padding: "1%",
+    paddingRight: "6%",
+    paddingLeft: "6%"
   }
 });
 

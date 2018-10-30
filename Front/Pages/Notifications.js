@@ -23,6 +23,12 @@ class Notifications extends Component {
     }
   };
 
+  componentWillMount() {
+    this.props.navigation.addListener("didBlur", () => {
+      if (notificationStore.expanded) this.toggle();
+    });
+  }
+
   navigationToMyProfile() {
     this.props.navigation.navigate("MyProfile");
   }

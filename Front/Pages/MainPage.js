@@ -29,9 +29,15 @@ class MainPage extends Component {
       width: (0.85 * width) / 8,
       height: (0.85 * width) / 8,
       resizeMode: "contain",
-      margin: 2
+      margin: "3%"
     }
   };
+
+  componentWillMount() {
+    this.props.navigation.addListener("didBlur", () => {
+      if (mainPageStore.expanded) this.toggle();
+    });
+  }
 
   navigationToMyProfile() {
     this.props.navigation.navigate("MyProfile");
@@ -87,7 +93,7 @@ class MainPage extends Component {
           width: (0.85 * width) / 8,
           height: (0.85 * width) / 8,
           resizeMode: "contain",
-          margin: 2
+          margin: "3%"
         }
       });
     }
@@ -116,7 +122,18 @@ class MainPage extends Component {
             style={{ alignItems: "center", width: this.state.animation2 }}
           >
             <Wallpaper source={require("../RES/background.jpg")} />
-            <TextInput style={{ width: "100%" }} placeholder="Search..." />
+            <TextInput
+              style={{
+                width: "90%",
+                borderBottomWidth: width / 360,
+                borderRadius: 5,
+                textAlign: "center",
+                fontSize: width / 22.5,
+                padding: "2%",
+                borderColor: "rgba(0,30,255,0.5)"
+              }}
+              placeholder="Search..."
+            />
             <FlatList
               style={{ width: "100%" }}
               data={[
@@ -189,21 +206,27 @@ class MainPage extends Component {
                         style={{
                           flexDirection: "column",
                           justifyContent: "space-around",
-                          marginLeft: "5%",
+                          marginLeft: "2%",
                           flex: 1
                         }}
                       >
-                        <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                        <Text
+                          style={{ fontSize: width / 22.5, fontWeight: "bold" }}
+                        >
                           {item.key}
                         </Text>
-                        <Text style={{ fontSize: 12 }}>{item.lastMessage}</Text>
+                        <Text style={{ fontSize: width / 30 }}>
+                          {item.lastMessage}
+                        </Text>
                         <View
                           style={{
                             flexDirection: "row-reverse",
                             alignItems: "center"
                           }}
                         >
-                          <Text style={{ fontSize: 10, marginRight: "5%" }}>
+                          <Text
+                            style={{ fontSize: width / 36, marginRight: "5%" }}
+                          >
                             {item.date}
                           </Text>
                         </View>
@@ -227,13 +250,13 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   profileImage: {
-    width: 65,
-    height: 65,
+    width: width / 5.5,
+    height: width / 5.5,
     resizeMode: "contain",
     margin: "1%"
   },
   textStyle: {
-    fontSize: 18,
+    fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
   }

@@ -23,6 +23,12 @@ class About extends Component {
     }
   };
 
+  componentWillMount() {
+    this.props.navigation.addListener("didBlur", () => {
+      if (aboutStore.expanded) this.toggle();
+    });
+  }
+
   toggle() {
     let initialValue = aboutStore.expanded ? width : width / 8,
       finalValue = aboutStore.expanded ? width / 8 : width;

@@ -31,6 +31,12 @@ class Shop extends Component {
     }
   };
 
+  componentWillMount() {
+    this.props.navigation.addListener("didBlur", () => {
+      if (shopStore.expanded) this.toggle();
+    });
+  }
+
   toggle() {
     let initialValue = shopStore.expanded ? width : width / 8,
       finalValue = shopStore.expanded ? width / 8 : width;

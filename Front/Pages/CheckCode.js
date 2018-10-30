@@ -152,7 +152,13 @@ class CheckCode extends Component {
                 <Text style={{ fontWeight: "bold" }}>Resend Code</Text>
               </TouchableHighlight>
             </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginBottom: "5%"
+              }}
+            >
               <Text>I accept the user agreement!</Text>
               <CheckBox
                 onClick={() =>
@@ -194,24 +200,18 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: width / 14.4,
     textAlign: "center",
-    marginTop: width / 3.6,
-    marginBottom: width / 3.6
+    marginTop: "33%",
+    marginBottom: "25%"
   },
   instructions: {
-    marginBottom: width / 72
+    marginBottom: "1.3%"
   },
   phoneText: {
     textAlign: "center",
     borderBottomWidth: width / 180,
-    padding: width / 180,
-    marginBottom: width / 36,
+    padding: "1%",
+    marginBottom: "3%",
     borderRadius: 5
-  },
-  image: {
-    width: width / 18,
-    height: width / 18,
-    resizeMode: "contain",
-    marginLeft: width / 24
   },
   modalHeader: {
     marginTop: "3%",
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   modalTouchable: {
     borderWidth: width / 720,
     borderColor: "white",
-    borderRadius: width / 72,
+    borderRadius: 5,
     padding: width / 120,
     marginBottom: "7%"
   },

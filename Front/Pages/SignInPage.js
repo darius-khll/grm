@@ -16,7 +16,7 @@ import { observer } from "mobx-react";
 import signInPageStore from "../MobX/SignInPageStore";
 import Wallpaper from "../Components/Wallpaper";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 @observer
 class SignInPage extends Component {
@@ -362,9 +362,7 @@ class SignInPage extends Component {
             </Picker>
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ marginRight: width / 72 }}>
-                {signInPageStore.countryCode}
-              </Text>
+              <Text>{signInPageStore.countryCode}</Text>
               <TextInput
                 onChangeText={number => (signInPageStore.number = number)}
                 textContentType="telephoneNumber"
@@ -413,20 +411,21 @@ const styles = StyleSheet.create({
     marginBottom: width / 3.6
   },
   instructions: {
-    marginBottom: width / 72
+    marginBottom: "5%"
   },
   phoneText: {
     textAlign: "center",
     borderBottomWidth: width / 180,
-    padding: width / 180,
-    marginBottom: width / 36,
+    padding: "1%",
+    marginRight: "8%",
+    marginLeft: "2%",
+    marginBottom: "3%",
     borderRadius: 5
   },
   image: {
     width: width / 18,
     height: width / 18,
-    resizeMode: "contain",
-    marginLeft: width / 24
+    resizeMode: "contain"
   },
   modalHeader: {
     marginTop: "3%",
@@ -461,6 +460,7 @@ const styles = StyleSheet.create({
     paddingLeft: "5%"
   },
   button: {
+    marginTop: "7%",
     borderWidth: width / 180,
     borderRadius: 5,
     padding: "1%",

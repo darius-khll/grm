@@ -2,6 +2,7 @@ import React from "react";
 import {
   Text,
   Image,
+  Dimensions,
   View,
   StyleSheet,
   TextInput,
@@ -10,6 +11,7 @@ import {
 } from "react-native";
 import { createMaterialTopTabNavigator } from "react-navigation";
 import Wallpaper from "../Components/Wallpaper";
+const { width } = Dimensions.get("window");
 
 class NormalChat extends React.Component {
   render() {
@@ -21,7 +23,8 @@ class NormalChat extends React.Component {
             style={{
               heigth: "10%",
               flexDirection: "row",
-              borderTopWidth: 2,
+              borderTopWidth: width / 180,
+              borderRadius: 5,
               width: "100%",
               alignItems: "center"
             }}
@@ -50,7 +53,8 @@ class SecureChat extends React.Component {
             flexDirection: "row",
             width: "100%",
             alignItems: "center",
-            borderBottomWidth: 1
+            borderBottomWidth: width / 360,
+            borderRadius: 5
           }}
         >
           <TextInput
@@ -64,7 +68,7 @@ class SecureChat extends React.Component {
             style={{
               heigth: "10%",
               flexDirection: "row",
-              borderTopWidth: 2,
+              borderTopWidth: width / 180,
               width: "100%",
               alignItems: "center"
             }}

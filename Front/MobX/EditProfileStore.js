@@ -13,15 +13,15 @@ class EditProfileStore {
   data = [
     {
       label: "Man",
-      size: 15
+      size: 13
     },
     {
       label: "Woman",
-      size: 15
+      size: 13
     },
     {
       label: "Other",
-      size: 15
+      size: 13
     }
   ];
 }

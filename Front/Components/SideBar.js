@@ -29,9 +29,6 @@ export default class SideBar extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.store.expanded) {
-                this.props.toggle();
-              }
               this.props.navigationToMyProfile();
             }}
           >
@@ -49,9 +46,6 @@ export default class SideBar extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.store.expanded) {
-                this.props.toggle();
-              }
               this.props.navigationToMainPage();
             }}
           >
@@ -69,9 +63,6 @@ export default class SideBar extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.store.expanded) {
-                this.props.toggle();
-              }
               this.props.navigationToContacts();
             }}
           >
@@ -89,9 +80,6 @@ export default class SideBar extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.store.expanded) {
-                this.props.toggle();
-              }
               this.props.navigationToShop();
             }}
           >
@@ -111,9 +99,6 @@ export default class SideBar extends Component {
         <View style={{ alignItems: "center" }}>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.store.expanded) {
-                this.props.toggle();
-              }
               this.props.navigationToSetting();
             }}
           >
@@ -131,9 +116,6 @@ export default class SideBar extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             onPress={() => {
-              if (this.props.store.expanded) {
-                this.props.toggle();
-              }
               this.props.navigationToAbout();
             }}
           >

@@ -37,6 +37,12 @@ class Profile extends Component {
     }
   };
 
+  componentWillMount() {
+    this.props.navigation.addListener("didBlur", () => {
+      if (profileStore.expanded) this.toggle();
+    });
+  }
+
   navigationToMyProfile() {
     this.props.navigation.navigate("MyProfile");
   }

@@ -18,23 +18,6 @@ import contactsStore from "../MobX/ContactsStore";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
-
-const actions = [
-  {
-    text: "Add New Friend",
-    icon: require("../RES/addnewcontact.png"),
-    color: "black",
-    name: "addNewContact",
-    position: 2
-  },
-  {
-    text: "Search",
-    color: "black",
-    icon: require("../RES/search.png"),
-    name: "search",
-    position: 1
-  }
-];
 let { width } = Dimensions.get("window");
 
 @observer
@@ -51,6 +34,13 @@ class Contacts extends Component {
       margin: 2
     }
   };
+
+  componentWillMount() {
+    this.props.navigation.addListener("didBlur", () => {
+      if (contactsStore.expanded) this.toggle();
+    });
+  }
+
   navigationToMyProfile() {
     this.props.navigation.navigate("MyProfile");
   }
@@ -113,23 +103,22 @@ class Contacts extends Component {
     animate.start();
   }
 
-  setModal1Invisible() {
-    contactsStore.modal1Visible = false;
+  setModalAddInvisible() {
+    contactsStore.isModalAdd = false;
   }
-  setModal2Invisible() {
-    contactsStore.modal2Visible = false;
+  setModalFoundInvisible() {
+    contactsStore.isModalFound = false;
   }
-  setModal2Visible() {
-    contactsStore.modal2Visible = true;
+  setModalFoundVisible() {
+    contactsStore.isModalFound = true;
   }
-
   render() {
     return (
       <View style={styles.container}>
         <Modal
           animationType="fade"
           transparent={true}
-          visible={contactsStore.modal1Visible}
+          visible={contactsStore.isModalAdd}
           onRequestClose={() => {
             this.setModal1Invisible();
           }}
@@ -156,7 +145,7 @@ class Contacts extends Component {
                 style={{
                   marginTop: "5%",
                   padding: "1%",
-                  borderBottmWidth: 0.5,
+                  borderBottmWidth: width / 720,
                   width: "70%",
                   color: "white"
                 }}
@@ -193,7 +182,7 @@ class Contacts extends Component {
         <Modal
           animationType="fade"
           transparent={true}
-          visible={contactsStore.modal2Visible}
+          visible={contactsStore.isModalFound}
           onRequestClose={() => {
             this.setModal2Invisible();
           }}
@@ -219,9 +208,9 @@ class Contacts extends Component {
                 <TextInput
                   textContentType="name"
                   style={{
-                    borderBottomWidth: 0.5,
+                    borderBottomWidth: width / 720,
                     color: "white",
-                    padding: 1
+                    padding: width / 360
                   }}
                   textContentType="name"
                   placeholder="name from server"
@@ -299,7 +288,7 @@ class Contacts extends Component {
                           source={item.image}
                           style={styles.profileImage}
                         />
-                        <Text style={{ margin: 5 }}>{item.name}</Text>
+                        <Text style={{ margin: width / 72 }}>{item.name}</Text>
                       </View>
                     </TouchableHighlight>
                   </View>
@@ -310,7 +299,8 @@ class Contacts extends Component {
                   return (
                     <View
                       style={{
-                        borderTopWidth: 2,
+                        borderTopWidth: width / 180,
+                        borderRadius: 5,
                         width: "92%",
                         marginLeft: "4%",
                         alignItems: "center",
@@ -327,12 +317,11 @@ class Contacts extends Component {
         </View>
         <FloatingAction
           visible={!contactsStore.expanded}
-          actions={actions}
+          actions={contactsStore.actions}
           color="black"
           onPressItem={name => {
             if (name === "search") this.props.navigation.navigate("SearchPage");
-            else if (name === "addNewContact")
-              contactsStore.modal1Visible = true;
+            else if (name === "addNewContact") contactsStore.isModalAdd = true;
           }}
         />
       </View>
@@ -348,13 +337,13 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     margin: "1%",
-    width: 65,
-    height: 65,
+    width: width / 5.5,
+    height: width / 5.5,
     resizeMode: "contain",
-    margin: 2
+    margin: width / 180
   },
   textStyle: {
-    fontSize: 18,
+    fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
   },
@@ -363,7 +352,7 @@ const styles = StyleSheet.create({
     color: "white",
     marginBottom: "5%",
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: width / 18
   },
   modalBody: {
     color: "white",
@@ -373,14 +362,14 @@ const styles = StyleSheet.create({
     marginTop: "2%"
   },
   modalTouchable: {
-    borderWidth: 0.5,
+    borderWidth: width / 720,
     borderColor: "white",
     borderRadius: 5,
-    padding: 3,
+    padding: width / 120,
     marginBottom: "7%"
   },
   modalView: {
-    borderWidth: 1.5,
+    borderWidth: width / 240,
     alignItems: "center",
     width: "85%"
   },

@@ -4,8 +4,9 @@ import {
   ScrollView,
   Text,
   View,
-  Button,
+  TouchableHighlight,
   Picker,
+  Dimensions,
   Image,
   TextInput
 } from "react-native";
@@ -15,6 +16,9 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import CheckBox from "react-native-check-box";
 import editProfileStore from "../MobX/EditProfileStore";
 import { observer } from "mobx-react";
+import Wallpaper from "../Components/Wallpaper";
+
+const { width } = Dimensions.get("window");
 
 @observer
 class EditProfile extends Component {
@@ -22,12 +26,11 @@ class EditProfile extends Component {
   state = {
     date: new Date()
   };
-  _showDateTimePicker = () => (editProfileStore.isDateTimePickerVisible = true);
+  showDateTimePicker = () => (editProfileStore.isDateTimePickerVisible = true);
 
-  _hideDateTimePicker = () =>
-    (editProfileStore.isDateTimePickerVisible = false);
+  hideDateTimePicker = () => (editProfileStore.isDateTimePickerVisible = false);
 
-  _handleDatePicked = date => {
+  handleDatePicked = date => {
     this.setState({
       date
     });
@@ -35,20 +38,31 @@ class EditProfile extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Wallpaper source={require("../RES/background.jpg")} />
         <ScrollView style={{ width: "100%" }}>
           <View style={{ padding: "5%", paddingTop: "3%" }}>
-            <Text style={{ width: "100%", borderBottomWidth: 0.5 }}>
+            <Text
+              style={{
+                width: "100%",
+                borderBottomWidth: width / 720,
+                borderRadius: 5
+              }}
+            >
               Profile Picture
             </Text>
             <View
               style={{
-                marginTop: 5,
+                marginTop: width / 72,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-around"
               }}
             >
-              <Button title="Change Profile Picture" />
+              <TouchableHighlight onPress={() => {}} style={styles.button}>
+                <Text style={{ fontWeight: "bold" }}>
+                  Change Profile Picture
+                </Text>
+              </TouchableHighlight>
               <Image
                 style={styles.profileImage}
                 source={this.props.navigation.getParam(
@@ -58,33 +72,47 @@ class EditProfile extends Component {
               />
             </View>
             <Text
-              style={{ marginTop: 7, width: "100%", borderBottomWidth: 0.5 }}
+              style={{
+                marginTop: width / 51.4,
+                width: "100%",
+                borderBottomWidth: width / 720
+              }}
             >
               Bio
             </Text>
             <View
               style={{
-                marginTop: 2,
+                marginTop: width / 180,
                 flexDirection: "column",
                 width: "100%"
               }}
             >
-              <TextInput style={{ padding: 3 }} placeholder="Edit Your Bio" />
+              <TextInput
+                style={{ padding: width / 120 }}
+                placeholder="Edit Your Bio"
+              />
             </View>
             <Text
-              style={{ marginTop: 7, width: "100%", borderBottomWidth: 0.5 }}
+              style={{
+                marginTop: width / 51.4,
+                width: "100%",
+                borderBottomWidth: width / 720
+              }}
             >
               General Information
             </Text>
             <View
               style={{
-                marginTop: 2,
+                marginTop: width / 180,
                 flexDirection: "column",
                 width: "100%"
               }}
             >
-              <TextInput style={{ padding: 3 }} placeholder="Name (Required)" />
-              <TextInput style={{ padding: 3 }} placeholder="ID" />
+              <TextInput
+                style={{ padding: width / 120 }}
+                placeholder="Name (Required)"
+              />
+              <TextInput style={{ padding: width / 120 }} placeholder="ID" />
               <View
                 style={{
                   flexDirection: "row",
@@ -101,7 +129,7 @@ class EditProfile extends Component {
               </View>
               <View
                 style={{
-                  marginTio: 3,
+                  marginTop: width / 120,
                   flexDirection: "row",
                   justifyContent: "space-between",
                   alignItems: "center"
@@ -109,20 +137,27 @@ class EditProfile extends Component {
               >
                 <Text>Birth Date:</Text>
                 <Text>{this.state.date.toDateString()}</Text>
-                <Button
-                  title="pick a date"
-                  onPress={this._showDateTimePicker}
-                />
+                <TouchableHighlight
+                  onPress={() => this.showDateTimePicker}
+                  style={styles.button}
+                >
+                  <Text style={{ fontWeight: "bold" }}>Pick a Date</Text>
+                </TouchableHighlight>
               </View>
             </View>
             <Text
-              style={{ marginTop: 7, width: "100%", borderBottomWidth: 0.5 }}
+              style={{
+                marginTop: width / 51.4,
+                width: "100%",
+                borderBottomWidth: width / 720,
+                borderRadius: 5
+              }}
             >
               Location Information
             </Text>
             <View
               style={{
-                marginTop: 2,
+                marginTop: width / 180,
                 flexDirection: "column",
                 width: "100%"
               }}
@@ -410,16 +445,21 @@ class EditProfile extends Component {
                   <Picker.Item label="Other" value="Other" />
                 </Picker>
               </View>
-              <TextInput style={{ padding: 3 }} placeholder="City" />
+              <TextInput style={{ padding: width / 120 }} placeholder="City" />
             </View>
             <Text
-              style={{ marginTop: 7, width: "100%", borderBottomWidth: 0.5 }}
+              style={{
+                marginTop: width / 51.4,
+                width: "100%",
+                borderBottomWidth: width / 720,
+                borderRadius: 5
+              }}
             >
               Contact Information
             </Text>
             <View
               style={{
-                marginTop: 2,
+                marginTop: width / 180,
                 flexDirection: "column",
                 width: "100%"
               }}
@@ -431,7 +471,10 @@ class EditProfile extends Component {
                   justifyContent: "space-between"
                 }}
               >
-                <TextInput style={{ padding: 3 }} placeholder="Email" />
+                <TextInput
+                  style={{ padding: width / 120 }}
+                  placeholder="Email"
+                />
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text>Show</Text>
                   <CheckBox
@@ -450,7 +493,7 @@ class EditProfile extends Component {
                 }}
               >
                 <TextInput
-                  style={{ padding: 3 }}
+                  style={{ padding: width / 120 }}
                   placeholder="Phone Number (Required)"
                 />
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -467,17 +510,19 @@ class EditProfile extends Component {
             <View
               style={{
                 flexDirection: "row",
-                marginTop: 5,
+                marginTop: width / 72,
                 alignItems: "center",
                 justifyContent: "space-around"
               }}
             >
-              <Button title="Save" />
+              <TouchableHighlight onPress={() => {}} style={styles.button}>
+                <Text style={{ fontWeight: "bold" }}>Save</Text>
+              </TouchableHighlight>
             </View>
             <DateTimePicker
               isVisible={editProfileStore.isDateTimePickerVisible}
-              onConfirm={this._handleDatePicked}
-              onCancel={this._hideDateTimePicker}
+              onConfirm={this.handleDatePicked}
+              onCancel={this.hideDateTimePicker}
             />
           </View>
         </ScrollView>
@@ -493,9 +538,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#e2deef"
   },
   profileImage: {
-    width: 75,
-    height: 75,
+    width: width / 5,
+    height: width / 5,
     resizeMode: "contain"
+  },
+  button: {
+    borderWidth: width / 180,
+    borderRadius: 5,
+    padding: "1%",
+    paddingRight: "6%",
+    paddingLeft: "6%"
   }
 });
 
