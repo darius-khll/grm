@@ -3,12 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
+  Dimensions,
   ScrollView,
   TextInput,
   Modal,
-  Alert,
-  TouchableHighlight,
-  Button
+  TouchableHighlight
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import checkCodeStore from "../MobX/CheckCodeStore";
@@ -16,14 +15,20 @@ import { observer } from "mobx-react";
 import CheckBox from "react-native-check-box";
 import Wallpaper from "../Components/Wallpaper";
 
+const { width } = Dimensions.get("window");
+
 @observer
 class CheckCode extends Component {
   static navigationOptions = {
     header: null
   };
 
-  setModalInvisible() {
-    checkCodeStore.isModalVisible = false;
+  setModalResendInvisible() {
+    checkCodeStore.isModalResend = false;
+  }
+
+  setModalAgreeInvisible() {
+    checkCodeStore.isModalAgree = false;
   }
 
   render() {
@@ -35,9 +40,9 @@ class CheckCode extends Component {
             <Modal
               animationType="fade"
               transparent={true}
-              visible={checkCodeStore.isModalVisible}
+              visible={checkCodeStore.isModalResend}
               onRequestClose={() => {
-                this.setModalInvisible();
+                this.setModalResendInvisible();
               }}
             >
               <View
@@ -65,7 +70,7 @@ class CheckCode extends Component {
                   >
                     <TouchableHighlight
                       onPress={() => {
-                        this.setModalInvisible();
+                        this.setModalResendInvisible();
                       }}
                       style={styles.modalTouchable}
                     >
@@ -74,11 +79,54 @@ class CheckCode extends Component {
                     <View style={{ width: "10%" }} />
                     <TouchableHighlight
                       onPress={() => {
-                        this.setModalInvisible();
+                        this.setModalResendInvisible();
                       }}
                       style={styles.modalTouchable}
                     >
                       <Text style={styles.modalButton}>YES</Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={checkCodeStore.isModalAgree}
+              onRequestClose={() => {
+                this.setModalAgreeInvisible();
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "rgba(0,0,0,0.5)"
+                }}
+              >
+                {this.props.children}
+                <View style={styles.modalView}>
+                  <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                  <Text style={styles.modalHeader}>User Agreement</Text>
+                  <Text style={styles.modalBody}>
+                    Please confirm the user agreement with checking the box next
+                    to it.
+                  </Text>
+                  <View
+                    style={{
+                      marginTop: "10%",
+                      alignItems: "center",
+                      flexDirection: "row"
+                    }}
+                  >
+                    <TouchableHighlight
+                      onPress={() => {
+                        this.setModalAgreeInvisible();
+                      }}
+                      style={styles.modalTouchable}
+                    >
+                      <Text style={styles.modalButton}>OK</Text>
                     </TouchableHighlight>
                   </View>
                 </View>
@@ -97,12 +145,12 @@ class CheckCode extends Component {
               Button
             </Text>
             <View style={{ marginBottom: "10%" }}>
-              <Button
-                title="Resend Code"
-                color="#9B59B6"
-                onPress={() => (checkCodeStore.isModalVisible = true)}
-                style={styles.resendButton}
-              />
+              <TouchableHighlight
+                onPress={() => (checkCodeStore.isModalResend = true)}
+                style={styles.button}
+              >
+                <Text style={{ fontWeight: "bold" }}>Resend Code</Text>
+              </TouchableHighlight>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text>I accept the user agreement!</Text>
@@ -113,21 +161,18 @@ class CheckCode extends Component {
                 isChecked={checkCodeStore.isCheckedAgree}
               />
             </View>
-            <Button
-              title="Get Started!"
-              color="#9B59B6"
+            <TouchableHighlight
               onPress={() => {
                 if (checkCodeStore.isCheckedAgree)
-                  this.props.navigation.navigate("MainPage");
+                  this.props.navigation.navigate("PayPage");
                 else {
-                  Alert.alert(
-                    "User Agreement",
-                    "Please agree to the user agreements"
-                  );
+                  checkCodeStore.isModalAgree = true;
                 }
               }}
-              style={styles.loginButton}
-            />
+              style={styles.button}
+            >
+              <Text style={{ fontWeight: "bold" }}>Let's Start</Text>
+            </TouchableHighlight>
           </View>
         </ScrollView>
       </View>
@@ -147,48 +192,50 @@ const styles = StyleSheet.create({
     padding: "5%"
   },
   welcome: {
-    fontSize: 25,
+    fontSize: width / 14.4,
     textAlign: "center",
-    marginTop: 100,
-    marginBottom: 100
+    marginTop: width / 3.6,
+    marginBottom: width / 3.6
+  },
+  instructions: {
+    marginBottom: width / 72
   },
   phoneText: {
     textAlign: "center",
-    borderBottomWidth: 2,
-    borderBottomColor: "#9B59B6",
-    marginBottom: 20,
-    padding: 2
+    borderBottomWidth: width / 180,
+    padding: width / 180,
+    marginBottom: width / 36,
+    borderRadius: 5
   },
-  loginButton: {
-    textAlign: "center",
-    fontSize: 12
-  },
-  resendButton: {
-    textAlign: "center",
-    fontSize: 9
+  image: {
+    width: width / 18,
+    height: width / 18,
+    resizeMode: "contain",
+    marginLeft: width / 24
   },
   modalHeader: {
     marginTop: "3%",
     color: "white",
     marginBottom: "5%",
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: width / 18
   },
   modalBody: {
     color: "white",
     marginLeft: "5%",
     marginRight: "5%",
-    marginTop: "2%"
+    marginTop: "2%",
+    textAlign: "center"
   },
   modalTouchable: {
-    borderWidth: 0.5,
+    borderWidth: width / 720,
     borderColor: "white",
-    borderRadius: 5,
-    padding: 3,
+    borderRadius: width / 72,
+    padding: width / 120,
     marginBottom: "7%"
   },
   modalView: {
-    borderWidth: 1.5,
+    borderWidth: width / 240,
     alignItems: "center",
     width: "85%"
   },
@@ -197,6 +244,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingRight: "5%",
     paddingLeft: "5%"
+  },
+  button: {
+    borderWidth: width / 180,
+    borderRadius: 5,
+    padding: "1%",
+    paddingRight: "6%",
+    paddingLeft: "6%"
   }
 });
 

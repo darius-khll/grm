@@ -4,7 +4,9 @@ class CheckCodeStore {
   @observable
   code = "";
   @observable
-  isModalVisible = false;
+  isModalResend = false;
+  @observable
+  isModalAgree = false;
   @observable
   isCheckedAgree = false;
 }

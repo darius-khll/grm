@@ -30,6 +30,7 @@ import SearchPage from "./Pages/SearchPage";
 import EditProfile from "./Pages/EditProfile";
 import CheckCode from "./Pages/CheckCode";
 import Notifications from "./Pages/Notifications";
+import PayPage from "./Pages/PayPage";
 
 import { createStackNavigator } from "react-navigation";
 import OptionsMenu from "react-native-options-menu";
@@ -46,6 +47,12 @@ const RootStack = createStackNavigator(
     },
     CheckCode: {
       screen: CheckCode,
+      navigationOptions: {
+        header: null
+      }
+    },
+    PayPage: {
+      screen: PayPage,
       navigationOptions: {
         header: null
       }

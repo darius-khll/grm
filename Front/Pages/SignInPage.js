@@ -7,14 +7,16 @@ import {
   ScrollView,
   TextInput,
   Modal,
-  Button,
   TouchableHighlight,
+  Dimensions,
   Picker
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { observer } from "mobx-react";
 import signInPageStore from "../MobX/SignInPageStore";
 import Wallpaper from "../Components/Wallpaper";
+
+const { width } = Dimensions.get("window");
 
 @observer
 class SignInPage extends Component {
@@ -139,7 +141,7 @@ class SignInPage extends Component {
             </Modal>
             <Text style={styles.welcome}>Welcome to Rich Messenger!</Text>
             <Text style={styles.instructions}>
-              Pleas Enter Your Phone Number To Get Started
+              Please Enter Your Phone Number To Get Started
             </Text>
 
             <Picker
@@ -360,7 +362,7 @@ class SignInPage extends Component {
             </Picker>
 
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ marginRight: 5 }}>
+              <Text style={{ marginRight: width / 72 }}>
                 {signInPageStore.countryCode}
               </Text>
               <TextInput
@@ -380,12 +382,12 @@ class SignInPage extends Component {
                 />
               </TouchableHighlight>
             </View>
-            <Button
-              title="START"
-              color="#9B59B6"
+            <TouchableHighlight
               onPress={() => (signInPageStore.modal2Visible = true)}
-              style={styles.loginButton}
-            />
+              style={styles.button}
+            >
+              <Text style={{ fontWeight: "bold" }}>START</Text>
+            </TouchableHighlight>
           </View>
         </ScrollView>
       </View>
@@ -405,52 +407,50 @@ const styles = StyleSheet.create({
     padding: "5%"
   },
   welcome: {
-    fontSize: 25,
+    fontSize: width / 14.4,
     textAlign: "center",
-    marginTop: 100,
-    marginBottom: 100
+    marginTop: width / 3.6,
+    marginBottom: width / 3.6
   },
   instructions: {
-    textAlign: "center",
-    color: "#9B59B6",
-    marginBottom: 5
+    marginBottom: width / 72
   },
   phoneText: {
     textAlign: "center",
-    borderBottomWidth: 2,
-    borderBottomColor: "#9B59B6",
-    marginBottom: 7,
-    padding: 2,
-    marginLeft: 5
+    borderBottomWidth: width / 180,
+    padding: width / 180,
+    marginBottom: width / 36,
+    borderRadius: 5
   },
   image: {
-    width: 20,
-    height: 20,
+    width: width / 18,
+    height: width / 18,
     resizeMode: "contain",
-    marginLeft: 15
+    marginLeft: width / 24
   },
   modalHeader: {
     marginTop: "3%",
     color: "white",
     marginBottom: "5%",
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: width / 18
   },
   modalBody: {
     color: "white",
     marginLeft: "5%",
     marginRight: "5%",
+    textAlign: "center",
     marginTop: "2%"
   },
   modalTouchable: {
-    borderWidth: 0.5,
+    borderWidth: width / 720,
     borderColor: "white",
-    borderRadius: 5,
-    padding: 3,
+    borderRadius: width / 72,
+    padding: width / 120,
     marginBottom: "7%"
   },
   modalView: {
-    borderWidth: 1.5,
+    borderWidth: width / 240,
     alignItems: "center",
     width: "85%"
   },
@@ -460,9 +460,12 @@ const styles = StyleSheet.create({
     paddingRight: "5%",
     paddingLeft: "5%"
   },
-  loginButton: {
-    textAlign: "center",
-    fontSize: 12
+  button: {
+    borderWidth: width / 180,
+    borderRadius: 5,
+    padding: "1%",
+    paddingRight: "6%",
+    paddingLeft: "6%"
   }
 });
 

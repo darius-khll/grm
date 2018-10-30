@@ -367,6 +367,7 @@ const styles = StyleSheet.create({
   },
   modalBody: {
     color: "white",
+    textAlign: "center",
     marginLeft: "5%",
     marginRight: "5%",
     marginTop: "2%"

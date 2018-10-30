@@ -130,22 +130,21 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   welcome: {
-    fontSize: 25,
+    fontSize: width / 14.4,
     textAlign: "center",
-    margin: 30,
-    marginBottom: 12
+    marginTop: width / 20,
+    marginBottom: width / 30
   },
   version: {
     textAlign: "center",
-    color: "#9B59B6",
-    marginBottom: 180
+    marginBottom: width / 2
   },
   creators: {
     textAlign: "center",
-    marginBottom: 15
+    marginBottom: width / 24
   },
   textStyle: {
-    fontSize: 18,
+    fontSize: width / 18,
     fontWeight: "bold",
     marginTop: "3%"
   }
