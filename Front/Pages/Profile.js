@@ -23,17 +23,17 @@ class Profile extends Component {
     animation: new Animated.Value(width / 8),
     animation2: new Animated.Value((7 * width) / 8),
     profileImage: {
-      marginRight: 30,
-      width: 75,
-      height: 75,
+      marginRight: width / 12,
+      width: width / 4.8,
+      height: width / 4.8,
       resizeMode: "contain",
-      margin: 2
+      margin: width / 180
     },
     imageStyle: {
       width: (0.85 * width) / 8,
       height: (0.85 * width) / 8,
       resizeMode: "contain",
-      margin: 2
+      margin: "3%"
     }
   };
 
@@ -159,9 +159,9 @@ class Profile extends Component {
             </View>
             <Text
               style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
+                margin: "1%",
+                marginTop: "4%",
+                borderBottomWidth: width / 720,
                 width: "85%"
               }}
             >
@@ -176,9 +176,9 @@ class Profile extends Component {
             </Text>
             <Text
               style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
+                margin: "1%",
+                marginTop: "4%",
+                borderBottomWidth: width / 720,
                 width: "85%"
               }}
             >
@@ -230,9 +230,9 @@ class Profile extends Component {
             </View>
             <Text
               style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
+                margin: "1%",
+                marginTop: "4%",
+                borderBottomWidth: width / 720,
                 width: "85%"
               }}
             >
@@ -262,9 +262,9 @@ class Profile extends Component {
             </View>
             <Text
               style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
+                margin: "1%",
+                marginTop: "4%",
+                borderBottomWidth: width / 720,
                 width: "85%"
               }}
             >
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   textStyle: {
-    fontSize: 18,
+    fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
   }

@@ -27,7 +27,7 @@ class Setting extends Component {
       width: (0.85 * width) / 8,
       height: (0.85 * width) / 8,
       resizeMode: "contain",
-      margin: 2
+      margin: "3%"
     }
   };
 
@@ -127,10 +127,10 @@ class Setting extends Component {
               <View style={{ alignItems: "center" }}>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: width / 22.5,
                     marginTop: "2%",
                     width: "90%",
-                    borderBottomWidth: 0.5,
+                    borderBottomWidth: width / 360,
                     marginBottom: "1%"
                   }}
                 >
@@ -138,10 +138,10 @@ class Setting extends Component {
                 </Text>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: width / 22.5,
                     marginTop: "5%",
                     width: "90%",
-                    borderBottomWidth: 0.5,
+                    borderBottomWidth: width / 360,
                     marginBottom: "1%"
                   }}
                 >
@@ -149,7 +149,7 @@ class Setting extends Component {
                 </Text>
                 <TouchableHighlight
                   style={{
-                    borderBottomWidth: 0.25,
+                    borderBottomWidth: width / 720,
                     width: "90%",
                     padding: "1%"
                   }}
@@ -159,7 +159,7 @@ class Setting extends Component {
                 </TouchableHighlight>
                 <TouchableHighlight
                   style={{
-                    borderBottomWidth: 0.25,
+                    borderBottomWidth: width / 720,
                     width: "90%",
                     padding: "1%"
                   }}
@@ -169,7 +169,7 @@ class Setting extends Component {
                 </TouchableHighlight>
                 <TouchableHighlight
                   style={{
-                    borderBottomWidth: 0.25,
+                    borderBottomWidth: width / 720,
                     width: "90%",
                     padding: "1%"
                   }}
@@ -179,10 +179,10 @@ class Setting extends Component {
                 </TouchableHighlight>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: width / 22.5,
                     marginTop: "5%",
                     width: "90%",
-                    borderBottomWidth: 0.5,
+                    borderBottomWidth: width / 360,
                     marginBottom: "1%"
                   }}
                 >
@@ -190,7 +190,7 @@ class Setting extends Component {
                 </Text>
                 <TouchableHighlight
                   style={{
-                    borderBottomWidth: 0.25,
+                    borderBottomWidth: width / 720,
                     width: "90%",
                     padding: "1%"
                   }}
@@ -200,7 +200,7 @@ class Setting extends Component {
                 </TouchableHighlight>
                 <TouchableHighlight
                   style={{
-                    borderBottomWidth: 0.25,
+                    borderBottomWidth: width / 720,
                     width: "90%",
                     padding: "1%"
                   }}
@@ -210,7 +210,7 @@ class Setting extends Component {
                 </TouchableHighlight>
                 <TouchableHighlight
                   style={{
-                    borderBottomWidth: 0.25,
+                    borderBottomWidth: width / 720,
                     width: "90%",
                     padding: "1%"
                   }}
@@ -220,10 +220,10 @@ class Setting extends Component {
                 </TouchableHighlight>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: width / 22.5,
                     marginTop: "5%",
                     width: "90%",
-                    borderBottomWidth: 0.5,
+                    borderBottomWidth: width / 360,
                     marginBottom: "1%"
                   }}
                 >
@@ -231,7 +231,7 @@ class Setting extends Component {
                 </Text>
                 <TouchableHighlight
                   style={{
-                    borderBottomWidth: 0.25,
+                    borderBottomWidth: width / 720,
                     width: "90%",
                     padding: "1%"
                   }}
@@ -241,7 +241,7 @@ class Setting extends Component {
                 </TouchableHighlight>
                 <TouchableHighlight
                   style={{
-                    borderBottomWidth: 0.25,
+                    borderBottomWidth: width / 720,
                     width: "90%",
                     padding: "1%"
                   }}
@@ -252,10 +252,10 @@ class Setting extends Component {
 
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: width / 22.5,
                     marginTop: "5%",
                     width: "90%",
-                    borderBottomWidth: 0.5,
+                    borderBottomWidth: width / 360,
                     marginBottom: "1%"
                   }}
                 >
@@ -263,7 +263,7 @@ class Setting extends Component {
                 </Text>
                 <TouchableHighlight
                   style={{
-                    borderBottomWidth: 0.25,
+                    borderBottomWidth: width / 720,
                     width: "90%",
                     padding: "1%"
                   }}
@@ -273,7 +273,7 @@ class Setting extends Component {
                 </TouchableHighlight>
                 <TouchableHighlight
                   style={{
-                    borderBottomWidth: 0.25,
+                    borderBottomWidth: width / 720,
                     width: "90%",
                     padding: "1%"
                   }}
@@ -297,13 +297,13 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   image: {
-    width: 40,
-    height: 40,
+    width: width / 9,
+    height: width / 9,
     resizeMode: "contain",
-    margin: 2
+    margin: width / 180
   },
   textStyle: {
-    fontSize: 18,
+    fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
   }

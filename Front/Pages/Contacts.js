@@ -31,7 +31,7 @@ class Contacts extends Component {
       width: (0.85 * width) / 8,
       height: (0.85 * width) / 8,
       resizeMode: "contain",
-      margin: 2
+      margin: "3%"
     }
   };
 
@@ -120,7 +120,7 @@ class Contacts extends Component {
           transparent={true}
           visible={contactsStore.isModalAdd}
           onRequestClose={() => {
-            this.setModal1Invisible();
+            this.setModalAddInvisible();
           }}
         >
           <View
@@ -145,7 +145,7 @@ class Contacts extends Component {
                 style={{
                   marginTop: "5%",
                   padding: "1%",
-                  borderBottmWidth: width / 720,
+                  borderBottomWidth: width / 720,
                   width: "70%",
                   color: "white"
                 }}
@@ -159,8 +159,8 @@ class Contacts extends Component {
               >
                 <TouchableHighlight
                   onPress={() => {
-                    this.setModal1Invisible();
-                    this.setModal2Visible();
+                    this.setModalAddInvisible();
+                    this.setModalFoundVisible();
                   }}
                   style={styles.modalTouchable}
                 >
@@ -171,7 +171,7 @@ class Contacts extends Component {
                 <View style={{ width: "5%" }} />
                 <TouchableHighlight
                   style={styles.modalTouchable}
-                  onPress={() => this.setModal1Invisible()}
+                  onPress={() => this.setModalAddInvisible()}
                 >
                   <Text style={styles.modalButton}>Cancle</Text>
                 </TouchableHighlight>
@@ -184,7 +184,7 @@ class Contacts extends Component {
           transparent={true}
           visible={contactsStore.isModalFound}
           onRequestClose={() => {
-            this.setModal2Invisible();
+            this.setModalFoundInvisible();
           }}
         >
           <View
@@ -226,7 +226,7 @@ class Contacts extends Component {
               >
                 <TouchableHighlight
                   onPress={() => {
-                    this.setModal2Invisible();
+                    this.setModalFoundInvisible();
                   }}
                   style={styles.modalTouchable}
                 >
@@ -235,7 +235,7 @@ class Contacts extends Component {
                 <View style={{ width: "10%" }} />
                 <TouchableHighlight
                   style={styles.modalTouchable}
-                  onPress={() => this.setModal2Invisible()}
+                  onPress={() => this.setModalFoundInvisible()}
                 >
                   <Text style={styles.modalButton}>Cancle</Text>
                 </TouchableHighlight>
@@ -261,7 +261,18 @@ class Contacts extends Component {
             style={{ width: this.state.animation2, alignItems: "center" }}
           >
             <Wallpaper source={require("../RES/background.jpg")} />
-            <TextInput placeholder="Search..." />
+            <TextInput
+              style={{
+                width: "90%",
+                borderBottomWidth: width / 360,
+                borderRadius: 5,
+                textAlign: "center",
+                fontSize: width / 22.5,
+                padding: "2%",
+                borderColor: "rgba(0,30,255,0.5)"
+              }}
+              placeholder="Search..."
+            />
             <SectionList
               style={{ width: "100%" }}
               sections={contactsStore.sections.slice()}
@@ -302,9 +313,10 @@ class Contacts extends Component {
                         borderTopWidth: width / 180,
                         borderRadius: 5,
                         width: "92%",
+                        marginTop: "1%",
                         marginLeft: "4%",
                         alignItems: "center",
-                        borderBottomWidth: 2
+                        borderBottomWidth: width / 180
                       }}
                     >
                       <Text style={{ marginLeft: 5 }}>{title}</Text>

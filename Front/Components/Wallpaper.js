@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Image } from "react-native";
 
-export default class BackGround extends Component {
+export default class Wallpaper extends Component {
   render() {
     return (
       <Image

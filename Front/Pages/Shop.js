@@ -27,7 +27,7 @@ class Shop extends Component {
       width: (0.85 * width) / 8,
       height: (0.85 * width) / 8,
       resizeMode: "contain",
-      margin: 2
+      margin: "3%"
     }
   };
 
@@ -125,7 +125,7 @@ class Shop extends Component {
             </Text>
             <View style={{ width: "90%" }}>
               <Text>You have 6 days left.</Text>
-              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
+              <Text style={{ borderBottomWidth: width / 720, marginTop: "3%" }}>
                 Buy some days!
               </Text>
               <ScrollView
@@ -158,8 +158,8 @@ class Shop extends Component {
                   style={styles.shopImage}
                 />
               </ScrollView>
-              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
-                Stickers
+              <Text style={{ borderBottomWidth: width / 720, marginTop: "3%" }}>
+                New Stickers
               </Text>
               <ScrollView
                 style={{ marginTop: "2%" }}
@@ -191,8 +191,8 @@ class Shop extends Component {
                   style={styles.shopImage}
                 />
               </ScrollView>
-              <Text style={{ borderBottomWidth: 0.5, marginTop: "3%" }}>
-                Profile Images
+              <Text style={{ borderBottomWidth: width / 720, marginTop: "3%" }}>
+                New Themes
               </Text>
               <ScrollView
                 style={{ marginTop: "2%" }}
@@ -239,13 +239,13 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   shopImage: {
-    width: 65,
-    height: 65,
+    width: width / 5.5,
+    height: width / 5.5,
     resizeMode: "contain",
-    marginLeft: 5
+    marginLeft: width / 72
   },
   textStyle: {
-    fontSize: 18,
+    fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
   }

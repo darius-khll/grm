@@ -27,12 +27,12 @@ class MyProfile extends Component {
       width: (0.85 * width) / 8,
       height: (0.85 * width) / 8,
       resizeMode: "contain",
-      margin: 2
+      margin: "3%"
     },
     profileImage: {
-      marginRight: 30,
-      width: 75,
-      height: 75,
+      marginRight: width / 12,
+      width: width / 4.8,
+      height: width / 4.8,
       resizeMode: "contain"
     }
   };
@@ -164,9 +164,9 @@ class MyProfile extends Component {
             </View>
             <Text
               style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
+                margin: "1%",
+                marginTop: "4%",
+                borderBottomWidth: width / 720,
                 width: "85%"
               }}
             >
@@ -181,9 +181,9 @@ class MyProfile extends Component {
             </Text>
             <Text
               style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
+                margin: "1%",
+                marginTop: "4%",
+                borderBottomWidth: width / 720,
                 width: "85%"
               }}
             >
@@ -246,9 +246,9 @@ class MyProfile extends Component {
             </View>
             <Text
               style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
+                margin: "1%",
+                marginTop: "4%",
+                borderBottomWidth: width / 720,
                 width: "85%"
               }}
             >
@@ -278,9 +278,9 @@ class MyProfile extends Component {
             </View>
             <Text
               style={{
-                margin: 5,
-                marginTop: 15,
-                borderBottomWidth: 0.5,
+                margin: "1%",
+                marginTop: "4%",
+                borderBottomWidth: width / 720,
                 width: "85%"
               }}
             >
@@ -322,14 +322,14 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   textStyle: {
-    fontSize: 18,
+    fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
   },
   profileImage: {
     marginRight: 30,
-    width: 75,
-    height: 75,
+    width: width / 4.8,
+    height: width / 4.8,
     resizeMode: "contain"
   },
   button: {

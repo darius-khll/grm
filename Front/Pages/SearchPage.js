@@ -10,7 +10,7 @@ class BasedOnID extends React.Component {
         <Wallpaper source={require("../RES/background.jpg")} />
         <TextInput
           textContentType="username"
-          style={{ width: "90%", borderBottomWidth: 1 }}
+          style={{ width: "90%", borderBottomWidth: width / 360 }}
           placeholder="search for ID"
         />
       </View>
@@ -25,7 +25,7 @@ class BasedOnPhoneNumber extends React.Component {
         <Wallpaper source={require("../RES/background.jpg")} />
         <TextInput
           textContentType="telephoneNumber"
-          style={{ width: "90%", borderBottomWidth: 1 }}
+          style={{ width: "90%", borderBottomWidth: width / 360 }}
           placeholder="Search for Phone Number"
         />
       </View>

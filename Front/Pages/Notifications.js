@@ -19,7 +19,7 @@ class Notifications extends Component {
       width: (0.85 * width) / 8,
       height: (0.85 * width) / 8,
       resizeMode: "contain",
-      margin: 2
+      margin: "3%"
     }
   };
 
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   textStyle: {
-    fontSize: 18,
+    fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
   }
