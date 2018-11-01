@@ -1,6 +1,6 @@
 import "reflect-metadata"; //should be at first of line
-import * as express from "express"
-import { InversifyExpressServer } from 'inversify-express-utils';
+import * as express from "express";
+import { InversifyExpressServer } from "inversify-express-utils";
 import * as bodyParser from "body-parser";
 import { Container } from "inversify";
 
@@ -17,38 +17,38 @@ require("./implementation/container")(container);
 let server = new InversifyExpressServer(container);
 
 declare global {
-    namespace Express {
-        interface Request {
-            session: any
-        }
+  namespace Express {
+    interface Request {
+      session: any;
     }
+  }
 }
 
-server.setConfig((app) => {
-    require('./implementation/auth')(app);
+server.setConfig(app => {
+  require("./implementation/auth")(app);
 
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
 
-    //require("./implementation/passport")(app);
-    require("./implementation/passportLocal")(app);
-    //require("./implementation/passportGoogle")(app);
+  //require("./implementation/passport")(app);
+  require("./implementation/passportLocal")(app);
+  //require("./implementation/passportGoogle")(app);
 
+  app.get("/", (req: express.Request, res, next) => {
+    let a = req.user;
+    res.end("done");
+    //res.status(500);
+  });
 
-    app.get("/", (req: express.Request, res, next) => {
-        let a = req.user;
-        res.end("done")
-        //res.status(500);
-    })
-
-    require('./implementation/log')(app);
-
+  require("./implementation/log")(app);
 });
 
 require("./implementation/route");
 
 let app = server.build();
-app.listen(3000, () => { console.log("start!") });
+app.listen(3000, () => {
+  console.log("start!");
+});
 
 //vs code File => Preferences => Settings
 // {
