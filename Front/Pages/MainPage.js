@@ -132,60 +132,23 @@ class MainPage extends Component {
                 padding: "2%",
                 borderColor: "rgba(0,30,255,0.5)"
               }}
+              onChangeText={text => {
+                if (text.length > 0) {
+                  mainPageStore.flatListData = [];
+                  mainPageStore.flatList.forEach(item => {
+                    if (item.key.toLowerCase().includes(text.toLowerCase())) {
+                      mainPageStore.flatListData.push(item);
+                    }
+                  });
+                } else {
+                  mainPageStore.flatListData = mainPageStore.flatList;
+                }
+              }}
               placeholder="Search..."
             />
             <FlatList
               style={{ width: "100%" }}
-              data={[
-                {
-                  key: "Devin",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Jackson",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "James",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Joel",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "John",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Jillian",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Jimmy",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                },
-                {
-                  key: "Julie",
-                  image: require("../RES/sampleprofileimage.jpg"),
-                  lastMessage: "The last Message",
-                  date: "16:05"
-                }
-              ]}
+              data={mainPageStore.flatListData}
               renderItem={({ item }) => {
                 return (
                   <TouchableHighlight
