@@ -5,6 +5,7 @@ import {
   View,
   Dimensions,
   ScrollView,
+  Linking,
   TextInput,
   Modal,
   TouchableHighlight
@@ -159,7 +160,19 @@ class CheckCode extends Component {
                 marginBottom: "5%"
               }}
             >
-              <Text>I accept the user agreement!</Text>
+              <Text>I accept </Text>
+              <TouchableHighlight
+                style={{
+                  borderBottomWidth: width / 720,
+                  borderBottomColor: "blue"
+                }}
+                onPress={() => {
+                  Linking.openURL("http://www.google.com");
+                }}
+              >
+                <Text style={{ color: "blue" }}>User Agreement!</Text>
+              </TouchableHighlight>
+              <View style={{ width: width / 36 }} />
               <CheckBox
                 onClick={() =>
                   (checkCodeStore.isCheckedAgree = !checkCodeStore.isCheckedAgree)
