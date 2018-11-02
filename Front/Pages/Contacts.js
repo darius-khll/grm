@@ -18,12 +18,28 @@ import contactsStore from "../MobX/ContactsStore";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
+import { action } from "mobx";
 let { width } = Dimensions.get("window");
 
 @observer
 class Contacts extends Component {
   static navigationOptions = { header: null };
-
+  actions = [
+    {
+      text: "Add New Friend",
+      icon: require("../RES/addnewcontact.png"),
+      color: "black",
+      name: "addNewContact",
+      position: 2
+    },
+    {
+      text: "Search",
+      color: "black",
+      icon: require("../RES/search.png"),
+      name: "search",
+      position: 1
+    }
+  ];
   state = {
     animation: new Animated.Value(width / 8),
     animation2: new Animated.Value((7 * width) / 8),
@@ -32,7 +48,307 @@ class Contacts extends Component {
       height: (0.85 * width) / 8,
       resizeMode: "contain",
       margin: "3%"
-    }
+    },
+    sections: [
+      {
+        title: "#",
+        data: []
+      },
+      {
+        title: "A",
+        data: [
+          {
+            name: "Ali",
+            image: require("../RES/sampleprofileimage.jpg")
+          },
+          {
+            name: "Arash",
+            image: require("../RES/sampleprofileimage.jpg")
+          }
+        ]
+      },
+      {
+        title: "B",
+        data: []
+      },
+      {
+        title: "C",
+        data: []
+      },
+      {
+        title: "D",
+        data: []
+      },
+      {
+        title: "E",
+        data: []
+      },
+      {
+        title: "F",
+        data: [
+          {
+            name: "Farid",
+            image: require("../RES/sampleprofileimage.jpg")
+          },
+          {
+            name: "Farbod",
+            image: require("../RES/sampleprofileimage.jpg")
+          }
+        ]
+      },
+      {
+        title: "G",
+        data: []
+      },
+      {
+        title: "H",
+        data: []
+      },
+      {
+        title: "I",
+        data: []
+      },
+      {
+        title: "J",
+        data: [
+          {
+            name: "Jason",
+            image: require("../RES/sampleprofileimage.jpg")
+          },
+          {
+            name: "Jili",
+            image: require("../RES/sampleprofileimage.jpg")
+          }
+        ]
+      },
+      {
+        title: "K",
+        data: []
+      },
+      {
+        title: "L",
+        data: []
+      },
+      {
+        title: "M",
+        data: []
+      },
+      {
+        title: "N",
+        data: []
+      },
+      {
+        title: "O",
+        data: []
+      },
+      {
+        title: "P",
+        data: []
+      },
+      {
+        title: "Q",
+        data: []
+      },
+      {
+        title: "R",
+        data: []
+      },
+      {
+        title: "S",
+        data: []
+      },
+      {
+        title: "T",
+        data: []
+      },
+      {
+        title: "U",
+        data: []
+      },
+      {
+        title: "V",
+        data: []
+      },
+      {
+        title: "W",
+        data: []
+      },
+      {
+        title: "X",
+        data: []
+      },
+      {
+        title: "Y",
+        data: [
+          {
+            name: "Yazdan",
+            image: require("../RES/sampleprofileimage.jpg")
+          },
+          {
+            name: "Yas",
+            image: require("../RES/sampleprofileimage.jpg")
+          }
+        ]
+      },
+      {
+        title: "Z",
+        data: []
+      },
+      {
+        title: "Others",
+        data: []
+      }
+    ],
+    sectionsData: [
+      {
+        title: "#",
+        data: []
+      },
+      {
+        title: "A",
+        data: [
+          {
+            name: "Ali",
+            image: require("../RES/sampleprofileimage.jpg")
+          },
+          {
+            name: "Arash",
+            image: require("../RES/sampleprofileimage.jpg")
+          }
+        ]
+      },
+      {
+        title: "B",
+        data: []
+      },
+      {
+        title: "C",
+        data: []
+      },
+      {
+        title: "D",
+        data: []
+      },
+      {
+        title: "E",
+        data: []
+      },
+      {
+        title: "F",
+        data: [
+          {
+            name: "Farid",
+            image: require("../RES/sampleprofileimage.jpg")
+          },
+          {
+            name: "Farbod",
+            image: require("../RES/sampleprofileimage.jpg")
+          }
+        ]
+      },
+      {
+        title: "G",
+        data: []
+      },
+      {
+        title: "H",
+        data: []
+      },
+      {
+        title: "I",
+        data: []
+      },
+      {
+        title: "J",
+        data: [
+          {
+            name: "Jason",
+            image: require("../RES/sampleprofileimage.jpg")
+          },
+          {
+            name: "Jili",
+            image: require("../RES/sampleprofileimage.jpg")
+          }
+        ]
+      },
+      {
+        title: "K",
+        data: []
+      },
+      {
+        title: "L",
+        data: []
+      },
+      {
+        title: "M",
+        data: []
+      },
+      {
+        title: "N",
+        data: []
+      },
+      {
+        title: "O",
+        data: []
+      },
+      {
+        title: "P",
+        data: []
+      },
+      {
+        title: "Q",
+        data: []
+      },
+      {
+        title: "R",
+        data: []
+      },
+      {
+        title: "S",
+        data: []
+      },
+      {
+        title: "T",
+        data: []
+      },
+      {
+        title: "U",
+        data: []
+      },
+      {
+        title: "V",
+        data: []
+      },
+      {
+        title: "W",
+        data: []
+      },
+      {
+        title: "X",
+        data: []
+      },
+      {
+        title: "Y",
+        data: [
+          {
+            name: "Yazdan",
+            image: require("../RES/sampleprofileimage.jpg")
+          },
+          {
+            name: "Yas",
+            image: require("../RES/sampleprofileimage.jpg")
+          }
+        ]
+      },
+      {
+        title: "Z",
+        data: []
+      },
+      {
+        title: "Others",
+        data: []
+      }
+    ]
   };
 
   componentWillMount() {
@@ -271,11 +587,42 @@ class Contacts extends Component {
                 padding: "2%",
                 borderColor: "rgba(0,30,255,0.5)"
               }}
+              onChangeText={text => {
+                if (text.length > 0) {
+                  this.state.sectionsData = [];
+                  for (item of this.state.sections) {
+                    for (contacts of item.data) {
+                      if (
+                        contacts.name.toLowerCase().includes(text.toLowerCase())
+                      ) {
+                        let sectit = this.state.sectionsData.find(secdat => {
+                          return secdat.title === item.title;
+                        });
+                        if (sectit) {
+                          sectit.data.push(contacts);
+                        } else {
+                          this.state.sectionsData = [
+                            ...this.state.sectionsData,
+                            { title: item.title, data: [] }
+                          ];
+                          let sectit = this.state.sectionsData.find(secdat => {
+                            return secdat.title === item.title;
+                          });
+                          sectit.data.push(contacts);
+                        }
+                      }
+                    }
+                  }
+                  this.setState({ sectionsData: [...this.state.sectionsData] });
+                } else {
+                  this.setState({ sectionsData: this.state.sections });
+                }
+              }}
               placeholder="Search..."
             />
             <SectionList
               style={{ width: "100%" }}
-              sections={contactsStore.sections.slice()}
+              sections={this.state.sectionsData}
               renderItem={({ item }) => {
                 return (
                   <View style={{ alignItems: "center" }}>
@@ -329,7 +676,8 @@ class Contacts extends Component {
         </View>
         <FloatingAction
           visible={!contactsStore.expanded}
-          actions={contactsStore.actions}
+          listenKeyboard={true}
+          actions={this.actions}
           color="black"
           onPressItem={name => {
             if (name === "search") this.props.navigation.navigate("SearchPage");
