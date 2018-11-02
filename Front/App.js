@@ -22,6 +22,8 @@ import MainPage from "./Pages/MainPage";
 import About from "./Pages/About";
 import Setting from "./Pages/Setting";
 import Profile from "./Pages/Profile";
+import Stickers from "./Pages/Stickers";
+import Themes from "./Pages/Themes";
 import Contacts from "./Pages/Contacts";
 import ChatPage from "./Pages/ChatPage";
 import Shop from "./Pages/Shop";
@@ -61,6 +63,22 @@ const RootStack = createStackNavigator(
       screen: MainPage,
       navigationOptions: {
         title: "Rich Messenger",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
+    },
+    Themes: {
+      screen: Themes,
+      navigationOptions: {
+        title: "Themes",
+        headerStyle: { backgroundColor: "#2196f3" },
+        headerTintColor: "#fff"
+      }
+    },
+    Stickers: {
+      screen: Stickers,
+      navigationOptions: {
+        title: "Stickers",
         headerStyle: { backgroundColor: "#2196f3" },
         headerTintColor: "#fff"
       }

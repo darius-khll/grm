@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Animated,
+  TouchableHighlight,
   ScrollView,
   Dimensions,
   Image
@@ -224,6 +225,35 @@ class Shop extends Component {
                   style={styles.shopImage}
                 />
               </ScrollView>
+              <View style={{ height: "7%" }} />
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignContent: "center"
+                }}
+              >
+                <TouchableHighlight
+                  onPress={() => {
+                    this.props.navigation.navigate("Stickers");
+                  }}
+                  style={styles.button}
+                >
+                  <Text style={{ fontSize: width / 20, fontWeight: "bold" }}>
+                    All Stickers
+                  </Text>
+                </TouchableHighlight>
+                <View style={{ width: "10%" }} />
+                <TouchableHighlight
+                  onPress={() => {
+                    this.props.navigation.navigate("Themes");
+                  }}
+                  style={styles.button}
+                >
+                  <Text style={{ fontSize: width / 22, fontWeight: "bold" }}>
+                    All Themes
+                  </Text>
+                </TouchableHighlight>
+              </View>
             </View>
           </Animated.View>
         </View>
@@ -248,6 +278,14 @@ const styles = StyleSheet.create({
     fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
+  },
+  button: {
+    marginTop: "7%",
+    borderWidth: width / 180,
+    borderRadius: 5,
+    padding: "1%",
+    paddingRight: "6%",
+    paddingLeft: "6%"
   }
 });
 

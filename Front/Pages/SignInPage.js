@@ -16,7 +16,7 @@ import { observer } from "mobx-react";
 import signInPageStore from "../MobX/SignInPageStore";
 import Wallpaper from "../Components/Wallpaper";
 
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 @observer
 class SignInPage extends Component {
