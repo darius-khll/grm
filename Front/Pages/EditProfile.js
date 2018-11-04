@@ -3,6 +3,7 @@ import {
   StyleSheet,
   ScrollView,
   Text,
+  Modal,
   View,
   TouchableHighlight,
   Picker,
@@ -17,8 +18,12 @@ import CheckBox from "react-native-check-box";
 import editProfileStore from "../MobX/EditProfileStore";
 import { observer } from "mobx-react";
 import Wallpaper from "../Components/Wallpaper";
+import Axios from "axios";
 
 const { width } = Dimensions.get("window");
+const requester = Axios.create({
+  baseURL: "https://localhost:3000/api/editprofile"
+});
 
 @observer
 class EditProfile extends Component {
@@ -26,10 +31,34 @@ class EditProfile extends Component {
   state = {
     date: new Date()
   };
-  showDateTimePicker = () => (editProfileStore.isDateTimePickerVisible = true);
 
+  componentWillMount() {
+    requester
+      .post("/get", {
+        uniqueId: "_id"
+      })
+      .then(response => {
+        if (response.status === 200) {
+          editProfileStore.bio = response.data.bio;
+          editProfileStore.name = response.data.name;
+          editProfileStore.id = response.data.id;
+          editProfileStore.city = response.data.city;
+          editProfileStore.email = response.data.email;
+          editProfileStore.phoneNumber = response.data.phoneNumber;
+          editProfileStore.isCheckedPhone = response.data.showPhoneNumber;
+          editProfileStore.isCheckedEmail = response.data.showEmail;
+          editProfileStore.country = response.data.country;
+          editProfileStore.data.find(gender => {
+            if (gender.lable === response.data.gender) {
+              gender.selected = true;
+            } else gender.selected = false;
+          });
+          this.setState({ date: response.data.birthDate });
+        }
+      });
+  }
   hideDateTimePicker = () => (editProfileStore.isDateTimePickerVisible = false);
-
+  setModalInvisible = () => (editProfileStore.isModalWrong = false);
   handleDatePicked = date => {
     this.setState({
       date
@@ -40,6 +69,49 @@ class EditProfile extends Component {
       <View style={styles.container}>
         <Wallpaper source={require("../RES/background.jpg")} />
         <ScrollView style={{ width: "100%" }}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={editProfileStore.isModalWrong}
+            onRequestClose={() => {
+              this.setModalInvisible();
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(0,0,0,0.5)"
+              }}
+            >
+              {this.props.children}
+              <View style={styles.modalView}>
+                <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                <Text style={styles.modalHeader}>Action Incomplete</Text>
+                <Text style={styles.modalBody}>
+                  Something went wrong. Please try again later.
+                </Text>
+                <View
+                  style={{
+                    marginTop: "10%",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "flex-end"
+                  }}
+                >
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>OK</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </Modal>
           <View style={{ padding: "5%", paddingTop: "3%" }}>
             <Text
               style={{
@@ -90,7 +162,9 @@ class EditProfile extends Component {
               <TextInput
                 style={{ padding: width / 120 }}
                 placeholder="Edit Your Bio"
-              />
+              >
+                {editProfileStore.bio}
+              </TextInput>
             </View>
             <Text
               style={{
@@ -111,7 +185,9 @@ class EditProfile extends Component {
               <TextInput
                 style={{ padding: width / 120 }}
                 placeholder="Name (Required)"
-              />
+              >
+                {editProfileStore.name}
+              </TextInput>
               <TextInput style={{ padding: width / 120 }} placeholder="ID" />
               <View
                 style={{
@@ -138,7 +214,9 @@ class EditProfile extends Component {
                 <Text>Birth Date:</Text>
                 <Text>{this.state.date.toDateString()}</Text>
                 <TouchableHighlight
-                  onPress={() => this.showDateTimePicker}
+                  onPress={() =>
+                    (editProfileStore.isDateTimePickerVisible = true)
+                  }
                   style={styles.button}
                 >
                   <Text style={{ fontWeight: "bold" }}>Pick a Date</Text>
@@ -445,7 +523,9 @@ class EditProfile extends Component {
                   <Picker.Item label="Other" value="Other" />
                 </Picker>
               </View>
-              <TextInput style={{ padding: width / 120 }} placeholder="City" />
+              <TextInput style={{ padding: width / 120 }} placeholder="City">
+                {editProfileStore.city}
+              </TextInput>
             </View>
             <Text
               style={{
@@ -471,10 +551,9 @@ class EditProfile extends Component {
                   justifyContent: "space-between"
                 }}
               >
-                <TextInput
-                  style={{ padding: width / 120 }}
-                  placeholder="Email"
-                />
+                <TextInput style={{ padding: width / 120 }} placeholder="Email">
+                  {editProfileStore.email}
+                </TextInput>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text>Show</Text>
                   <CheckBox
@@ -495,7 +574,9 @@ class EditProfile extends Component {
                 <TextInput
                   style={{ padding: width / 120 }}
                   placeholder="Phone Number (Required)"
-                />
+                >
+                  {editProfileStore.phoneNumber}
+                </TextInput>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text>Show</Text>
                   <CheckBox
@@ -515,7 +596,31 @@ class EditProfile extends Component {
                 justifyContent: "space-around"
               }}
             >
-              <TouchableHighlight onPress={() => {}} style={styles.button}>
+              <TouchableHighlight
+                onPress={() => {
+                  requester
+                    .post("/save", {
+                      uniqueId: "_id",
+                      bio: editProfileStore.bio,
+                      name: editProfileStore.name,
+                      id: editProfileStore.id,
+                      city: editProfileStore.city,
+                      email: editProfileStore.email,
+                      phoneNumber: editProfileStore.phoneNumber,
+                      showPhoneNumber: editProfileStore.isCheckedPhone,
+                      showEmail: editProfileStore.isCheckedEmail,
+                      country: editProfileStore.country,
+                      gender: editProfileStore.data.find(gender => {
+                        return gender.selected === true;
+                      }),
+                      birthDate: this.state.date
+                    })
+                    .catch(e => {
+                      editProfileStore.isModalWrong = true;
+                    });
+                }}
+                style={styles.button}
+              >
                 <Text style={{ fontWeight: "bold" }}>Save</Text>
               </TouchableHighlight>
             </View>
@@ -523,6 +628,7 @@ class EditProfile extends Component {
               isVisible={editProfileStore.isDateTimePickerVisible}
               onConfirm={this.handleDatePicked}
               onCancel={this.hideDateTimePicker}
+              date={this.state.date}
             />
           </View>
         </ScrollView>
@@ -548,6 +654,38 @@ const styles = StyleSheet.create({
     padding: "1%",
     paddingRight: "6%",
     paddingLeft: "6%"
+  },
+  modalHeader: {
+    marginTop: "3%",
+    color: "white",
+    marginBottom: "5%",
+    fontWeight: "bold",
+    fontSize: width / 18
+  },
+  modalBody: {
+    color: "white",
+    marginLeft: "5%",
+    marginRight: "5%",
+    textAlign: "center",
+    marginTop: "2%"
+  },
+  modalTouchable: {
+    borderWidth: width / 720,
+    borderColor: "white",
+    borderRadius: width / 72,
+    padding: width / 120,
+    marginBottom: "7%"
+  },
+  modalView: {
+    borderWidth: width / 240,
+    alignItems: "center",
+    width: "85%"
+  },
+  modalButton: {
+    color: "white",
+    fontWeight: "bold",
+    paddingRight: "5%",
+    paddingLeft: "5%"
   }
 });
 
