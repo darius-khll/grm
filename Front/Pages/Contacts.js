@@ -11,19 +11,110 @@ import {
   SectionList,
   TouchableHighlight
 } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator, HeaderBackButton } from "react-navigation";
 import { FloatingAction } from "react-native-floating-action";
 import Wallpaper from "../Components/Wallpaper";
 import contactsStore from "../MobX/ContactsStore";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
-import { action } from "mobx";
 let { width } = Dimensions.get("window");
 
 @observer
 class Contacts extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = ({ navigation }) => {
+    let { params = {} } = navigation.state;
+    return {
+      headerTitle: params.serachExpanded ? (
+        <TextInput
+          style={{ fontSize: width / 20, marginLeft: "5%", width: "70%" }}
+          placeholder="search..."
+          onChangeText={text => {
+            if (text.length > 0) {
+              contactsStore.sectionsData = [];
+              for (item of contactsStore.sections) {
+                for (contacts of item.data) {
+                  if (
+                    contacts.name.toLowerCase().includes(text.toLowerCase())
+                  ) {
+                    let sectit = contactsStore.dataSource.find(secdat => {
+                      return secdat.title === item.title;
+                    });
+                    if (sectit) {
+                      sectit.data.push(contacts);
+                    } else {
+                      contactsStore.sectionsData = [
+                        ...contactsStore.dataSource,
+                        { title: item.title, data: [] }
+                      ];
+                      let sectit = contactsStore.dataSource.find(secdat => {
+                        return secdat.title === item.title;
+                      });
+                      sectit.data.push(contacts);
+                    }
+                  }
+                }
+              }
+              contactsStore.sectionsData = [...contactsStore.sectionsData];
+            } else {
+              contactsStore.sectionsData = contactsStore.dataSections;
+            }
+          }}
+        />
+      ) : (
+        "Friends"
+      ),
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+      headerRight: (
+        <View
+          style={{
+            flexDirection: "row-reverse",
+            marginLeft: 8,
+            alignItems: "center"
+          }}
+        >
+          <TouchableHighlight
+            style={params.serachExpanded ? { width: 0, height: 0 } : {}}
+            onPress={() => navigation.navigate("Notifications")}
+          >
+            <Image
+              source={require("../RES/notification.png")}
+              style={
+                params.serachExpanded
+                  ? { width: 0, height: 0 }
+                  : { width: 40, height: 40, resizeMode: "contain" }
+              }
+            />
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => {
+              navigation.setParams({ serachExpanded: !params.serachExpanded });
+            }}
+          >
+            <Image
+              source={
+                !params.serachExpanded
+                  ? require("../RES/searchheader.png")
+                  : require("../RES/close.png")
+              }
+              style={
+                !params.serachExpanded
+                  ? { width: 40, height: 40, resizeMode: "contain" }
+                  : {
+                      width: 30,
+                      height: 30,
+                      marginRight: 5,
+                      resizeMode: "contain"
+                    }
+              }
+            />
+          </TouchableHighlight>
+        </View>
+      )
+    };
+  };
   actions = [
     {
       text: "Add New Friend",
@@ -48,309 +139,8 @@ class Contacts extends Component {
       height: (0.85 * width) / 8,
       resizeMode: "contain",
       margin: "3%"
-    },
-    sections: [
-      {
-        title: "#",
-        data: []
-      },
-      {
-        title: "A",
-        data: [
-          {
-            name: "Ali",
-            image: require("../RES/sampleprofileimage.jpg")
-          },
-          {
-            name: "Arash",
-            image: require("../RES/sampleprofileimage.jpg")
-          }
-        ]
-      },
-      {
-        title: "B",
-        data: []
-      },
-      {
-        title: "C",
-        data: []
-      },
-      {
-        title: "D",
-        data: []
-      },
-      {
-        title: "E",
-        data: []
-      },
-      {
-        title: "F",
-        data: [
-          {
-            name: "Farid",
-            image: require("../RES/sampleprofileimage.jpg")
-          },
-          {
-            name: "Farbod",
-            image: require("../RES/sampleprofileimage.jpg")
-          }
-        ]
-      },
-      {
-        title: "G",
-        data: []
-      },
-      {
-        title: "H",
-        data: []
-      },
-      {
-        title: "I",
-        data: []
-      },
-      {
-        title: "J",
-        data: [
-          {
-            name: "Jason",
-            image: require("../RES/sampleprofileimage.jpg")
-          },
-          {
-            name: "Jili",
-            image: require("../RES/sampleprofileimage.jpg")
-          }
-        ]
-      },
-      {
-        title: "K",
-        data: []
-      },
-      {
-        title: "L",
-        data: []
-      },
-      {
-        title: "M",
-        data: []
-      },
-      {
-        title: "N",
-        data: []
-      },
-      {
-        title: "O",
-        data: []
-      },
-      {
-        title: "P",
-        data: []
-      },
-      {
-        title: "Q",
-        data: []
-      },
-      {
-        title: "R",
-        data: []
-      },
-      {
-        title: "S",
-        data: []
-      },
-      {
-        title: "T",
-        data: []
-      },
-      {
-        title: "U",
-        data: []
-      },
-      {
-        title: "V",
-        data: []
-      },
-      {
-        title: "W",
-        data: []
-      },
-      {
-        title: "X",
-        data: []
-      },
-      {
-        title: "Y",
-        data: [
-          {
-            name: "Yazdan",
-            image: require("../RES/sampleprofileimage.jpg")
-          },
-          {
-            name: "Yas",
-            image: require("../RES/sampleprofileimage.jpg")
-          }
-        ]
-      },
-      {
-        title: "Z",
-        data: []
-      },
-      {
-        title: "Others",
-        data: []
-      }
-    ],
-    sectionsData: [
-      {
-        title: "#",
-        data: []
-      },
-      {
-        title: "A",
-        data: [
-          {
-            name: "Ali",
-            image: require("../RES/sampleprofileimage.jpg")
-          },
-          {
-            name: "Arash",
-            image: require("../RES/sampleprofileimage.jpg")
-          }
-        ]
-      },
-      {
-        title: "B",
-        data: []
-      },
-      {
-        title: "C",
-        data: []
-      },
-      {
-        title: "D",
-        data: []
-      },
-      {
-        title: "E",
-        data: []
-      },
-      {
-        title: "F",
-        data: [
-          {
-            name: "Farid",
-            image: require("../RES/sampleprofileimage.jpg")
-          },
-          {
-            name: "Farbod",
-            image: require("../RES/sampleprofileimage.jpg")
-          }
-        ]
-      },
-      {
-        title: "G",
-        data: []
-      },
-      {
-        title: "H",
-        data: []
-      },
-      {
-        title: "I",
-        data: []
-      },
-      {
-        title: "J",
-        data: [
-          {
-            name: "Jason",
-            image: require("../RES/sampleprofileimage.jpg")
-          },
-          {
-            name: "Jili",
-            image: require("../RES/sampleprofileimage.jpg")
-          }
-        ]
-      },
-      {
-        title: "K",
-        data: []
-      },
-      {
-        title: "L",
-        data: []
-      },
-      {
-        title: "M",
-        data: []
-      },
-      {
-        title: "N",
-        data: []
-      },
-      {
-        title: "O",
-        data: []
-      },
-      {
-        title: "P",
-        data: []
-      },
-      {
-        title: "Q",
-        data: []
-      },
-      {
-        title: "R",
-        data: []
-      },
-      {
-        title: "S",
-        data: []
-      },
-      {
-        title: "T",
-        data: []
-      },
-      {
-        title: "U",
-        data: []
-      },
-      {
-        title: "V",
-        data: []
-      },
-      {
-        title: "W",
-        data: []
-      },
-      {
-        title: "X",
-        data: []
-      },
-      {
-        title: "Y",
-        data: [
-          {
-            name: "Yazdan",
-            image: require("../RES/sampleprofileimage.jpg")
-          },
-          {
-            name: "Yas",
-            image: require("../RES/sampleprofileimage.jpg")
-          }
-        ]
-      },
-      {
-        title: "Z",
-        data: []
-      },
-      {
-        title: "Others",
-        data: []
-      }
-    ]
+    }
   };
-
   componentWillMount() {
     this.props.navigation.addListener("didBlur", () => {
       if (contactsStore.expanded) this.toggle();
@@ -452,7 +242,7 @@ class Contacts extends Component {
               <Wallpaper source={require("../RES/modalbackground.jpg")} />
               <Text style={styles.modalHeader}>Add New Contact</Text>
               <Text style={styles.modalBody}>
-                Please Enter The Number of your new contact:{" "}
+                Please Enter The Number of your new contact:
               </Text>
               <TextInput
                 placeholder="Number"
@@ -577,52 +367,10 @@ class Contacts extends Component {
             style={{ width: this.state.animation2, alignItems: "center" }}
           >
             <Wallpaper source={require("../RES/background.jpg")} />
-            <TextInput
-              style={{
-                width: "90%",
-                borderBottomWidth: width / 360,
-                borderRadius: 5,
-                textAlign: "center",
-                fontSize: width / 22.5,
-                padding: "2%",
-                borderColor: "rgba(0,30,255,0.5)"
-              }}
-              onChangeText={text => {
-                if (text.length > 0) {
-                  this.state.sectionsData = [];
-                  for (item of this.state.sections) {
-                    for (contacts of item.data) {
-                      if (
-                        contacts.name.toLowerCase().includes(text.toLowerCase())
-                      ) {
-                        let sectit = this.state.sectionsData.find(secdat => {
-                          return secdat.title === item.title;
-                        });
-                        if (sectit) {
-                          sectit.data.push(contacts);
-                        } else {
-                          this.state.sectionsData = [
-                            ...this.state.sectionsData,
-                            { title: item.title, data: [] }
-                          ];
-                          let sectit = this.state.sectionsData.find(secdat => {
-                            return secdat.title === item.title;
-                          });
-                          sectit.data.push(contacts);
-                        }
-                      }
-                    }
-                  }
-                  this.setState({ sectionsData: [...this.state.sectionsData] });
-                } else {
-                  this.setState({ sectionsData: this.state.sections });
-                }
-              }}
-              placeholder="Search..."
-            />
+
             <SectionList
               style={{ width: "100%" }}
-              sections={this.state.sectionsData}
+              sections={contactsStore.dataSource}
               renderItem={({ item }) => {
                 return (
                   <View style={{ alignItems: "center" }}>

@@ -20,7 +20,66 @@ let { width } = Dimensions.get("window");
 
 @observer
 class MainPage extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = ({ navigation }) => {
+    let { params = {} } = navigation.state;
+    return {
+      headerTitle: params.serachExpanded ? (
+        <TextInput
+          style={{ fontSize: width / 20, marginLeft: "5%", width: "70%" }}
+          placeholder="search..."
+          onChangeText={text => {
+            if (text.length > 0) {
+              mainPageStore.flatListData = [];
+              mainPageStore.flatList.forEach(item => {
+                if (item.key.toLowerCase().includes(text.toLowerCase())) {
+                  mainPageStore.flatListData.push(item);
+                }
+              });
+            } else {
+              mainPageStore.flatListData = mainPageStore.flatList;
+            }
+          }}
+        />
+      ) : (
+        "Rich Messenger"
+      ),
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#fff",
+      headerRight: (
+        <View
+          style={{
+            flexDirection: "row-reverse",
+            marginLeft: 8,
+            alignItems: "center"
+          }}
+        >
+          <TouchableHighlight
+            onPress={() => {
+              navigation.setParams({ serachExpanded: !params.serachExpanded });
+            }}
+          >
+            <Image
+              source={
+                !params.serachExpanded
+                  ? require("../RES/searchheader.png")
+                  : require("../RES/close.png")
+              }
+              style={
+                !params.serachExpanded
+                  ? { width: 40, height: 40, resizeMode: "contain" }
+                  : {
+                      width: 30,
+                      height: 30,
+                      marginRight: 5,
+                      resizeMode: "contain"
+                    }
+              }
+            />
+          </TouchableHighlight>
+        </View>
+      )
+    };
+  };
 
   state = {
     animation: new Animated.Value(width / 8),
@@ -36,6 +95,7 @@ class MainPage extends Component {
   componentWillMount() {
     this.props.navigation.addListener("didBlur", () => {
       if (mainPageStore.expanded) this.toggle();
+      this.props.navigation.setParams({ serachExpanded: false });
     });
   }
 
@@ -122,30 +182,6 @@ class MainPage extends Component {
             style={{ alignItems: "center", width: this.state.animation2 }}
           >
             <Wallpaper source={require("../RES/background.jpg")} />
-            <TextInput
-              style={{
-                width: "90%",
-                borderBottomWidth: width / 360,
-                borderRadius: 5,
-                textAlign: "center",
-                fontSize: width / 22.5,
-                padding: "2%",
-                borderColor: "rgba(0,30,255,0.5)"
-              }}
-              onChangeText={text => {
-                if (text.length > 0) {
-                  mainPageStore.flatListData = [];
-                  mainPageStore.flatList.forEach(item => {
-                    if (item.key.toLowerCase().includes(text.toLowerCase())) {
-                      mainPageStore.flatListData.push(item);
-                    }
-                  });
-                } else {
-                  mainPageStore.flatListData = mainPageStore.flatList;
-                }
-              }}
-              placeholder="Search..."
-            />
             <FlatList
               style={{ width: "100%" }}
               data={mainPageStore.flatListData}
@@ -222,6 +258,11 @@ const styles = StyleSheet.create({
     fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
+  },
+  image: {
+    width: 48,
+    height: 48,
+    resizeMode: "contain"
   }
 });
 

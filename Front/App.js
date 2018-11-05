@@ -61,11 +61,7 @@ const RootStack = createStackNavigator(
     },
     MainPage: {
       screen: MainPage,
-      navigationOptions: {
-        title: "Rich Messenger",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
-      }
+      navigationOptions: { header: null }
     },
     Themes: {
       screen: Themes,
@@ -157,30 +153,8 @@ const RootStack = createStackNavigator(
     },
     Contacts: {
       screen: Contacts,
-      navigationOptions: ({ navigation }) => {
-        return {
-          title: "Friends",
-          headerRight: (
-            <View
-              style={{
-                flexDirection: "row-reverse",
-                marginRight: width / 20,
-                alignItems: "center"
-              }}
-            >
-              <TouchableHighlight
-                onPress={() => navigation.navigate("Notifications")}
-              >
-                <Image
-                  source={require("./RES/notification.png")}
-                  style={styles.image}
-                />
-              </TouchableHighlight>
-            </View>
-          ),
-          headerStyle: { backgroundColor: "#2196f3" },
-          headerTintColor: "#fff"
-        };
+      navigationOptions: {
+        header: null
       }
     },
     MyProfile: {
@@ -256,7 +230,7 @@ const RootStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "SignInPage"
+    initialRouteName: "MainPage"
   }
 );
 
