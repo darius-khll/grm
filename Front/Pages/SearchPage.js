@@ -1,6 +1,9 @@
 import React from "react";
-import { Text, View, StyleSheet, TextInput, Button } from "react-native";
-import { createMaterialTopTabNavigator } from "react-navigation";
+import { Text, View, StyleSheet, TextInput, Button, width } from "react-native";
+import {
+  HeaderBackButton,
+  createMaterialTopTabNavigator
+} from "react-navigation";
 import Wallpaper from "../Components/Wallpaper";
 
 class BasedOnID extends React.Component {

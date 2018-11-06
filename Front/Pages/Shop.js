@@ -9,7 +9,7 @@ import {
   Dimensions,
   Image
 } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import toggler from "../APIs/toggler";
 import shopStore from "../MobX/ShopStore";
 import Wallpaper from "../Components/Wallpaper";
@@ -19,7 +19,14 @@ let { width } = Dimensions.get("window");
 
 @observer
 class Shop extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Shop",
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
+    };
+  };
 
   state = {
     animation: new Animated.Value(width / 8),

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Dimensions, Animated } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
 import notificationStore from "../MobX/NotificationStore";
 import { observer } from "mobx-react";
@@ -10,8 +10,14 @@ let { width } = Dimensions.get("window");
 
 @observer
 class Notifications extends Component {
-  static navigationOptions = { header: null };
-
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Notifications",
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
+    };
+  };
   state = {
     animation: new Animated.Value(width / 8),
     animation2: new Animated.Value((7 * width) / 8),

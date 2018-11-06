@@ -44,7 +44,7 @@ class MainPage extends Component {
         "Rich Messenger"
       ),
       headerStyle: { backgroundColor: "#2196f3" },
-      headerTintColor: "#fff",
+      headerTintColor: "#000",
       headerRight: (
         <View
           style={{

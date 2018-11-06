@@ -8,7 +8,7 @@ import {
   Animated,
   TouchableHighlight
 } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import toggler from "../APIs/toggler";
 import settingStore from "../MobX/SettingStore";
 import Wallpaper from "../Components/Wallpaper";
@@ -18,7 +18,14 @@ let { width } = Dimensions.get("window");
 
 @observer
 class Setting extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Setting",
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
+    };
+  };
 
   state = {
     animation: new Animated.Value(width / 8),

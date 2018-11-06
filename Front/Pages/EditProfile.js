@@ -11,7 +11,7 @@ import {
   Image,
   TextInput
 } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import RadioGroup from "react-native-radio-buttons-group";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import CheckBox from "react-native-check-box";
@@ -27,7 +27,14 @@ const requester = Axios.create({
 
 @observer
 class EditProfile extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Edit Profile",
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
+    };
+  };
   state = {
     date: new Date()
   };

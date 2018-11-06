@@ -8,7 +8,7 @@ import {
   Animated,
   Image
 } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import Wallpaper from "../Components/Wallpaper";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
@@ -18,7 +18,14 @@ let { width } = Dimensions.get("window");
 
 @observer
 class MyProfile extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Your Profile",
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
+    };
+  };
 
   state = {
     animation: new Animated.Value(width / 8),
