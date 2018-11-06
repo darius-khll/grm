@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
 import aboutStore from "../MobX/AboutStore";
 import Wallpaper from "../Components/Wallpaper";
@@ -10,7 +10,14 @@ let { width } = Dimensions.get("window");
 
 @observer
 class About extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "About",
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
+    };
+  };
 
   state = {
     animation: new Animated.Value(width / 8),

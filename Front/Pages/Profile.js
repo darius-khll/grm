@@ -4,21 +4,52 @@ import {
   Text,
   View,
   Animated,
-  Button,
+  TouchableHighlight,
   Dimensions,
   Image
 } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import profileStore from "../MobX/ProfileStore";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
 import Wallpaper from "../Components/Wallpaper";
+import OptionsMenu from "react-native-options-menu";
 let { width } = Dimensions.get("window");
+const MoreIcon = require("../RES/more.png");
 
 @observer
 class Profile extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = ({ navigation }) => {
+    const tit = navigation.getParam("name", "Unknown");
+    return {
+      title: tit,
+      headerRight: (
+        <View
+          style={{
+            flexDirection: "row-reverse",
+            marginLeft: 8,
+            alignItems: "center"
+          }}
+        >
+          <OptionsMenu
+            button={MoreIcon}
+            buttonStyle={{
+              width: 28,
+              height: 32,
+              resizeMode: "contain"
+            }}
+            destructiveIndex={1}
+            options={["Block Contact"]}
+            // actions={[this.editPost, this.deletePost]}
+          />
+        </View>
+      ),
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
+    };
+  };
   state = {
     animation: new Animated.Value(width / 8),
     animation2: new Animated.Value((7 * width) / 8),
@@ -104,7 +135,6 @@ class Profile extends Component {
           margin: 2
         },
         profileImage: {
-          marginRight: 30,
           width: 75,
           height: 75,
           resizeMode: "contain"
@@ -152,10 +182,10 @@ class Profile extends Component {
               }}
             >
               <Image style={this.state.profileImage} source={profileImage} />
-              <View>
-                <Button title="Add to Friends" />
-                {/*This Button should be evaluated.*/}
-              </View>
+              <TouchableHighlight onPress={() => {}} style={styles.button}>
+                <Text style={{ fontWeight: "bold" }}>Add to Friends</Text>
+              </TouchableHighlight>
+              {/*This Button should be evaluated.*/}
             </View>
             <Text
               style={{
@@ -309,6 +339,13 @@ const styles = StyleSheet.create({
     fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
+  },
+  button: {
+    borderWidth: width / 180,
+    borderRadius: 5,
+    padding: "1%",
+    paddingRight: "6%",
+    paddingLeft: "6%"
   }
 });
 

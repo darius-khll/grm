@@ -19,6 +19,7 @@ import {
 } from "react-native";
 import SignInPage from "./Pages/SignInPage";
 import MainPage from "./Pages/MainPage";
+import OptionsMenu from "react-native-options-menu";
 import About from "./Pages/About";
 import Setting from "./Pages/Setting";
 import Profile from "./Pages/Profile";
@@ -34,10 +35,10 @@ import CheckCode from "./Pages/CheckCode";
 import Notifications from "./Pages/Notifications";
 import PayPage from "./Pages/PayPage";
 
-import { createStackNavigator } from "react-navigation";
-import OptionsMenu from "react-native-options-menu";
-const MoreIcon = require("./RES/more.png");
+import { createStackNavigator, HeaderBackButton } from "react-navigation";
+
 let { width } = Dimensions.get("window");
+const MoreIcon = require("./RES/more.png");
 
 const RootStack = createStackNavigator(
   {
@@ -66,33 +67,25 @@ const RootStack = createStackNavigator(
     Themes: {
       screen: Themes,
       navigationOptions: {
-        title: "Themes",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+        header: null
       }
     },
     Stickers: {
       screen: Stickers,
       navigationOptions: {
-        title: "Stickers",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+        header: null
       }
     },
     About: {
       screen: About,
       navigationOptions: {
-        title: "About",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+        header: null
       }
     },
     Setting: {
       screen: Setting,
       navigationOptions: {
-        title: "Setting",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+        header: null
       }
     },
     SearchPage: {
@@ -100,55 +93,26 @@ const RootStack = createStackNavigator(
       navigationOptions: {
         title: "Search",
         headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+        headerTintColor: "#000",
+        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
       }
     },
     EditProfile: {
       screen: EditProfile,
       navigationOptions: {
-        title: "Edit Profile",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+        header: null
       }
     },
     Notifications: {
       screen: Notifications,
       navigationOptions: {
-        title: "Notifications",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+        header: null
       }
     },
     Profile: {
       screen: Profile,
-      navigationOptions: ({ navigation }) => {
-        const tit = navigation.getParam("name", "Unknown");
-        return {
-          title: tit,
-          headerRight: (
-            <View
-              style={{
-                flexDirection: "row-reverse",
-                marginLeft: 8,
-                alignItems: "center"
-              }}
-            >
-              <OptionsMenu
-                button={MoreIcon}
-                buttonStyle={{
-                  width: 28,
-                  height: 32,
-                  resizeMode: "contain"
-                }}
-                destructiveIndex={1}
-                options={["Block Contact"]}
-                // actions={[this.editPost, this.deletePost]}
-              />
-            </View>
-          ),
-          headerStyle: { backgroundColor: "#2196f3" },
-          headerTintColor: "#fff"
-        };
+      navigationOptions: {
+        header: null
       }
     },
     Contacts: {
@@ -160,9 +124,7 @@ const RootStack = createStackNavigator(
     MyProfile: {
       screen: MyProfile,
       navigationOptions: {
-        title: "My Profile",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+        header: null
       }
     },
     ChatPage: {
@@ -216,21 +178,22 @@ const RootStack = createStackNavigator(
             </View>
           ),
           headerStyle: { backgroundColor: "#2196f3" },
-          headerTintColor: "#fff"
+          headerTintColor: "#000",
+          headerLeft: (
+            <HeaderBackButton onPress={() => navigation.goBack(null)} />
+          )
         };
       }
     },
     Shop: {
       screen: Shop,
       navigationOptions: {
-        title: "Shop",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#fff"
+        header: null
       }
     }
   },
   {
-    initialRouteName: "MainPage"
+    initialRouteName: "SignInPage"
   }
 );
 

@@ -1,13 +1,20 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import Wallpaper from "../Components/Wallpaper";
 import { observer } from "mobx-react";
 let { width } = Dimensions.get("window");
 
 @observer
 class Themes extends Component {
-  static navigationOptions = { header: null };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Themes",
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
+    };
+  };
 
   render() {
     return (
