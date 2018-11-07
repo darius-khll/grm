@@ -66,6 +66,7 @@ class EditProfile extends Component {
   }
   hideDateTimePicker = () => (editProfileStore.isDateTimePickerVisible = false);
   setModalInvisible = () => (editProfileStore.isModalWrong = false);
+  setModalTagsInvisible = () => (editProfileStore.isModalTag = false);
   handleDatePicked = date => {
     this.setState({
       date
@@ -76,6 +77,52 @@ class EditProfile extends Component {
       <View style={styles.container}>
         <Wallpaper source={require("../RES/background.jpg")} />
         <ScrollView style={{ width: "100%" }}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={editProfileStore.isModalTag}
+            onRequestClose={() => {
+              this.setModalTagsInvisible();
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(0,0,0,0.5)"
+              }}
+            >
+              {this.props.children}
+              <View style={styles.modalView}>
+                <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                <Text style={styles.modalHeader}>What is a TAG?</Text>
+                <Text style={styles.modalBody}>
+                  Tags will help others to find you. if somebody search a tag
+                  and it matches one of your tags, your profile will be shown.
+                  So you can Enter your Hobbies, favourites and others here and
+                  help everyone else to find you.
+                </Text>
+                <View
+                  style={{
+                    marginTop: "10%",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "flex-end"
+                  }}
+                >
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalTagsInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>OK</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </Modal>
           <Modal
             animationType="fade"
             transparent={true}
@@ -598,6 +645,25 @@ class EditProfile extends Component {
             <View
               style={{
                 flexDirection: "row",
+                width: "100%",
+                borderBottomWidth: width / 720,
+                borderRadius: 5,
+                marginTop: width / 51.4
+              }}
+            >
+              <Text>Edit Tags</Text>
+              <TouchableHighlight
+                onPress={() => (editProfileStore.isModalTag = true)}
+              >
+                <Image
+                  style={styles.image}
+                  source={require("../RES/help.png")}
+                />
+              </TouchableHighlight>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
                 marginTop: width / 72,
                 alignItems: "center",
                 justifyContent: "space-around"
@@ -661,6 +727,12 @@ const styles = StyleSheet.create({
     padding: "1%",
     paddingRight: "6%",
     paddingLeft: "6%"
+  },
+  image: {
+    width: width / 30,
+    height: width / 30,
+    marginLeft: "15%",
+    resizeMode: "contain"
   },
   modalHeader: {
     marginTop: "3%",

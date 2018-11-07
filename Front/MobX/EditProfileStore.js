@@ -12,6 +12,8 @@ class EditProfileStore {
   @observable
   isModalWrong = false;
   @observable
+  isModalTag = false;
+  @observable
   bio = "";
   @observable
   id = "";
