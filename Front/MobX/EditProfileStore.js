@@ -50,6 +50,8 @@ class EditProfileStore {
   @observable
   isModalAddTag = false;
   @observable
+  isModalRemoveTag = false;
+  @observable
   Tags = [];
   @observable
   newTag = "";
