@@ -41,8 +41,10 @@ class EditProfile extends Component {
 
   componentWillMount() {
     requester
-      .post("/get", {
-        uniqueId: "_id"
+      .get("/get", {
+        params: {
+          uniqueId: "_id"
+        }
       })
       .then(response => {
         if (response.status === 200) {
@@ -55,6 +57,7 @@ class EditProfile extends Component {
           editProfileStore.isCheckedPhone = response.data.showPhoneNumber;
           editProfileStore.isCheckedEmail = response.data.showEmail;
           editProfileStore.country = response.data.country;
+          editProfileStore.Tags = response.data.tags;
           editProfileStore.data.find(gender => {
             if (gender.lable === response.data.gender) {
               gender.selected = true;
@@ -66,6 +69,10 @@ class EditProfile extends Component {
   }
   hideDateTimePicker = () => (editProfileStore.isDateTimePickerVisible = false);
   setModalInvisible = () => (editProfileStore.isModalWrong = false);
+  setModalTagsInvisible = () => (editProfileStore.isModalTag = false);
+  setModalAddTagInvisible = () => (editProfileStore.isModalAddTag = false);
+  setModalRemoveTagInvisible = () =>
+    (editProfileStore.isModalRemoveTag = false);
   handleDatePicked = date => {
     this.setState({
       date
@@ -76,6 +83,180 @@ class EditProfile extends Component {
       <View style={styles.container}>
         <Wallpaper source={require("../RES/background.jpg")} />
         <ScrollView style={{ width: "100%" }}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={editProfileStore.isModalRemoveTag}
+            onRequestClose={() => {
+              this.setModalRemoveTagInvisible();
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(0,0,0,0.5)"
+              }}
+            >
+              {this.props.children}
+              <View style={styles.modalView}>
+                <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                <Text style={styles.modalHeader}>Remove a Tag</Text>
+                <Text style={styles.modalBody}>
+                  Type the TAG you want to remove.
+                </Text>
+                <TextInput
+                  placeholder="TAG to remove"
+                  style={styles.modalInput}
+                  onChangeText={text => (editProfileStore.newTag = text)}
+                  placeholderTextColor="#444"
+                />
+                <View
+                  style={{
+                    marginTop: "10%",
+                    alignItems: "center",
+                    flexDirection: "row"
+                  }}
+                >
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalRemoveTagInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>Cancle</Text>
+                  </TouchableHighlight>
+                  <View style={{ width: "10%" }} />
+                  <TouchableHighlight
+                    onPress={() => {
+                      if (
+                        editProfileStore.Tags.includes(editProfileStore.newTag)
+                      ) {
+                        editProfileStore.Tags.pop(editProfileStore.newTag);
+                      }
+                      this.setModalRemoveTagInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>Remove</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={editProfileStore.isModalAddTag}
+            onRequestClose={() => {
+              this.setModalAddTagInvisible();
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(0,0,0,0.5)"
+              }}
+            >
+              {this.props.children}
+              <View style={styles.modalView}>
+                <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                <Text style={styles.modalHeader}>Enter New TAG</Text>
+                <Text style={styles.modalBody}>
+                  Space is not allowed. There is no need to enter #. We'll add
+                  them automatically. :)
+                </Text>
+                <TextInput
+                  placeholder="New TAG"
+                  style={styles.modalInput}
+                  onChangeText={text => (editProfileStore.newTag = text)}
+                  placeholderTextColor="#444"
+                />
+                <View
+                  style={{
+                    marginTop: "10%",
+                    alignItems: "center",
+                    flexDirection: "row"
+                  }}
+                >
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalAddTagInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>Cancle</Text>
+                  </TouchableHighlight>
+                  <View style={{ width: "10%" }} />
+                  <TouchableHighlight
+                    onPress={() => {
+                      if (
+                        !editProfileStore.Tags.includes(
+                          editProfileStore.newTag
+                        ) &&
+                        !editProfileStore.newTag.includes(" ")
+                      ) {
+                        editProfileStore.Tags.push(editProfileStore.newTag);
+                      }
+                      this.setModalAddTagInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>Add</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={editProfileStore.isModalTag}
+            onRequestClose={() => {
+              this.setModalTagsInvisible();
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(0,0,0,0.5)"
+              }}
+            >
+              {this.props.children}
+              <View style={styles.modalView}>
+                <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                <Text style={styles.modalHeader}>What is a TAG?</Text>
+                <Text style={styles.modalBody}>
+                  Tags will help others to find you. if somebody search a tag
+                  and it matches one of your tags, your profile will be shown.
+                  So you can Enter your Hobbies, favourites and others here and
+                  help everyone else to find you.
+                </Text>
+                <View
+                  style={{
+                    marginTop: "10%",
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "flex-end"
+                  }}
+                >
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalTagsInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>OK</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </Modal>
           <Modal
             animationType="fade"
             transparent={true}
@@ -598,7 +779,52 @@ class EditProfile extends Component {
             <View
               style={{
                 flexDirection: "row",
+                width: "100%",
+                borderBottomWidth: width / 720,
+                borderRadius: 5,
+                marginTop: width / 51.4
+              }}
+            >
+              <Text>Edit Tags</Text>
+              <TouchableHighlight
+                onPress={() => (editProfileStore.isModalTag = true)}
+              >
+                <Image
+                  style={styles.image}
+                  source={require("../RES/help.png")}
+                />
+              </TouchableHighlight>
+            </View>
+            <Text style={{ marginTop: "3%", marginBottom: "5%" }}>
+              {editProfileStore.getTags}
+            </Text>
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                marginBottom: "5%",
+                alignItems: "center"
+              }}
+            >
+              <TouchableHighlight
+                onPress={() => (editProfileStore.isModalAddTag = true)}
+                style={styles.button}
+              >
+                <Text style={{ fontWeight: "bold" }}>Add a new TAG</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                onPress={() => (editProfileStore.isModalRemoveTag = true)}
+                style={styles.button}
+              >
+                <Text style={{ fontWeight: "bold" }}>Remove a TAG</Text>
+              </TouchableHighlight>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
                 marginTop: width / 72,
+                marginBottom: "7%",
                 alignItems: "center",
                 justifyContent: "space-around"
               }}
@@ -617,6 +843,7 @@ class EditProfile extends Component {
                       showPhoneNumber: editProfileStore.isCheckedPhone,
                       showEmail: editProfileStore.isCheckedEmail,
                       country: editProfileStore.country,
+                      tags: editProfileStore.Tags,
                       gender: editProfileStore.data.find(gender => {
                         return gender.selected === true;
                       }),
@@ -662,6 +889,12 @@ const styles = StyleSheet.create({
     paddingRight: "6%",
     paddingLeft: "6%"
   },
+  image: {
+    width: width / 30,
+    height: width / 30,
+    marginLeft: "15%",
+    resizeMode: "contain"
+  },
   modalHeader: {
     marginTop: "3%",
     color: "white",
@@ -675,6 +908,12 @@ const styles = StyleSheet.create({
     marginRight: "5%",
     textAlign: "center",
     marginTop: "2%"
+  },
+  modalInput: {
+    borderBottomWidth: width / 720,
+    color: "#666",
+    padding: "2%",
+    textAlign: "center"
   },
   modalTouchable: {
     borderWidth: width / 720,

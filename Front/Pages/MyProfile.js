@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Dimensions,
+  ScrollView,
   TouchableHighlight,
   Animated,
   Image
@@ -146,175 +147,88 @@ class MyProfile extends Component {
             }}
           >
             <Wallpaper source={require("../RES/background.jpg")} />
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: "3%",
-                justifyContent: "space-evenly"
-              }}
-            >
-              <Image
-                style={this.state.profileImage}
-                source={require("../RES/anonymous.png")}
-              />
-              <TouchableHighlight
-                onPress={() =>
-                  this.props.navigation.navigate("EditProfile", {
-                    image: require("../RES/anonymous.png")
-                  })
-                }
-                style={styles.button}
+            <ScrollView style={{ width: "100%" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: "3%",
+                  justifyContent: "space-evenly"
+                }}
               >
-                <Text style={{ fontWeight: "bold" }}>Edit Profile</Text>
-              </TouchableHighlight>
-            </View>
-            <Text
-              style={{
-                margin: "1%",
-                marginTop: "4%",
-                borderBottomWidth: width / 720,
-                width: "85%"
-              }}
-            >
-              Bio
-            </Text>
-            <Text
-              style={{
-                width: "80%"
-              }}
-            >
-              Bio From The Server
-            </Text>
-            <Text
-              style={{
-                margin: "1%",
-                marginTop: "4%",
-                borderBottomWidth: width / 720,
-                width: "85%"
-              }}
-            >
-              General Informations
-            </Text>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Name:</Text>
-              <Text>Name Of Person From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Age:</Text>
-              <Text>Age of Person From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Gender:</Text>
-              <Text>From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>ID:</Text>
-              <Text>ID From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Days Remaining:</Text>
-              <Text>From Server</Text>
-            </View>
-            <Text
-              style={{
-                margin: "1%",
-                marginTop: "4%",
-                borderBottomWidth: width / 720,
-                width: "85%"
-              }}
-            >
-              Location Informations
-            </Text>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Country:</Text>
-              <Text>Country From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>City:</Text>
-              <Text>City from Server</Text>
-            </View>
-            <Text
-              style={{
-                margin: "1%",
-                marginTop: "4%",
-                borderBottomWidth: width / 720,
-                width: "85%"
-              }}
-            >
-              Contact Informations
-            </Text>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Phone Number:</Text>
-              <Text>From Server</Text>
-            </View>
-            <View
-              style={{
-                width: "80%",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}
-            >
-              <Text>Email:</Text>
-              <Text>From Server</Text>
-            </View>
+                <Image
+                  style={this.state.profileImage}
+                  source={require("../RES/anonymous.png")}
+                />
+                <TouchableHighlight
+                  onPress={() =>
+                    this.props.navigation.navigate("EditProfile", {
+                      image: require("../RES/anonymous.png")
+                    })
+                  }
+                  style={styles.button}
+                >
+                  <Text style={{ fontWeight: "bold" }}>Edit Profile</Text>
+                </TouchableHighlight>
+              </View>
+              <Text style={styles.headerStyle}>Bio</Text>
+              <Text
+                style={{
+                  width: "87.5%",
+                  marginLeft: "6.25%"
+                }}
+              >
+                Bio From The Server
+              </Text>
+              <Text style={styles.headerStyle}>General Informations</Text>
+              <View style={styles.bodyStyle}>
+                <Text>Name:</Text>
+                <Text>Name Of Person From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>Age:</Text>
+                <Text>Age of Person From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>Gender:</Text>
+                <Text>From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>ID:</Text>
+                <Text>ID From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>Days Remaining:</Text>
+                <Text>From Server</Text>
+              </View>
+              <Text style={styles.headerStyle}>Location Informations</Text>
+              <View style={styles.bodyStyle}>
+                <Text>Country:</Text>
+                <Text>Country From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>City:</Text>
+                <Text>City from Server</Text>
+              </View>
+              <Text style={styles.headerStyle}>Contact Informations</Text>
+              <View style={styles.bodyStyle}>
+                <Text>Phone Number:</Text>
+                <Text>From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>Email:</Text>
+                <Text>From Server</Text>
+              </View>
+              <Text style={styles.headerStyle}>Tags</Text>
+              <Text
+                style={{
+                  marginLeft: "6.25%",
+                  width: "87.5%"
+                }}
+              >
+                #Tag1, #Tag2, #Tag3, #Tag4
+              </Text>
+            </ScrollView>
           </Animated.View>
         </View>
       </View>
@@ -327,6 +241,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+  },
+  headerStyle: {
+    marginBottom: "1%",
+    marginLeft: "5%",
+    marginTop: "4%",
+    borderBottomWidth: width / 720,
+    width: "90%"
+  },
+  bodyStyle: {
+    width: "87.5%",
+    marginLeft: "6.25%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   textStyle: {
     fontSize: width / 20,

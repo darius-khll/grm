@@ -32,10 +32,6 @@ class ContactsStore {
   @observable
   aboutIcon = require("../RES/about1.png");
   @observable
-  isModalAdd = false;
-  @observable
-  isModalFound = false;
-  @observable
   sections = [
     {
       title: "#",

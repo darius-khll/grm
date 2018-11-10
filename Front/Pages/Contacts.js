@@ -5,7 +5,6 @@ import {
   View,
   Image,
   TextInput,
-  Modal,
   Dimensions,
   Animated,
   SectionList,
@@ -117,14 +116,7 @@ class Contacts extends Component {
   };
   actions = [
     {
-      text: "Add New Friend",
-      icon: require("../RES/addnewcontact.png"),
-      color: "black",
-      name: "addNewContact",
-      position: 2
-    },
-    {
-      text: "Search",
+      text: "Search and Add",
       color: "black",
       icon: require("../RES/search.png"),
       name: "search",
@@ -209,146 +201,9 @@ class Contacts extends Component {
     animate.start();
   }
 
-  setModalAddInvisible() {
-    contactsStore.isModalAdd = false;
-  }
-  setModalFoundInvisible() {
-    contactsStore.isModalFound = false;
-  }
-  setModalFoundVisible() {
-    contactsStore.isModalFound = true;
-  }
   render() {
     return (
       <View style={styles.container}>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={contactsStore.isModalAdd}
-          onRequestClose={() => {
-            this.setModalAddInvisible();
-          }}
-        >
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "rgba(0,0,0,0.5)"
-            }}
-          >
-            {this.props.children}
-            <View style={styles.modalView}>
-              <Wallpaper source={require("../RES/modalbackground.jpg")} />
-              <Text style={styles.modalHeader}>Add New Contact</Text>
-              <Text style={styles.modalBody}>
-                Please Enter The Number of your new contact:
-              </Text>
-              <TextInput
-                placeholder="Number"
-                textContentType="telephoneNumber"
-                placeholderTextColor="#cccccc"
-                style={{
-                  marginTop: "5%",
-                  padding: "1%",
-                  borderBottomWidth: width / 720,
-                  width: "70%",
-                  color: "white"
-                }}
-              />
-              <View
-                style={{
-                  marginTop: "10%",
-                  alignItems: "center",
-                  flexDirection: "row"
-                }}
-              >
-                <TouchableHighlight
-                  onPress={() => {
-                    this.setModalAddInvisible();
-                    this.setModalFoundVisible();
-                  }}
-                  style={styles.modalTouchable}
-                >
-                  <Text style={styles.modalButton}>
-                    Search For This Contact
-                  </Text>
-                </TouchableHighlight>
-                <View style={{ width: "5%" }} />
-                <TouchableHighlight
-                  style={styles.modalTouchable}
-                  onPress={() => this.setModalAddInvisible()}
-                >
-                  <Text style={styles.modalButton}>Cancle</Text>
-                </TouchableHighlight>
-              </View>
-            </View>
-          </View>
-        </Modal>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={contactsStore.isModalFound}
-          onRequestClose={() => {
-            this.setModalFoundInvisible();
-          }}
-        >
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "rgba(0,0,0,0.5)"
-            }}
-          >
-            {this.props.children}
-            <View style={styles.modalView}>
-              <Wallpaper source={require("../RES/modalbackground.jpg")} />
-              <Text style={styles.modalHeader}>Contact Found!</Text>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Image
-                  style={styles.profileImage}
-                  source={require("../RES/sampleprofileimage.jpg")}
-                />
-                <View style={{ width: "15%" }} />
-                <TextInput
-                  textContentType="name"
-                  style={{
-                    borderBottomWidth: width / 720,
-                    color: "white",
-                    padding: width / 360
-                  }}
-                  textContentType="name"
-                  placeholder="name from server"
-                  placeholderTextColor="#cccccc"
-                />
-              </View>
-              <View
-                style={{
-                  marginTop: "10%",
-                  alignItems: "center",
-                  flexDirection: "row"
-                }}
-              >
-                <TouchableHighlight
-                  onPress={() => {
-                    this.setModalFoundInvisible();
-                  }}
-                  style={styles.modalTouchable}
-                >
-                  <Text style={styles.modalButton}>Add</Text>
-                </TouchableHighlight>
-                <View style={{ width: "10%" }} />
-                <TouchableHighlight
-                  style={styles.modalTouchable}
-                  onPress={() => this.setModalFoundInvisible()}
-                >
-                  <Text style={styles.modalButton}>Cancle</Text>
-                </TouchableHighlight>
-              </View>
-            </View>
-          </View>
-        </Modal>
         <View style={{ flexDirection: "row", flex: 1 }}>
           <SideBar
             width={this.state.animation}
@@ -429,7 +284,6 @@ class Contacts extends Component {
           color="black"
           onPressItem={name => {
             if (name === "search") this.props.navigation.navigate("SearchPage");
-            else if (name === "addNewContact") contactsStore.isModalAdd = true;
           }}
         />
       </View>
@@ -454,38 +308,6 @@ const styles = StyleSheet.create({
     fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
-  },
-  modalHeader: {
-    marginTop: "3%",
-    color: "white",
-    marginBottom: "5%",
-    fontWeight: "bold",
-    fontSize: width / 18
-  },
-  modalBody: {
-    color: "white",
-    textAlign: "center",
-    marginLeft: "5%",
-    marginRight: "5%",
-    marginTop: "2%"
-  },
-  modalTouchable: {
-    borderWidth: width / 720,
-    borderColor: "white",
-    borderRadius: 5,
-    padding: width / 120,
-    marginBottom: "7%"
-  },
-  modalView: {
-    borderWidth: width / 240,
-    alignItems: "center",
-    width: "85%"
-  },
-  modalButton: {
-    color: "white",
-    fontWeight: "bold",
-    paddingRight: "5%",
-    paddingLeft: "5%"
   }
 });
 

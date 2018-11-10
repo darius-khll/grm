@@ -190,7 +190,8 @@ class MainPage extends Component {
                   <TouchableHighlight
                     onPress={() =>
                       this.props.navigation.navigate("ChatPage", {
-                        name: item.key
+                        name: item.key,
+                        image: item.image
                       })
                     }
                   >

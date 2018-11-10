@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Dimensions, Animated } from "react-native";
+import { StyleSheet, View, Dimensions, Animated, Text } from "react-native";
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
 import notificationStore from "../MobX/NotificationStore";
@@ -116,6 +116,26 @@ class Notifications extends Component {
           />
           <Animated.View style={{ width: this.state.animation2 }}>
             <Wallpaper source={require("../RES/background.jpg")} />
+            <View style={{ alignItems: "center" }}>
+              <View style={styles.styleHeader}>
+                <Text
+                  style={{
+                    fontSize: width / 26
+                  }}
+                >
+                  People, who sent you a friend request
+                </Text>
+              </View>
+              <View style={styles.styleHeader}>
+                <Text
+                  style={{
+                    fontSize: width / 26
+                  }}
+                >
+                  People, you sent them a friend request
+                </Text>
+              </View>
+            </View>
           </Animated.View>
         </View>
       </View>
@@ -133,6 +153,12 @@ const styles = StyleSheet.create({
     fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
+  },
+  styleHeader: {
+    borderBottomWidth: width / 360,
+    borderRadius: 5,
+    width: "80%",
+    alignItems: "center"
   }
 });
 

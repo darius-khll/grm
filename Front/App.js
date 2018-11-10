@@ -90,11 +90,15 @@ const RootStack = createStackNavigator(
     },
     SearchPage: {
       screen: SearchPage,
-      navigationOptions: {
-        title: "Search",
-        headerStyle: { backgroundColor: "#2196f3" },
-        headerTintColor: "#000",
-        headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
+      navigationOptions: ({ navigation }) => {
+        return {
+          title: "Search",
+          headerStyle: { backgroundColor: "#2196f3" },
+          headerTintColor: "#000",
+          headerLeft: (
+            <HeaderBackButton onPress={() => navigation.goBack(null)} />
+          )
+        };
       }
     },
     EditProfile: {
@@ -133,7 +137,7 @@ const RootStack = createStackNavigator(
         const tit = navigation.getParam("name", "NO-ID");
         const img = navigation.getParam(
           "image",
-          require("./RES/sampleprofileimage.jpg")
+          require("./RES/anonymous.png")
         );
         return {
           title: tit,
@@ -193,7 +197,7 @@ const RootStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "SignInPage"
+    initialRouteName: "MainPage"
   }
 );
 

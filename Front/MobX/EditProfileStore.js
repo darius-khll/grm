@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { computed, observable } from "mobx";
 
 class EditProfileStore {
   @observable
@@ -12,6 +12,8 @@ class EditProfileStore {
   @observable
   isModalWrong = false;
   @observable
+  isModalTag = false;
+  @observable
   bio = "";
   @observable
   id = "";
@@ -23,6 +25,10 @@ class EditProfileStore {
   phoneNumber = "";
   @observable
   country = "";
+  @computed
+  get getTags() {
+    return this.Tags.map(tag => `#${tag}   `);
+  }
   @observable
   data = [
     {
@@ -41,6 +47,14 @@ class EditProfileStore {
       selected: false
     }
   ];
+  @observable
+  isModalAddTag = false;
+  @observable
+  isModalRemoveTag = false;
+  @observable
+  Tags = [];
+  @observable
+  newTag = "";
 }
 
 const editProfileStore = new EditProfileStore();

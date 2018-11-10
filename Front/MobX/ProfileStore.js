@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { observable, computed } from "mobx";
 
 class ProfileStore {
   @observable
@@ -31,6 +31,38 @@ class ProfileStore {
   settingIcon = require("../RES/setting1.png");
   @observable
   aboutIcon = require("../RES/about1.png");
+  @observable
+  bio = "";
+  @observable
+  name = "";
+  @observable
+  age = "";
+  @observable
+  gender = "";
+  @observable
+  id = "";
+  @observable
+  country = "";
+  @observable
+  city = "";
+  @observable
+  phoneNumber = "";
+  @observable
+  email = "";
+  @observable
+  tags = [];
+  @observable
+  addingStatus = "responsing";
+  @observable
+  buttonText = "";
+  @observable
+  secondButtonText = "";
+  @observable
+  isModalRemove = false;
+  @computed
+  get showTags() {
+    return this.tags.map(tag => `#${tag}   `);
+  }
 }
 
 const profileStore = new ProfileStore();
