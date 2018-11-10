@@ -137,7 +137,7 @@ const RootStack = createStackNavigator(
         const tit = navigation.getParam("name", "NO-ID");
         const img = navigation.getParam(
           "image",
-          require("./RES/sampleprofileimage.jpg")
+          require("./RES/anonymous.png")
         );
         return {
           title: tit,

@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Modal,
   Animated,
   ScrollView,
   TouchableHighlight,
@@ -57,11 +58,11 @@ class Profile extends Component {
       headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
     };
   };
+
   state = {
     animation: new Animated.Value(width / 8),
     animation2: new Animated.Value((7 * width) / 8),
     profileImage: {
-      marginRight: width / 12,
       width: width / 4.8,
       height: width / 4.8,
       resizeMode: "contain",
@@ -72,48 +73,28 @@ class Profile extends Component {
       height: (0.85 * width) / 8,
       resizeMode: "contain",
       margin: "3%"
+    },
+    buttonTwo: {
+      borderWidth: width / 180,
+      borderRadius: 5,
+      padding: "1%",
+      paddingRight: "6%",
+      paddingLeft: "6%"
+    },
+    buttonOne: {
+      borderWidth: width / 180,
+      borderRadius: 5,
+      padding: "1%",
+      paddingRight: "6%",
+      paddingLeft: "6%"
+    },
+    viewButton: {
+      height: "10%"
     }
   };
 
-  componentWillMount() {
-    this.props.navigation.addListener("didBlur", () => {
-      if (profileStore.expanded) this.toggle();
-    });
-    requester
-      .get("/get", {
-        params: {
-          uniqueId: "_id"
-        }
-      })
-      .then(response => {
-        if (response.status === 200) {
-          profileStore.bio = response.data.bio;
-          profileStore.name = response.data.name;
-          profileStore.age = response.data.age;
-          profileStore.gender = response.data.gender;
-          profileStore.id = response.data.id;
-          profileStore.country = response.data.country;
-          profileStore.city = response.data.city;
-          profileStore.phoneNumber = response.data.phoneNumber;
-          profileStore.email = response.data.email;
-          profileStore.tags = response.data.tags;
-          profileStore.addingStatus = response.data.addingStatus;
-        }
-      });
-    this.buttonDecider();
-  }
-
-  buttonDecider() {
-    if (profileStore.addingStatus === "notAdded") {
-      profileStore.buttonText = "Add to Friends";
-    } else if (profileStore.addingStatus === "waiting") {
-      profileStore.buttonText = `Cancle  Friend
-      Request`;
-    } else if (profileStore.addingStatus === "added") {
-      profileStore.buttonText = "Send a Message";
-    } else if (profileStore.addingStatus === "responsing") {
-      profileStore.buttonText = "accept";
-    }
+  setModalRemoveInvisible() {
+    profileStore.isModalRemove = false;
   }
 
   navigationToMyProfile() {
@@ -187,14 +168,261 @@ class Profile extends Component {
     animate.start();
   }
 
+  componentWillMount() {
+    this.props.navigation.addListener("didBlur", () => {
+      if (profileStore.expanded) this.toggle();
+    });
+    requester
+      .get("/get", {
+        params: {
+          uniqueId: "_id"
+        }
+      })
+      .then(response => {
+        if (response.status === 200) {
+          profileStore.bio = response.data.bio;
+          profileStore.name = response.data.name;
+          profileStore.age = response.data.age;
+          profileStore.gender = response.data.gender;
+          profileStore.id = response.data.id;
+          profileStore.country = response.data.country;
+          profileStore.city = response.data.city;
+          profileStore.phoneNumber = response.data.phoneNumber;
+          profileStore.email = response.data.email;
+          profileStore.tags = response.data.tags;
+          profileStore.addingStatus = response.data.addingStatus;
+        }
+      });
+    this.buttonDecider();
+  }
+
+  clickOnButtonOne() {
+    if (profileStore.addingStatus === "notAdded") {
+      requester.post("/status", {
+        uniqueId: "_id",
+        addingStatus: "waiting"
+      });
+      profileStore.addingStatus = "waiting";
+      profileStore.buttonText = `        Cancle
+Friend  Request`;
+      profileStore.font = width / 22;
+    } else if (profileStore.addingStatus === "waiting") {
+      requester.post("/status", {
+        uniqueId: "_id",
+        addingStatus: "notAdded"
+      });
+      profileStore.addingStatus = "notAdded";
+      profileStore.buttonText = "Add To Friends";
+      profileStore.font = width / 22;
+    } else if (profileStore.addingStatus === "added") {
+      this.props.navigation.navigate("ChatPage", {
+        name: this.props.navigation.getParam("name", "Unknown"),
+        image: this.props.navigation.getParam(
+          "image",
+          require("../RES/anonymous.png")
+        )
+      });
+    } else if (profileStore.addingStatus === "responsing") {
+      requester.post("/status", {
+        uniqueId: "_id",
+        addingStatus: "added"
+      });
+      profileStore.addingStatus = "added";
+      profileStore.buttonText = "Send A Message";
+      profileStore.secondButtonText = "Remove Friend";
+      this.setState({
+        buttonOne: {
+          borderWidth: width / 180,
+          borderRadius: 5,
+          padding: "1%",
+          paddingRight: "6%",
+          paddingLeft: "6%"
+        }
+      });
+    }
+  }
+
+  clickOnButtonTwo() {
+    if (profileStore.addingStatus === "added") {
+      profileStore.isModalRemove = true;
+    } else if (profileStore.addingStatus === "responsing") {
+      requester.post("/status", {
+        uniqueId: "_id",
+        addingStatus: "notAdded"
+      });
+      profileStore.addingStatus = "notAdded";
+      profileStore.buttonText = "Add to Friends";
+      this.setState({
+        buttonOne: {
+          borderWidth: width / 180,
+          borderRadius: 5,
+          padding: "1%",
+          paddingRight: "6%",
+          paddingLeft: "6%"
+        },
+        buttonTwo: {
+          borderWidth: 0,
+          borderRadius: 5,
+          padding: "1%",
+          paddingRight: "6%",
+          paddingLeft: "6%",
+          width: 0,
+          height: 0
+        },
+        viewButton: {
+          height: 0
+        }
+      });
+    }
+  }
+
+  buttonDecider() {
+    if (profileStore.addingStatus === "notAdded") {
+      profileStore.buttonText = "Add to Friends";
+      this.setState({
+        buttonTwo: {
+          width: 0,
+          height: 0
+        },
+        viewButtonTwo: {
+          height: 0
+        }
+      });
+    } else if (profileStore.addingStatus === "waiting") {
+      profileStore.buttonText = `        Cancle
+      Friend  Request`;
+      this.setState({
+        button: {
+          width: 0,
+          height: 0
+        },
+        viewButton: {
+          height: 0
+        }
+      });
+    } else if (profileStore.addingStatus === "added") {
+      profileStore.buttonText = "Send a Message";
+      profileStore.secondButtonText = "Remove Friend";
+      this.setState({
+        buttonTwo: {
+          borderWidth: width / 180,
+          borderRadius: 5,
+          borderColor: "red",
+          padding: "1%",
+          paddingRight: "6%",
+          paddingLeft: "6%"
+        },
+        viewButton: {
+          height: "10%"
+        }
+      });
+    } else if (profileStore.addingStatus === "responsing") {
+      profileStore.buttonText = "Accept";
+      profileStore.secondButtonText = "Decline";
+      this.setState({
+        buttonOne: {
+          borderWidth: width / 180,
+          borderRadius: 5,
+          padding: "1%",
+          borderColor: "green",
+          paddingRight: "6%",
+          paddingLeft: "6%"
+        },
+        buttonTwo: {
+          borderWidth: width / 180,
+          borderColor: "red",
+          borderRadius: 5,
+          padding: "1%",
+          paddingRight: "6%",
+          paddingLeft: "6%"
+        },
+        viewButton: {
+          height: "10%"
+        }
+      });
+    }
+  }
+
   render() {
     const profileImage = this.props.navigation.getParam(
       "image",
-      require("../RES/myprofile.jpg")
+      require("../RES/anonymous.png")
     );
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={profileStore.isModalRemove}
+            onRequestClose={() => {
+              this.setModalRemoveInvisible();
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(0,0,0,0.5)"
+              }}
+            >
+              {this.props.children}
+              <View style={styles.modalView}>
+                <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                <Text style={styles.modalHeader}>Remove ?</Text>
+                <Text style={styles.modalBody}>
+                  Are You sure you want to remove{" "}
+                  {this.props.navigation.getParam("name", "?")} ?
+                </Text>
+                <View
+                  style={{
+                    marginTop: "10%",
+                    alignItems: "center",
+                    flexDirection: "row"
+                  }}
+                >
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalRemoveInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>NO</Text>
+                  </TouchableHighlight>
+                  <View style={{ width: "10%" }} />
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalRemoveInvisible();
+                      requester.post("/status", {
+                        uniqueId: "_id",
+                        addingStatus: "notAdded"
+                      });
+                      profileStore.addingStatus = "notAdded";
+                      profileStore.buttonText = "Add to Friends";
+                      this.setState({
+                        buttonTwo: {
+                          borderWidth: 0,
+                          borderRadius: 5,
+                          padding: "1%",
+                          paddingRight: "6%",
+                          paddingLeft: "6%",
+                          width: 0,
+                          height: 0
+                        },
+                        viewButton: {
+                          height: 0
+                        }
+                      });
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>YES</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </Modal>
           <SideBar
             width={this.state.animation}
             toggle={this.toggle.bind(this)}
@@ -218,88 +446,103 @@ class Profile extends Component {
             <ScrollView style={{ width: "100%" }}>
               <View
                 style={{
-                  alignContent: "center"
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: "3%"
                 }}
               >
+                <Image style={this.state.profileImage} source={profileImage} />
                 <View
                   style={{
-                    flexDirection: "row",
                     alignItems: "center",
-                    justifyContent: "space-evenly",
-                    marginTop: "3%"
+                    width: "60%"
                   }}
                 >
-                  <Image
-                    style={this.state.profileImage}
-                    source={profileImage}
-                  />
-                  <TouchableHighlight onPress={() => {}} style={styles.button}>
-                    <Text style={{ fontWeight: "bold" }}>
+                  <TouchableHighlight
+                    onPress={this.clickOnButtonOne.bind(this)}
+                    style={this.state.buttonOne}
+                  >
+                    <Text
+                      style={{
+                        fontSize: width / 22,
+                        fontWeight: "bold"
+                      }}
+                    >
                       {profileStore.buttonText}
                     </Text>
                   </TouchableHighlight>
-
-                  <TouchableHighlight onPress={() => {}} style={styles.button}>
-                    <Text style={{ fontWeight: "bold" }}>
-                      {profileStore.buttonText}
+                  <View style={this.state.viewButton} />
+                  <TouchableHighlight
+                    onPress={this.clickOnButtonTwo.bind(this)}
+                    style={this.state.buttonTwo}
+                  >
+                    <Text
+                      style={{
+                        fontSize: width / 22,
+                        fontWeight: "bold"
+                      }}
+                    >
+                      {profileStore.secondButtonText}
                     </Text>
                   </TouchableHighlight>
                   {/*This Button should be evaluated.*/}
                 </View>
-                <Text style={styles.headerStyle}>Bio</Text>
-                <Text
-                  style={{
-                    width: "87.5%",
-                    marginLeft: "6.25%"
-                  }}
-                >
-                  Bio From The Server
-                </Text>
-                <Text style={styles.headerStyle}>General Informations</Text>
-                <View style={styles.bodyStyle}>
-                  <Text>Name:</Text>
-                  <Text>Name Of Person From Server</Text>
-                </View>
-                <View style={styles.bodyStyle}>
-                  <Text>Age:</Text>
-                  <Text>Age of Person From Server</Text>
-                </View>
-                <View style={styles.bodyStyle}>
-                  <Text>Gender:</Text>
-                  <Text>From Server</Text>
-                </View>
-                <View style={styles.bodyStyle}>
-                  <Text>ID:</Text>
-                  <Text>ID From Server</Text>
-                </View>
-                <Text style={styles.headerStyle}>Location Informations</Text>
-                <View style={styles.bodyStyle}>
-                  <Text>Country:</Text>
-                  <Text>Country From Server</Text>
-                </View>
-                <View style={styles.bodyStyle}>
-                  <Text>City:</Text>
-                  <Text>City from Server</Text>
-                </View>
-                <Text style={styles.headerStyle}>Contact Informations</Text>
-                <View style={styles.bodyStyle}>
-                  <Text>Phone Number:</Text>
-                  <Text>From Server</Text>
-                </View>
-                <View style={styles.bodyStyle}>
-                  <Text>Email:</Text>
-                  <Text>From Server</Text>
-                </View>
-                <Text style={styles.headerStyle}>Tags</Text>
-                <Text
-                  style={{
-                    marginLeft: "6.25%",
-                    width: "87.5%"
-                  }}
-                >
-                  #Tag1, #Tag2, #Tag3, #Tag4
-                </Text>
               </View>
+              <Text style={styles.headerStyle}>Bio</Text>
+              <Text
+                style={{
+                  width: "87.5%",
+                  marginLeft: "6.25%"
+                }}
+              >
+                Bio From The Server
+              </Text>
+              <Text style={styles.headerStyle}>General Informations</Text>
+              <View style={styles.bodyStyle}>
+                <Text>Name:</Text>
+                <Text>Name Of Person From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>Age:</Text>
+                <Text>Age of Person From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>Gender:</Text>
+                <Text>From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>ID:</Text>
+                <Text>ID From Server</Text>
+              </View>
+              <Text style={styles.headerStyle}>Location Informations</Text>
+              <View style={styles.bodyStyle}>
+                <Text>Country:</Text>
+                <Text>Country From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>City:</Text>
+                <Text>City from Server</Text>
+              </View>
+              <Text style={styles.headerStyle}>Contact Informations</Text>
+              <View style={styles.bodyStyle}>
+                <Text>Phone Number:</Text>
+                <Text>From Server</Text>
+              </View>
+              <View style={styles.bodyStyle}>
+                <Text>Email:</Text>
+                <Text>From Server</Text>
+              </View>
+              <Text style={styles.headerStyle}>Tags</Text>
+              <Text
+                style={{
+                  marginLeft: "6.25%",
+                  width: "87.5%",
+                  marginBottom: "10%"
+                }}
+              >
+                #Tag1, #Tag2, #Tag3, #Tag4
+              </Text>
             </ScrollView>
           </Animated.View>
         </View>
@@ -319,13 +562,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: "3%"
   },
-  button: {
-    borderWidth: width / 180,
-    borderRadius: 5,
-    padding: "1%",
-    paddingRight: "6%",
-    paddingLeft: "6%"
-  },
   headerStyle: {
     marginBottom: "1%",
     marginLeft: "5%",
@@ -339,6 +575,38 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
+  },
+  modalHeader: {
+    marginTop: "3%",
+    color: "white",
+    marginBottom: "5%",
+    fontWeight: "bold",
+    fontSize: width / 18
+  },
+  modalBody: {
+    color: "white",
+    marginLeft: "5%",
+    marginRight: "5%",
+    textAlign: "center",
+    marginTop: "2%"
+  },
+  modalTouchable: {
+    borderWidth: width / 720,
+    borderColor: "white",
+    borderRadius: width / 72,
+    padding: width / 120,
+    marginBottom: "7%"
+  },
+  modalView: {
+    borderWidth: width / 240,
+    alignItems: "center",
+    width: "85%"
+  },
+  modalButton: {
+    color: "white",
+    fontWeight: "bold",
+    paddingRight: "5%",
+    paddingLeft: "5%"
   }
 });
 

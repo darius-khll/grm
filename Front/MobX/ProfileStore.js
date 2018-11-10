@@ -52,9 +52,13 @@ class ProfileStore {
   @observable
   tags = [];
   @observable
-  addingStatus = "waiting";
+  addingStatus = "responsing";
   @observable
   buttonText = "";
+  @observable
+  secondButtonText = "";
+  @observable
+  isModalRemove = false;
   @computed
   get showTags() {
     return this.tags.map(tag => `#${tag}   `);
