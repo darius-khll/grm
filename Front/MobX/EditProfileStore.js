@@ -27,7 +27,7 @@ class EditProfileStore {
   country = "";
   @computed
   get getTags() {
-    return this.Tags.map(tag => `#${tag}  `);
+    return this.Tags.map(tag => `#${tag}   `);
   }
   @observable
   data = [

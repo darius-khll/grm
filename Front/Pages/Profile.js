@@ -16,8 +16,14 @@ import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
 import Wallpaper from "../Components/Wallpaper";
 import OptionsMenu from "react-native-options-menu";
+import Axios from "axios";
+
 let { width } = Dimensions.get("window");
 const MoreIcon = require("../RES/more.png");
+
+const requester = Axios.create({
+  baseURL: "https://localhost:3000/api/profile"
+});
 
 @observer
 class Profile extends Component {
@@ -73,6 +79,41 @@ class Profile extends Component {
     this.props.navigation.addListener("didBlur", () => {
       if (profileStore.expanded) this.toggle();
     });
+    requester
+      .get("/get", {
+        params: {
+          uniqueId: "_id"
+        }
+      })
+      .then(response => {
+        if (response.status === 200) {
+          profileStore.bio = response.data.bio;
+          profileStore.name = response.data.name;
+          profileStore.age = response.data.age;
+          profileStore.gender = response.data.gender;
+          profileStore.id = response.data.id;
+          profileStore.country = response.data.country;
+          profileStore.city = response.data.city;
+          profileStore.phoneNumber = response.data.phoneNumber;
+          profileStore.email = response.data.email;
+          profileStore.tags = response.data.tags;
+          profileStore.addingStatus = response.data.addingStatus;
+        }
+      });
+    this.buttonDecider();
+  }
+
+  buttonDecider() {
+    if (profileStore.addingStatus === "notAdded") {
+      profileStore.buttonText = "Add to Friends";
+    } else if (profileStore.addingStatus === "waiting") {
+      profileStore.buttonText = `Cancle  Friend
+      Request`;
+    } else if (profileStore.addingStatus === "added") {
+      profileStore.buttonText = "Send a Message";
+    } else if (profileStore.addingStatus === "responsing") {
+      profileStore.buttonText = "accept";
+    }
   }
 
   navigationToMyProfile() {
@@ -193,7 +234,15 @@ class Profile extends Component {
                     source={profileImage}
                   />
                   <TouchableHighlight onPress={() => {}} style={styles.button}>
-                    <Text style={{ fontWeight: "bold" }}>Add to Friends</Text>
+                    <Text style={{ fontWeight: "bold" }}>
+                      {profileStore.buttonText}
+                    </Text>
+                  </TouchableHighlight>
+
+                  <TouchableHighlight onPress={() => {}} style={styles.button}>
+                    <Text style={{ fontWeight: "bold" }}>
+                      {profileStore.buttonText}
+                    </Text>
                   </TouchableHighlight>
                   {/*This Button should be evaluated.*/}
                 </View>
