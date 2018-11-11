@@ -54,7 +54,7 @@ class EditProfileStore {
   @observable
   Tags = [];
   @observable
-  newTag = "";
+  newTag = " ";
 }
 
 const editProfileStore = new EditProfileStore();

@@ -4,9 +4,9 @@ import {
   Text,
   View,
   Image,
+  StatusBar,
   ScrollView,
   TextInput,
-  Modal,
   TouchableHighlight,
   Dimensions,
   Picker
@@ -15,6 +15,8 @@ import { createStackNavigator } from "react-navigation";
 import { observer } from "mobx-react";
 import signInPageStore from "../MobX/SignInPageStore";
 import Wallpaper from "../Components/Wallpaper";
+import ModalOneButton from "../Components/ModalOneButton";
+import ModalTwoButtons from "../Components/ModalTwoButtons";
 
 const { width } = Dimensions.get("window");
 
@@ -33,112 +35,40 @@ class SignInPage extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor="#00ACF4" barStyle="light-content" />
         <Wallpaper source={require("../RES/firstbackground.jpg")} />
         <ScrollView>
           <View style={styles.container1}>
-            <Modal
-              animationType="fade"
-              transparent={true}
-              visible={signInPageStore.modalVisible}
-              onRequestClose={() => {
-                this.setModalInvisible();
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "rgba(0,0,0,0.5)"
-                }}
-              >
-                {this.props.children}
-                <View style={styles.modalView}>
-                  <Wallpaper source={require("../RES/modalbackground.jpg")} />
-                  <Text style={styles.modalHeader}>Help</Text>
-                  <Text style={styles.modalBody}>
-                    Choose your country and enter your phone number. You will
-                    recieve a sms with a code to proceed. If you can't find your
-                    country name here, chose 'Other' at the end of the list and
-                    please notify us about that, in order for us to put your
-                    country name and code number in our list.
-                  </Text>
-                  <View
-                    style={{
-                      marginTop: "10%",
-                      alignItems: "center",
-                      flexDirection: "row",
-                      justifyContent: "flex-end"
-                    }}
-                  >
-                    <TouchableHighlight
-                      onPress={() => {
-                        this.setModalInvisible();
-                      }}
-                      style={styles.modalTouchable}
-                    >
-                      <Text style={styles.modalButton}>OK</Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            <Modal
-              animationType="fade"
-              transparent={true}
-              visible={signInPageStore.modal2Visible}
-              onRequestClose={() => {
+            <ModalOneButton
+              visibility={signInPageStore.modalVisible}
+              invisibleFunction={this.setModalInvisible}
+              buttonFunction={this.setModalInvisible}
+              body="Choose your country and enter your phone number. You will
+          recieve a sms with a code to proceed. If you can't find your
+          country name here, chose 'Other' at the end of the list and
+          please notify us about that, in order for us to put your
+          country name and code number in our list."
+              headerTitle="HELP"
+              buttonText="OK"
+            />
+            <ModalTwoButtons
+              visibility={signInPageStore.modal2Visible}
+              invisibleFunction={this.setModal2Invisible}
+              yesFunction={() => {
                 this.setModal2Invisible();
+                this.props.navigation.navigate("CheckCode", {
+                  code: signInPageStore.countryCode,
+                  number: signInPageStore.number
+                });
               }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "rgba(0,0,0,0.5)"
-                }}
-              >
-                {this.props.children}
-                <View style={styles.modalView}>
-                  <Wallpaper source={require("../RES/modalbackground.jpg")} />
-                  <Text style={styles.modalHeader}>Proceed?</Text>
-                  <Text style={styles.modalBody}>
-                    Are You sure {signInPageStore.countryCode}{" "}
-                    {signInPageStore.number} is your phone number?
-                  </Text>
-                  <View
-                    style={{
-                      marginTop: "10%",
-                      alignItems: "center",
-                      flexDirection: "row"
-                    }}
-                  >
-                    <TouchableHighlight
-                      onPress={() => {
-                        this.setModal2Invisible();
-                      }}
-                      style={styles.modalTouchable}
-                    >
-                      <Text style={styles.modalButton}>NO</Text>
-                    </TouchableHighlight>
-                    <View style={{ width: "10%" }} />
-                    <TouchableHighlight
-                      onPress={() => {
-                        this.setModal2Invisible();
-                        this.props.navigation.navigate("CheckCode", {
-                          code: signInPageStore.countryCode,
-                          number: signInPageStore.number
-                        });
-                      }}
-                      style={styles.modalTouchable}
-                    >
-                      <Text style={styles.modalButton}>YES</Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+              noFunction={this.setModal2Invisible}
+              headerTitle="Proceed?"
+              body={`Are You sure ${signInPageStore.countryCode} ${
+                signInPageStore.number
+              } is your phone number?`}
+              buttonNoText="NO"
+              buttonYesText="YES"
+            />
             <Text style={styles.welcome}>Welcome to Rich Messenger!</Text>
             <Text style={styles.instructions}>
               Please Enter Your Phone Number To Get Started
@@ -426,38 +356,6 @@ const styles = StyleSheet.create({
     width: width / 18,
     height: width / 18,
     resizeMode: "contain"
-  },
-  modalHeader: {
-    marginTop: "3%",
-    color: "white",
-    marginBottom: "5%",
-    fontWeight: "bold",
-    fontSize: width / 18
-  },
-  modalBody: {
-    color: "white",
-    marginLeft: "5%",
-    marginRight: "5%",
-    textAlign: "center",
-    marginTop: "2%"
-  },
-  modalTouchable: {
-    borderWidth: width / 720,
-    borderColor: "white",
-    borderRadius: width / 72,
-    padding: width / 120,
-    marginBottom: "7%"
-  },
-  modalView: {
-    borderWidth: width / 240,
-    alignItems: "center",
-    width: "85%"
-  },
-  modalButton: {
-    color: "white",
-    fontWeight: "bold",
-    paddingRight: "5%",
-    paddingLeft: "5%"
   },
   button: {
     marginTop: "7%",

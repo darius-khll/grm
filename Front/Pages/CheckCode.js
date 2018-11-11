@@ -7,7 +7,6 @@ import {
   ScrollView,
   Linking,
   TextInput,
-  Modal,
   TouchableHighlight
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
@@ -15,6 +14,8 @@ import checkCodeStore from "../MobX/CheckCodeStore";
 import { observer } from "mobx-react";
 import CheckBox from "react-native-check-box";
 import Wallpaper from "../Components/Wallpaper";
+import ModalTwoButtons from "../Components/ModalTwoButtons";
+import ModalOneButton from "../Components/ModalOneButton";
 
 const { width } = Dimensions.get("window");
 
@@ -38,101 +39,27 @@ class CheckCode extends Component {
         <Wallpaper source={require("../RES/firstbackground.jpg")} />
         <ScrollView>
           <View style={styles.container1}>
-            <Modal
-              animationType="fade"
-              transparent={true}
-              visible={checkCodeStore.isModalResend}
-              onRequestClose={() => {
-                this.setModalResendInvisible();
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "rgba(0,0,0,0.5)"
-                }}
-              >
-                {this.props.children}
-                <View style={styles.modalView}>
-                  <Wallpaper source={require("../RES/modalbackground.jpg")} />
-                  <Text style={styles.modalHeader}>Resend?</Text>
-                  <Text style={styles.modalBody}>
-                    Resend Code to {this.props.navigation.getParam("code", "")}{" "}
-                    {this.props.navigation.getParam("number", "")}?
-                  </Text>
-                  <View
-                    style={{
-                      marginTop: "10%",
-                      alignItems: "center",
-                      flexDirection: "row"
-                    }}
-                  >
-                    <TouchableHighlight
-                      onPress={() => {
-                        this.setModalResendInvisible();
-                      }}
-                      style={styles.modalTouchable}
-                    >
-                      <Text style={styles.modalButton}>NO</Text>
-                    </TouchableHighlight>
-                    <View style={{ width: "10%" }} />
-                    <TouchableHighlight
-                      onPress={() => {
-                        this.setModalResendInvisible();
-                      }}
-                      style={styles.modalTouchable}
-                    >
-                      <Text style={styles.modalButton}>YES</Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            <Modal
-              animationType="fade"
-              transparent={true}
-              visible={checkCodeStore.isModalAgree}
-              onRequestClose={() => {
-                this.setModalAgreeInvisible();
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backgroundColor: "rgba(0,0,0,0.5)"
-                }}
-              >
-                {this.props.children}
-                <View style={styles.modalView}>
-                  <Wallpaper source={require("../RES/modalbackground.jpg")} />
-                  <Text style={styles.modalHeader}>User Agreement</Text>
-                  <Text style={styles.modalBody}>
-                    Please confirm the user agreement with checking the box next
-                    to it.
-                  </Text>
-                  <View
-                    style={{
-                      marginTop: "10%",
-                      alignItems: "center",
-                      flexDirection: "row"
-                    }}
-                  >
-                    <TouchableHighlight
-                      onPress={() => {
-                        this.setModalAgreeInvisible();
-                      }}
-                      style={styles.modalTouchable}
-                    >
-                      <Text style={styles.modalButton}>OK</Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+            <ModalTwoButtons
+              visibility={checkCodeStore.isModalResend}
+              invisibleFunction={this.setModalResendInvisible}
+              yesFunction={this.setModalResendInvisible}
+              noFunction={this.setModalResendInvisible}
+              headerTitle="Resend?"
+              body={`Resend code to ${this.props.navigation.getParam(
+                "code",
+                ""
+              )} ${this.props.navigation.getParam("number", "")} ?`}
+              buttonNoText="NO"
+              buttonYesText="YES"
+            />
+            <ModalOneButton
+              visibility={checkCodeStore.isModalAgree}
+              invisibleFunction={this.setModalAgreeInvisible}
+              buttonFunction={this.setModalAgreeInvisible}
+              body="Please confirm the user agreement with checking the box next to it."
+              headerTitle="User Agreement!"
+              buttonText="OK"
+            />
             <Text style={styles.welcome}>
               Please Enter The Code We Have Sent You
             </Text>
@@ -225,38 +152,6 @@ const styles = StyleSheet.create({
     padding: "1%",
     marginBottom: "3%",
     borderRadius: 5
-  },
-  modalHeader: {
-    marginTop: "3%",
-    color: "white",
-    marginBottom: "5%",
-    fontWeight: "bold",
-    fontSize: width / 18
-  },
-  modalBody: {
-    color: "white",
-    marginLeft: "5%",
-    marginRight: "5%",
-    marginTop: "2%",
-    textAlign: "center"
-  },
-  modalTouchable: {
-    borderWidth: width / 720,
-    borderColor: "white",
-    borderRadius: 5,
-    padding: width / 120,
-    marginBottom: "7%"
-  },
-  modalView: {
-    borderWidth: width / 240,
-    alignItems: "center",
-    width: "85%"
-  },
-  modalButton: {
-    color: "white",
-    fontWeight: "bold",
-    paddingRight: "5%",
-    paddingLeft: "5%"
   },
   button: {
     borderWidth: width / 180,

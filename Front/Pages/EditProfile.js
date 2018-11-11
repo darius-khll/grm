@@ -18,7 +18,9 @@ import CheckBox from "react-native-check-box";
 import editProfileStore from "../MobX/EditProfileStore";
 import { observer } from "mobx-react";
 import Wallpaper from "../Components/Wallpaper";
+import ModalInput from "../Components/ModalInput";
 import Axios from "axios";
+import ModalOneButton from "../Components/ModalOneButton";
 
 const { width } = Dimensions.get("window");
 const requester = Axios.create({
@@ -83,223 +85,66 @@ class EditProfile extends Component {
       <View style={styles.container}>
         <Wallpaper source={require("../RES/background.jpg")} />
         <ScrollView style={{ width: "100%" }}>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={editProfileStore.isModalRemoveTag}
-            onRequestClose={() => {
+          <ModalInput
+            visiblity={editProfileStore.isModalRemoveTag}
+            invisibleFunction={this.setModalRemoveTagInvisible}
+            headerTitle="Remove a TAG"
+            body="Type the TAG you wasnt to remove."
+            inputPlace="TAG to remove"
+            noFunction={this.setModalRemoveTagInvisible}
+            buttonNoText="Cancle"
+            changeTextFunction={text => (editProfileStore.newTag = text)}
+            buttonYesText="Reomve"
+            yesFunction={() => {
+              if (editProfileStore.Tags.includes(editProfileStore.newTag)) {
+                editProfileStore.Tags.pop(editProfileStore.newTag);
+              }
               this.setModalRemoveTagInvisible();
+              editProfileStore.newTag = " ";
             }}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "rgba(0,0,0,0.5)"
-              }}
-            >
-              {this.props.children}
-              <View style={styles.modalView}>
-                <Wallpaper source={require("../RES/modalbackground.jpg")} />
-                <Text style={styles.modalHeader}>Remove a Tag</Text>
-                <Text style={styles.modalBody}>
-                  Type the TAG you want to remove.
-                </Text>
-                <TextInput
-                  placeholder="TAG to remove"
-                  style={styles.modalInput}
-                  onChangeText={text => (editProfileStore.newTag = text)}
-                  placeholderTextColor="#444"
-                />
-                <View
-                  style={{
-                    marginTop: "10%",
-                    alignItems: "center",
-                    flexDirection: "row"
-                  }}
-                >
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalRemoveTagInvisible();
-                    }}
-                    style={styles.modalTouchable}
-                  >
-                    <Text style={styles.modalButton}>Cancle</Text>
-                  </TouchableHighlight>
-                  <View style={{ width: "10%" }} />
-                  <TouchableHighlight
-                    onPress={() => {
-                      if (
-                        editProfileStore.Tags.includes(editProfileStore.newTag)
-                      ) {
-                        editProfileStore.Tags.pop(editProfileStore.newTag);
-                      }
-                      this.setModalRemoveTagInvisible();
-                    }}
-                    style={styles.modalTouchable}
-                  >
-                    <Text style={styles.modalButton}>Remove</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </View>
-          </Modal>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={editProfileStore.isModalAddTag}
-            onRequestClose={() => {
+          />
+          <ModalInput
+            visiblity={editProfileStore.isModalAddTag}
+            invisibleFunction={this.setModalAddTagInvisible}
+            headerTitle="Enter a new TAG"
+            body="Space is not allowed. There is no need to enter #. We'll add
+            them automatically. :)"
+            inputPlace="new TAG"
+            noFunction={this.setModalAddTagInvisible}
+            buttonNoText="Cancle"
+            changeTextFunction={text => (editProfileStore.newTag = text)}
+            buttonYesText="Add"
+            yesFunction={() => {
+              if (
+                !editProfileStore.Tags.includes(editProfileStore.newTag) &&
+                !editProfileStore.newTag.includes(" ")
+              ) {
+                editProfileStore.Tags.push(editProfileStore.newTag);
+              }
               this.setModalAddTagInvisible();
+              editProfileStore.newTag = " ";
             }}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "rgba(0,0,0,0.5)"
-              }}
-            >
-              {this.props.children}
-              <View style={styles.modalView}>
-                <Wallpaper source={require("../RES/modalbackground.jpg")} />
-                <Text style={styles.modalHeader}>Enter New TAG</Text>
-                <Text style={styles.modalBody}>
-                  Space is not allowed. There is no need to enter #. We'll add
-                  them automatically. :)
-                </Text>
-                <TextInput
-                  placeholder="New TAG"
-                  style={styles.modalInput}
-                  onChangeText={text => (editProfileStore.newTag = text)}
-                  placeholderTextColor="#444"
-                />
-                <View
-                  style={{
-                    marginTop: "10%",
-                    alignItems: "center",
-                    flexDirection: "row"
-                  }}
-                >
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalAddTagInvisible();
-                    }}
-                    style={styles.modalTouchable}
-                  >
-                    <Text style={styles.modalButton}>Cancle</Text>
-                  </TouchableHighlight>
-                  <View style={{ width: "10%" }} />
-                  <TouchableHighlight
-                    onPress={() => {
-                      if (
-                        !editProfileStore.Tags.includes(
-                          editProfileStore.newTag
-                        ) &&
-                        !editProfileStore.newTag.includes(" ")
-                      ) {
-                        editProfileStore.Tags.push(editProfileStore.newTag);
-                      }
-                      this.setModalAddTagInvisible();
-                    }}
-                    style={styles.modalTouchable}
-                  >
-                    <Text style={styles.modalButton}>Add</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </View>
-          </Modal>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={editProfileStore.isModalTag}
-            onRequestClose={() => {
-              this.setModalTagsInvisible();
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "rgba(0,0,0,0.5)"
-              }}
-            >
-              {this.props.children}
-              <View style={styles.modalView}>
-                <Wallpaper source={require("../RES/modalbackground.jpg")} />
-                <Text style={styles.modalHeader}>What is a TAG?</Text>
-                <Text style={styles.modalBody}>
-                  Tags will help others to find you. if somebody search a tag
-                  and it matches one of your tags, your profile will be shown.
-                  So you can Enter your Hobbies, favourites and others here and
-                  help everyone else to find you.
-                </Text>
-                <View
-                  style={{
-                    marginTop: "10%",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    justifyContent: "flex-end"
-                  }}
-                >
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalTagsInvisible();
-                    }}
-                    style={styles.modalTouchable}
-                  >
-                    <Text style={styles.modalButton}>OK</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </View>
-          </Modal>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={editProfileStore.isModalWrong}
-            onRequestClose={() => {
-              this.setModalInvisible();
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "rgba(0,0,0,0.5)"
-              }}
-            >
-              {this.props.children}
-              <View style={styles.modalView}>
-                <Wallpaper source={require("../RES/modalbackground.jpg")} />
-                <Text style={styles.modalHeader}>Action Incomplete</Text>
-                <Text style={styles.modalBody}>
-                  Something went wrong. Please try again later.
-                </Text>
-                <View
-                  style={{
-                    marginTop: "10%",
-                    alignItems: "center",
-                    flexDirection: "row",
-                    justifyContent: "flex-end"
-                  }}
-                >
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalInvisible();
-                    }}
-                    style={styles.modalTouchable}
-                  >
-                    <Text style={styles.modalButton}>OK</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </View>
-          </Modal>
+          />
+          <ModalOneButton
+            visibility={editProfileStore.isModalTag}
+            invisibleFunction={this.setModalTagsInvisible}
+            buttonFunction={this.setModalTagsInvisible}
+            body="Tags will help others to find you. if somebody search a tag
+          and it matches one of your tags, your profile will be shown.
+          So you can Enter your Hobbies, favourites and others here and
+          help everyone else to find you."
+            headerTitle="What is a TAG?"
+            buttonText="OK"
+          />
+          <ModalOneButton
+            visibility={editProfileStore.isModalWrong}
+            invisibleFunction={this.setModalInvisible}
+            buttonFunction={this.setModalInvisible}
+            body="Something went wrong. Please try again later."
+            headerTitle=">Action Incomplete"
+            buttonText="OK"
+          />
+
           <View style={{ padding: "5%", paddingTop: "3%" }}>
             <Text
               style={{
@@ -894,44 +739,6 @@ const styles = StyleSheet.create({
     height: width / 30,
     marginLeft: "15%",
     resizeMode: "contain"
-  },
-  modalHeader: {
-    marginTop: "3%",
-    color: "white",
-    marginBottom: "5%",
-    fontWeight: "bold",
-    fontSize: width / 18
-  },
-  modalBody: {
-    color: "white",
-    marginLeft: "5%",
-    marginRight: "5%",
-    textAlign: "center",
-    marginTop: "2%"
-  },
-  modalInput: {
-    borderBottomWidth: width / 720,
-    color: "#666",
-    padding: "2%",
-    textAlign: "center"
-  },
-  modalTouchable: {
-    borderWidth: width / 720,
-    borderColor: "white",
-    borderRadius: width / 72,
-    padding: width / 120,
-    marginBottom: "7%"
-  },
-  modalView: {
-    borderWidth: width / 240,
-    alignItems: "center",
-    width: "85%"
-  },
-  modalButton: {
-    color: "white",
-    fontWeight: "bold",
-    paddingRight: "5%",
-    paddingLeft: "5%"
   }
 });
 

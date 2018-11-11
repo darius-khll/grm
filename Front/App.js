@@ -178,7 +178,6 @@ const RootStack = createStackNavigator(
                   }}
                 />
               </TouchableHighlight>
-              {/* <Text>{tit}</Text> */}
             </View>
           ),
           headerStyle: { backgroundColor: "#2196f3" },
@@ -197,11 +196,10 @@ const RootStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "MainPage"
+    initialRouteName: "SignInPage"
   }
 );
 
-// type Props = {};
 export default class App extends Component {
   render() {
     return <RootStack />;

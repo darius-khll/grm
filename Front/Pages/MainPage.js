@@ -4,6 +4,7 @@ import {
   Text,
   TouchableHighlight,
   Dimensions,
+  StatusBar,
   View,
   Image,
   TextInput,
@@ -164,6 +165,7 @@ class MainPage extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar backgroundColor="#00ACF4" barStyle="dark-content" />
         <View style={{ flexDirection: "row", flex: 1 }}>
           <SideBar
             width={this.state.animation}

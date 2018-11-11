@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Modal,
   Animated,
   ScrollView,
   TouchableHighlight,
@@ -18,6 +17,7 @@ import { observer } from "mobx-react";
 import Wallpaper from "../Components/Wallpaper";
 import OptionsMenu from "react-native-options-menu";
 import Axios from "axios";
+import ModalTwoButtons from "../Components/ModalTwoButtons";
 
 let { width } = Dimensions.get("window");
 const MoreIcon = require("../RES/more.png");
@@ -351,78 +351,42 @@ Friend  Request`;
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={profileStore.isModalRemove}
-            onRequestClose={() => {
+          <ModalTwoButtons
+            visibility={profileStore.isModalRemove}
+            invisibleFunction={this.setModalRemoveInvisible}
+            yesFunction={() => {
               this.setModalRemoveInvisible();
+              requester.post("/status", {
+                uniqueId: "_id",
+                addingStatus: "notAdded"
+              });
+              profileStore.addingStatus = "notAdded";
+              profileStore.buttonText = "Add to Friends";
+              this.setState({
+                buttonTwo: {
+                  borderWidth: 0,
+                  borderRadius: 5,
+                  padding: "1%",
+                  paddingRight: "6%",
+                  paddingLeft: "6%",
+                  width: 0,
+                  height: 0
+                },
+                viewButton: {
+                  height: 0
+                }
+              });
             }}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "rgba(0,0,0,0.5)"
-              }}
-            >
-              {this.props.children}
-              <View style={styles.modalView}>
-                <Wallpaper source={require("../RES/modalbackground.jpg")} />
-                <Text style={styles.modalHeader}>Remove ?</Text>
-                <Text style={styles.modalBody}>
-                  Are You sure you want to remove{" "}
-                  {this.props.navigation.getParam("name", "?")} ?
-                </Text>
-                <View
-                  style={{
-                    marginTop: "10%",
-                    alignItems: "center",
-                    flexDirection: "row"
-                  }}
-                >
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalRemoveInvisible();
-                    }}
-                    style={styles.modalTouchable}
-                  >
-                    <Text style={styles.modalButton}>NO</Text>
-                  </TouchableHighlight>
-                  <View style={{ width: "10%" }} />
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.setModalRemoveInvisible();
-                      requester.post("/status", {
-                        uniqueId: "_id",
-                        addingStatus: "notAdded"
-                      });
-                      profileStore.addingStatus = "notAdded";
-                      profileStore.buttonText = "Add to Friends";
-                      this.setState({
-                        buttonTwo: {
-                          borderWidth: 0,
-                          borderRadius: 5,
-                          padding: "1%",
-                          paddingRight: "6%",
-                          paddingLeft: "6%",
-                          width: 0,
-                          height: 0
-                        },
-                        viewButton: {
-                          height: 0
-                        }
-                      });
-                    }}
-                    style={styles.modalTouchable}
-                  >
-                    <Text style={styles.modalButton}>YES</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </View>
-          </Modal>
+            noFunction={this.setModalRemoveInvisible}
+            headerTitle="Remove?"
+            body={`Are You sure you want to remove ${this.props.navigation.getParam(
+              "name",
+              "?"
+            )} ?`}
+            buttonNoText="NO"
+            buttonYesText="YES"
+          />
+
           <SideBar
             width={this.state.animation}
             toggle={this.toggle.bind(this)}
@@ -575,38 +539,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
-  },
-  modalHeader: {
-    marginTop: "3%",
-    color: "white",
-    marginBottom: "5%",
-    fontWeight: "bold",
-    fontSize: width / 18
-  },
-  modalBody: {
-    color: "white",
-    marginLeft: "5%",
-    marginRight: "5%",
-    textAlign: "center",
-    marginTop: "2%"
-  },
-  modalTouchable: {
-    borderWidth: width / 720,
-    borderColor: "white",
-    borderRadius: width / 72,
-    padding: width / 120,
-    marginBottom: "7%"
-  },
-  modalView: {
-    borderWidth: width / 240,
-    alignItems: "center",
-    width: "85%"
-  },
-  modalButton: {
-    color: "white",
-    fontWeight: "bold",
-    paddingRight: "5%",
-    paddingLeft: "5%"
   }
 });
 
