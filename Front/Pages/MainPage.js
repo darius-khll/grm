@@ -17,7 +17,12 @@ import { observer } from "mobx-react";
 import mainPageStore from "../MobX/MainPageStore";
 import Wallpaper from "../Components/Wallpaper";
 import toggler from "../APIs/toggler";
+import Axios from "axios";
 let { width } = Dimensions.get("window");
+
+const requester = Axios.create({
+  baseURL: "https://localhost:3000/api/getMasseges"
+});
 
 @observer
 class MainPage extends Component {
@@ -98,6 +103,17 @@ class MainPage extends Component {
       if (mainPageStore.expanded) this.toggle();
       this.props.navigation.setParams({ serachExpanded: false });
     });
+    requester
+      .get("/", {
+        params: {
+          uniqueId: "_id"
+        }
+      })
+      .then(response => {
+        if (response.status === 200) {
+          mainPageStore.flatList = response.data.flatlist;
+        }
+      });
   }
 
   navigationToMyProfile() {
