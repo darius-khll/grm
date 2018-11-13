@@ -15,7 +15,12 @@ import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
 import myProfileStore from "../MobX/MyProfileStore";
 import { observer } from "mobx-react";
+import Axios from "axios";
 let { width } = Dimensions.get("window");
+
+const requester = Axios.create({
+  baseURL: "https://localhost:3000/api/myprofile"
+});
 
 @observer
 class MyProfile extends Component {
@@ -49,6 +54,27 @@ class MyProfile extends Component {
     this.props.navigation.addListener("didBlur", () => {
       if (myProfileStore.expanded) this.toggle();
     });
+    requester
+      .get("/get", {
+        params: {
+          uniqueId: "_id"
+        }
+      })
+      .then(response => {
+        if (response.status === 200) {
+          myProfileStore.bio = response.data.bio;
+          myProfileStore.name = response.data.name;
+          myProfileStore.age = response.data.age;
+          myProfileStore.gender = response.data.gender;
+          myProfileStore.id = response.data.id;
+          myProfileStore.daysRemaining = response.data.daysRemaining;
+          myProfileStore.country = response.data.country;
+          myProfileStore.city = response.data.city;
+          myProfileStore.phoneNumber = response.data.phoneNumber;
+          myProfileStore.email = response.data.email;
+          myProfileStore.tags = response.data.tags;
+        }
+      });
   }
 
   navigationToMyProfile() {
@@ -223,7 +249,8 @@ class MyProfile extends Component {
               <Text
                 style={{
                   marginLeft: "6.25%",
-                  width: "87.5%"
+                  width: "87.5%",
+                  marginBottom: "10%"
                 }}
               >
                 #Tag1, #Tag2, #Tag3, #Tag4

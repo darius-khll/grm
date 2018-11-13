@@ -2,9 +2,17 @@ import React from "react";
 import { Text, View, StyleSheet, TextInput, Dimensions } from "react-native";
 import { createMaterialTopTabNavigator } from "react-navigation";
 import Wallpaper from "../Components/Wallpaper";
+import { observer } from "mobx-react";
+import searchPageStore from "../MobX/SearchPageStore";
+import Axios from "axios";
 
 let { width } = Dimensions.get("window");
 
+const requester = Axios.create({
+  baseURL: "https://localhost:3000/api/search"
+});
+
+@observer
 class BasedOnID extends React.Component {
   render() {
     return (
@@ -14,12 +22,14 @@ class BasedOnID extends React.Component {
           textContentType="username"
           style={styles.searchBox}
           placeholder="search for ID"
+          onChangeText={text => (searchPageStore.idSearchText = text)}
         />
       </View>
     );
   }
 }
 
+@observer
 class BasedOnTags extends React.Component {
   render() {
     return (
@@ -29,12 +39,14 @@ class BasedOnTags extends React.Component {
           textContentType="username"
           style={styles.searchBox}
           placeholder="search for Tags"
+          onChangeText={text => (searchPageStore.tagSearchText = text)}
         />
       </View>
     );
   }
 }
 
+@observer
 class BasedOnPhoneNumber extends React.Component {
   render() {
     return (
@@ -44,6 +56,7 @@ class BasedOnPhoneNumber extends React.Component {
           textContentType="telephoneNumber"
           style={styles.searchBox}
           placeholder="Search for Phone Number"
+          onChangeText={text => (searchPageStore.phoneSearchText = text)}
         />
       </View>
     );

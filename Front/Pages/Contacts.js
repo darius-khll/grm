@@ -17,6 +17,11 @@ import contactsStore from "../MobX/ContactsStore";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
+import Axios from "axios";
+
+const requester = Axios.create({
+  baseURL: "https://localhost:3000/api/contactlist"
+});
 let { width } = Dimensions.get("window");
 
 @observer
@@ -133,10 +138,22 @@ class Contacts extends Component {
       margin: "3%"
     }
   };
+
   componentWillMount() {
     this.props.navigation.addListener("didBlur", () => {
       if (contactsStore.expanded) this.toggle();
     });
+    requester
+      .get("/get", {
+        params: {
+          uniqueId: "_id"
+        }
+      })
+      .then(response => {
+        if (response.status === 200) {
+          contactsStore.sections = response.data.contacts;
+        }
+      });
   }
 
   navigationToMyProfile() {

@@ -117,7 +117,8 @@ class EditProfile extends Component {
             yesFunction={() => {
               if (
                 !editProfileStore.Tags.includes(editProfileStore.newTag) &&
-                !editProfileStore.newTag.includes(" ")
+                !editProfileStore.newTag.includes(" ") &&
+                editProfileStore.newTag !== ""
               ) {
                 editProfileStore.Tags.push(editProfileStore.newTag);
               }
