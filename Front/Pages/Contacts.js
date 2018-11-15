@@ -258,7 +258,6 @@ class Contacts extends Component {
                       <View
                         style={{
                           flexDirection: "row",
-
                           alignItems: "center"
                         }}
                       >
