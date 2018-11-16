@@ -2,12 +2,6 @@ import { compited, observable } from "mobx";
 
 class SearchPageStore {
   @observable
-  idSearchText = "";
-  @observable
-  phoneSearchText = "";
-  @observable
-  tagSearchText = "";
-  @observable
   searchIdList = [
     {
       key: "James",

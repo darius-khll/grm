@@ -32,7 +32,22 @@ class BasedOnID extends React.Component {
           textContentType="username"
           style={styles.searchBox}
           placeholder="search for ID"
-          onChangeText={text => (searchPageStore.idSearchText = text)}
+          onChangeText={text => {
+            if (text.length < 3) {
+              searchPageStore.searchIdList = [];
+            } else {
+              requester
+                .get("/idsearch", {
+                  params: {
+                    searchFor: text
+                  }
+                })
+                .then(response => {
+                  if (response.status === 200)
+                    searchPageStore.searchIdList = response.data.searchIdList;
+                });
+            }
+          }}
         />
         <ScrollView style={{ width: "100%" }}>
           <FlatList
@@ -100,7 +115,22 @@ class BasedOnTags extends React.Component {
           textContentType="username"
           style={styles.searchBox}
           placeholder="search for Tags"
-          onChangeText={text => (searchPageStore.tagSearchText = text)}
+          onChangeText={text => {
+            if (text.length < 1) {
+              searchPageStore.searchIdList = [];
+            } else {
+              requester
+                .get("/tagsearch", {
+                  params: {
+                    searchFor: text
+                  }
+                })
+                .then(response => {
+                  if (response.status === 200)
+                    searchPageStore.searchTagList = response.data.searchTagList;
+                });
+            }
+          }}
         />
         <ScrollView style={{ width: "100%" }}>
           <FlatList
@@ -176,7 +206,23 @@ class BasedOnPhoneNumber extends React.Component {
           textContentType="telephoneNumber"
           style={styles.searchBox}
           placeholder="Search for Phone Number"
-          onChangeText={text => (searchPageStore.phoneSearchText = text)}
+          onChangeText={text => {
+            if (text.length < 7) {
+              searchPageStore.searchPhoneList = [];
+            } else {
+              requester
+                .get("/phonesearch", {
+                  params: {
+                    searchFor: text
+                  }
+                })
+                .then(response => {
+                  if (response.status === 200)
+                    searchPageStore.searchPhoneList =
+                      response.data.searchPhoneList;
+                });
+            }
+          }}
         />
         <ScrollView style={{ width: "100%" }}>
           <FlatList
