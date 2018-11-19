@@ -24,8 +24,10 @@ import About from "./Pages/About";
 import Setting from "./Pages/Setting";
 import Profile from "./Pages/Profile";
 import Stickers from "./Pages/Stickers";
+import SubThemes from "./Pages/SubThemes";
 import Themes from "./Pages/Themes";
 import Contacts from "./Pages/Contacts";
+import SubStickers from "./Pages/SubStickers";
 import ChatPage from "./Pages/ChatPage";
 import Shop from "./Pages/Shop";
 import MyProfile from "./Pages/MyProfile";
@@ -119,6 +121,18 @@ const RootStack = createStackNavigator(
         header: null
       }
     },
+    SubStickers: {
+      screen: SubStickers,
+      navigationOptions: {
+        header: null
+      }
+    },
+    SubThemes: {
+      screen: SubThemes,
+      navigationOptions: {
+        header: null
+      }
+    },
     Contacts: {
       screen: Contacts,
       navigationOptions: {
@@ -196,7 +210,7 @@ const RootStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "SignInPage"
+    initialRouteName: "Shop"
   }
 );
 
