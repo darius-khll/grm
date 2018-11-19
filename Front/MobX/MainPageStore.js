@@ -32,6 +32,12 @@ class MainPageStore {
   @observable
   aboutIcon = require("../RES/about1.png");
   @observable
+  longClickItemName = "";
+  @observable
+  longClickItemImage;
+  @observable
+  isModalLongClick = false;
+  @observable
   flatList = [
     {
       key: "Devin",

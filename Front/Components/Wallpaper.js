@@ -8,7 +8,8 @@ export default class Wallpaper extends Component {
         style={{
           position: "absolute",
           width: "100%",
-          height: "100%"
+          height: "100%",
+          opacity: this.props.opacity
         }}
         source={this.props.source}
       />

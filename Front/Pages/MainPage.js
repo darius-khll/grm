@@ -9,7 +9,8 @@ import {
   Image,
   TextInput,
   Animated,
-  FlatList
+  FlatList,
+  Modal
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
@@ -116,6 +117,10 @@ class MainPage extends Component {
       });
   }
 
+  modalCloser() {
+    mainPageStore.isModalLongClick = false;
+  }
+
   navigationToMyProfile() {
     this.props.navigation.navigate("MyProfile");
   }
@@ -183,6 +188,69 @@ class MainPage extends Component {
       <View style={styles.container}>
         <StatusBar backgroundColor="#00ACF4" barStyle="dark-content" />
         <View style={{ flexDirection: "row", flex: 1 }}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={mainPageStore.isModalLongClick}
+            onRequestClose={() => {
+              this.modalCloser();
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(0,0,0,0.5)"
+              }}
+            >
+              {this.props.children}
+              <View style={styles.modalView}>
+                <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                <Text style={styles.modalHeader}>
+                  {mainPageStore.longClickItemName}
+                </Text>
+                <TouchableHighlight
+                  onPress={() => {
+                    requester.post("remove", {
+                      pramas: {
+                        itemToDelete: "_id"
+                      }
+                    });
+                  }}
+                  style={{ borderBottomColor: "white", borderBottomWidth: 0.5 }}
+                >
+                  <Text style={styles.modalButton}>Delete Chat</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  onPress={() => {}}
+                  style={{ borderBottomColor: "white", borderBottomWidth: 0.5 }}
+                >
+                  <Text style={styles.modalButton}>Pin On Top</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  onPress={() => {
+                    this.modalCloser();
+                    this.props.navigation.navigate("Profile", {
+                      name: mainPageStore.longClickItemName,
+                      image: mainPageStore.longClickItemImage
+                    });
+                  }}
+                  style={{ borderBottomColor: "white", borderBottomWidth: 0.5 }}
+                >
+                  <Text style={styles.modalButton}>Go to Profile</Text>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  onPress={() => {
+                    this.modalCloser();
+                  }}
+                  style={{ marginBottom: "2%" }}
+                >
+                  <Text style={styles.modalButton}>Cancle</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
           <SideBar
             width={this.state.animation}
             toggle={this.toggle.bind(this)}
@@ -212,6 +280,11 @@ class MainPage extends Component {
                         image: item.image
                       })
                     }
+                    onLongPress={() => {
+                      mainPageStore.longClickItemName = item.key;
+                      mainPageStore.longClickItemImage = item.image;
+                      mainPageStore.isModalLongClick = true;
+                    }}
                   >
                     <View
                       style={{
@@ -282,6 +355,26 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     resizeMode: "contain"
+  },
+  modalHeader: {
+    marginTop: "3%",
+    color: "white",
+    marginBottom: "5%",
+    fontWeight: "bold",
+    fontSize: 20
+  },
+  modalView: {
+    borderWidth: 1.5,
+    alignItems: "center",
+    width: "85%"
+  },
+  modalButton: {
+    color: "white",
+    fontSize: width / 25,
+    paddingRight: "5%",
+    paddingLeft: "5%",
+    paddingBottom: "1%",
+    paddingTop: "1%"
   }
 });
 

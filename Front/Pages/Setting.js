@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Dimensions,
+  Linking,
   ScrollView,
   Animated,
   TouchableHighlight
@@ -132,159 +133,81 @@ class Setting extends Component {
             <Wallpaper source={require("../RES/background.jpg")} />
             <ScrollView style={{ width: "100%" }}>
               <View style={{ alignItems: "center" }}>
-                <Text
-                  style={{
-                    fontSize: width / 22.5,
-                    marginTop: "2%",
-                    width: "90%",
-                    borderBottomWidth: width / 360,
-                    marginBottom: "1%"
-                  }}
-                >
-                  General Settings
-                </Text>
-                <Text
-                  style={{
-                    fontSize: width / 22.5,
-                    marginTop: "5%",
-                    width: "90%",
-                    borderBottomWidth: width / 360,
-                    marginBottom: "1%"
-                  }}
-                >
-                  Theme Settings
-                </Text>
+                <Text style={styles.headerStyle}>General Settings</Text>
+                <Text style={styles.headerStyle}>Theme Settings</Text>
                 <TouchableHighlight
-                  style={{
-                    borderBottomWidth: width / 720,
-                    width: "90%",
-                    padding: "1%"
-                  }}
+                  style={styles.optionStyle}
                   onPress={() => {}}
                 >
                   <Text>Theme</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-                  style={{
-                    borderBottomWidth: width / 720,
-                    width: "90%",
-                    padding: "1%"
-                  }}
+                  style={styles.optionStyle}
                   onPress={() => {}}
                 >
                   <Text>Change Chat Background</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-                  style={{
-                    borderBottomWidth: width / 720,
-                    width: "90%",
-                    padding: "1%"
-                  }}
+                  style={styles.optionStyle}
                   onPress={() => {}}
                 >
                   <Text>Chat Font</Text>
                 </TouchableHighlight>
-                <Text
-                  style={{
-                    fontSize: width / 22.5,
-                    marginTop: "5%",
-                    width: "90%",
-                    borderBottomWidth: width / 360,
-                    marginBottom: "1%"
-                  }}
-                >
-                  Notification Settings
-                </Text>
+                <Text style={styles.headerStyle}>Notification Settings</Text>
                 <TouchableHighlight
-                  style={{
-                    borderBottomWidth: width / 720,
-                    width: "90%",
-                    padding: "1%"
-                  }}
+                  style={styles.optionStyle}
                   onPress={() => {}}
                 >
                   <Text>LED Color</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-                  style={{
-                    borderBottomWidth: width / 720,
-                    width: "90%",
-                    padding: "1%"
-                  }}
+                  style={styles.optionStyle}
                   onPress={() => {}}
                 >
                   <Text>Vibration</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-                  style={{
-                    borderBottomWidth: width / 720,
-                    width: "90%",
-                    padding: "1%"
-                  }}
+                  style={styles.optionStyle}
                   onPress={() => {}}
                 >
                   <Text>Notificarion Sound</Text>
                 </TouchableHighlight>
-                <Text
-                  style={{
-                    fontSize: width / 22.5,
-                    marginTop: "5%",
-                    width: "90%",
-                    borderBottomWidth: width / 360,
-                    marginBottom: "1%"
-                  }}
-                >
-                  Privacy Settings
-                </Text>
+                <Text style={styles.headerStyle}>Privacy Settings</Text>
                 <TouchableHighlight
-                  style={{
-                    borderBottomWidth: width / 720,
-                    width: "90%",
-                    padding: "1%"
-                  }}
+                  style={styles.optionStyle}
                   onPress={() => {}}
                 >
                   <Text>Last Seen Status</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-                  style={{
-                    borderBottomWidth: width / 720,
-                    width: "90%",
-                    padding: "1%"
-                  }}
+                  style={styles.optionStyle}
                   onPress={() => this.props.navigation.navigate("SignInPage")}
                 >
                   <Text>Log Out!</Text>
                 </TouchableHighlight>
 
-                <Text
-                  style={{
-                    fontSize: width / 22.5,
-                    marginTop: "5%",
-                    width: "90%",
-                    borderBottomWidth: width / 360,
-                    marginBottom: "1%"
+                <Text style={styles.headerStyle}>Support</Text>
+                <TouchableHighlight
+                  style={styles.optionStyle}
+                  onPress={() => {
+                    Linking.openURL("http://www.google.com");
                   }}
                 >
-                  Support
-                </Text>
+                  <Text>How does it work?</Text>
+                </TouchableHighlight>
                 <TouchableHighlight
-                  style={{
-                    borderBottomWidth: width / 720,
-                    width: "90%",
-                    padding: "1%"
+                  style={styles.optionStyle}
+                  onPress={() => {
+                    Linking.openURL("http://www.google.com");
                   }}
-                  onPress={() => {}}
                 >
                   <Text>Ask a Question</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-                  style={{
-                    borderBottomWidth: width / 720,
-                    width: "90%",
-                    padding: "1%"
+                  style={styles.optionStyle}
+                  onPress={() => {
+                    Linking.openURL("http://www.google.com");
                   }}
-                  onPress={() => {}}
                 >
                   <Text>Rich Messenger FAQ</Text>
                 </TouchableHighlight>
@@ -313,6 +236,18 @@ const styles = StyleSheet.create({
     fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
+  },
+  headerStyle: {
+    fontSize: width / 22.5,
+    marginTop: "4%",
+    width: "90%",
+    borderBottomWidth: width / 360,
+    marginBottom: "1%"
+  },
+  optionStyle: {
+    borderBottomWidth: width / 720,
+    width: "85%",
+    padding: "1%"
   }
 });
 
