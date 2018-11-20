@@ -4,26 +4,28 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableHighlight,
   Dimensions,
+  TouchableHighlight,
+  Image,
   FlatList
 } from "react-native";
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import Wallpaper from "../Components/Wallpaper";
-import themesStore from "../MobX/ThemesStore";
 import { observer } from "mobx-react";
+import substickerStore from "../MobX/SubstickerStore";
 import Axios from "axios";
-let { width, height } = Dimensions.get("window");
+let { width } = Dimensions.get("window");
 
 const requester = Axios.create({
-  baseURL: "https://localhost:3000/api/themes"
+  baseURL: "https://localhost:3000/api/stickers/category"
 });
 
 @observer
-class Themes extends Component {
+class SubStickers extends Component {
   static navigationOptions = ({ navigation }) => {
+    let category = navigation.getParam("category", "Unknown");
     return {
-      headerTitle: "Themes Category",
+      headerTitle: category + " Stickers",
       headerStyle: { backgroundColor: "#2196f3" },
       headerTintColor: "#000",
       headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
@@ -31,9 +33,10 @@ class Themes extends Component {
   };
 
   componentWillMount() {
-    requester.get("/get").then(response => {
+    let category = this.props.navigation.getParam("category", "unknown");
+    requester.get(category).then(response => {
       if (response.status === 200) {
-        themesStore.categories = response.data.categories;
+        substickerStore.themes = response.data.stickers;
       }
     });
   }
@@ -46,14 +49,12 @@ class Themes extends Component {
           <View style={{ width: "100%", alignItems: "center" }}>
             <View style={{ height: width / 100 }} />
             <FlatList
-              numColumns={2}
               style={{ width: "98%" }}
-              data={themesStore.categories}
+              data={substickerStore.stickers}
               renderItem={({ item }) => {
                 return (
                   <View
                     style={{
-                      width: "49%",
                       marginRight: "0.5%",
                       marginLeft: "0.5%",
                       marginBottom: width / 120,
@@ -61,26 +62,34 @@ class Themes extends Component {
                       borderRadius: 5
                     }}
                   >
-                    <TouchableHighlight
-                      onPress={() => {
-                        this.props.navigation.navigate("SubThemes", {
-                          category: item.key
-                        });
-                      }}
-                    >
+                    <TouchableHighlight onPress={() => {}}>
                       <View
                         style={{
-                          alignItems: "center",
-                          height: height / 4,
-                          justifyContent: "center"
+                          flexDirection: "row",
+                          alignItems: "center"
                         }}
                       >
-                        <Wallpaper source={item.image} opacity={0.6} />
-                        <Text
-                          style={{ fontSize: width / 18, fontWeight: "bold" }}
-                        >
-                          {item.name}
-                        </Text>
+                        <Image
+                          source={item.image}
+                          style={{ height: "80%", width: "50%" }}
+                        />
+                        <View style={{ marginLeft: "5%" }}>
+                          <Text
+                            style={{ fontSize: width / 18, fontWeight: "bold" }}
+                          >
+                            {item.name}
+                          </Text>
+                          <Text style={{ fontSize: width / 22 }}>
+                            {item.numOfStickers}
+                            {" Stickers"}
+                          </Text>
+                          <Text
+                            style={{ fontSize: width / 25, marginBottom: "2%" }}
+                          >
+                            {item.price}
+                            {"$"}
+                          </Text>
+                        </View>
                       </View>
                     </TouchableHighlight>
                   </View>
@@ -111,7 +120,7 @@ const styles = StyleSheet.create({
 });
 
 export default createStackNavigator({
-  Themes: {
-    screen: Themes
+  SubStickers: {
+    screen: SubStickers
   }
 });

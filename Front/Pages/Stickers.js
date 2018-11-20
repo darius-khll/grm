@@ -23,7 +23,7 @@ const requester = Axios.create({
 class Stickers extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: "Stickers",
+      headerTitle: "Stickers Category",
       headerStyle: { backgroundColor: "#2196f3" },
       headerTintColor: "#000",
       headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
@@ -61,7 +61,13 @@ class Stickers extends Component {
                       borderRadius: 5
                     }}
                   >
-                    <TouchableHighlight onPress={() => {}}>
+                    <TouchableHighlight
+                      onPress={() => {
+                        this.props.navigation.navigate("SubStickers", {
+                          category: item.key
+                        });
+                      }}
+                    >
                       <View
                         style={{
                           alignItems: "center",
