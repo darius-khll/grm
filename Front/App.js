@@ -27,6 +27,7 @@ import Stickers from "./Pages/Stickers";
 import SubThemes from "./Pages/SubThemes";
 import Themes from "./Pages/Themes";
 import Contacts from "./Pages/Contacts";
+import ThemePreview from "./Pages/ThemePreview";
 import SubStickers from "./Pages/SubStickers";
 import ChatPage from "./Pages/ChatPage";
 import Shop from "./Pages/Shop";
@@ -68,6 +69,12 @@ const RootStack = createStackNavigator(
     },
     Themes: {
       screen: Themes,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ThemePreview: {
+      screen: ThemePreview,
       navigationOptions: {
         header: null
       }
@@ -210,7 +217,7 @@ const RootStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Shop"
+    initialRouteName: "SignInPage"
   }
 );
 

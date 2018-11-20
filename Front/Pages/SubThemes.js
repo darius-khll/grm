@@ -24,7 +24,7 @@ class SubThemes extends Component {
   static navigationOptions = ({ navigation }) => {
     let category = navigation.getParam("category", "Unknown");
     return {
-      headerTitle: category + " Stickers",
+      headerTitle: category + " Themes",
       headerStyle: { backgroundColor: "#2196f3" },
       headerTintColor: "#000",
       headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
@@ -65,8 +65,8 @@ class SubThemes extends Component {
                   >
                     <TouchableHighlight
                       onPress={() => {
-                        this.props.navigation.navigate("SubThemes", {
-                          category: item.key
+                        this.props.navigation.navigate("ThemePreview", {
+                          name: item.name
                         });
                       }}
                     >
