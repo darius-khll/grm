@@ -3,57 +3,46 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList,
   ScrollView,
   Image,
-  StatusBar,
+  FlatList,
   TouchableHighlight,
   Dimensions
 } from "react-native";
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import Wallpaper from "../Components/Wallpaper";
-import themePreviewStore from "../MobX/ThemePreviewStore";
+import stickerPreviewStore from "../MobX/StickerPreviewStore";
 import { observer } from "mobx-react";
 import Axios from "axios";
 let { width, height } = Dimensions.get("window");
 
 const requester = Axios.create({
-  baseURL: "https://localhost:3000/api/themes"
+  baseURL: "https://localhost:3000/api/stickers"
 });
 
 @observer
-class Themes extends Component {
+class StickerPreview extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: themePreviewStore.name,
-      headerStyle: { backgroundColor: themePreviewStore.color },
-      headerTintColor: themePreviewStore.headerTintColor,
-      headerLeft: (
-        <HeaderBackButton
-          tintColor={themePreviewStore.headerTintColor}
-          onPress={() => navigation.goBack(null)}
-        />
-      )
+      headerTitle: stickerPreviewStore.name,
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
     };
   };
 
   componentWillMount() {
     requester
-      .get("/theme", {
+      .get("/sticker", {
         params: {
           id: "_id"
         }
       })
       .then(response => {
         if (response.status === 200) {
-          themePreviewStore.color = response.data.color;
-          themePreviewStore.price = response.data.price;
-          themePreviewStore.name = response.data.name;
-          themePreviewStore.headerTintColor = response.data.headerTintColor;
-          themePreviewStore.wallpaper = response.data.wallpaper;
-          themePreviewStore.previews = response.data.previews;
-          themePreviewStore.statusStyle = response.data.statusStyle;
-          themePreviewStore.statusColor = response.data.statusColor;
+          stickerPreviewStore.name = response.data.name;
+          stickerPreviewStore.previews = response.data.previews;
+          stickerPreviewStore.price = response.data.price;
         }
       });
   }
@@ -61,11 +50,7 @@ class Themes extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar
-          backgroundColor={themePreviewStore.statusColor}
-          barStyle={themePreviewStore.statusStyle}
-        />
-        <Wallpaper source={themePreviewStore.wallpaper} />
+        <Wallpaper source={require("../RES/background.jpg")} />
         <View
           style={{
             height: height / 3,
@@ -73,10 +58,10 @@ class Themes extends Component {
           }}
         >
           <Text style={{ fontSize: width / 10, fontWeight: "bold" }}>
-            {themePreviewStore.name}
+            {stickerPreviewStore.name}
           </Text>
           <Text style={{ fontSize: width / 15 }}>
-            Price: {themePreviewStore.price}$
+            Price: {stickerPreviewStore.price}$
           </Text>
           <View style={{ height: height / 5 }} />
         </View>
@@ -84,7 +69,7 @@ class Themes extends Component {
           <ScrollView horizontal={true}>
             <FlatList
               horizontal={true}
-              data={themePreviewStore.previews}
+              data={stickerPreviewStore.previews}
               renderItem={({ item }) => {
                 return (
                   <View style={styles.viewStyler}>
@@ -132,7 +117,7 @@ const styles = StyleSheet.create({
 });
 
 export default createStackNavigator({
-  Themes: {
-    screen: Themes
+  StickerPreview: {
+    screen: StickerPreview
   }
 });

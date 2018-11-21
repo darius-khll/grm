@@ -25,6 +25,7 @@ import Setting from "./Pages/Setting";
 import Profile from "./Pages/Profile";
 import Stickers from "./Pages/Stickers";
 import SubThemes from "./Pages/SubThemes";
+import StickerPreview from "./Pages/StickerPreview";
 import Themes from "./Pages/Themes";
 import Contacts from "./Pages/Contacts";
 import ThemePreview from "./Pages/ThemePreview";
@@ -214,10 +215,16 @@ const RootStack = createStackNavigator(
       navigationOptions: {
         header: null
       }
+    },
+    StickerPreview: {
+      screen: StickerPreview,
+      navigationOptions: {
+        header: null
+      }
     }
   },
   {
-    initialRouteName: "SignInPage"
+    initialRouteName: "Shop"
   }
 );
 
