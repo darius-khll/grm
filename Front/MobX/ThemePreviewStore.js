@@ -14,14 +14,26 @@ class ThemePreviewStore {
   @observable
   color = "red";
   @observable
-  previews = {
-    image1: require("../RES/liverpool3.jpg"),
-    image2: require("../RES/liverpool3.jpg"),
-    image3: require("../RES/liverpool3.jpg"),
-    image4: require("../RES/liverpool3.jpg"),
-    image5: require("../RES/liverpool3.jpg"),
-    image6: require("../RES/liverpool3.jpg")
-  };
+  previews = [
+    {
+      image: require("../RES/liverpool3.jpg")
+    },
+    {
+      image: require("../RES/liverpool3.jpg")
+    },
+    {
+      image: require("../RES/liverpool3.jpg")
+    },
+    {
+      image: require("../RES/liverpool3.jpg")
+    },
+    {
+      image: require("../RES/liverpool3.jpg")
+    },
+    {
+      image: require("../RES/liverpool3.jpg")
+    }
+  ];
   @observable
   statusColor = "#f22";
   @observable

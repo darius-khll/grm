@@ -62,7 +62,11 @@ class SubStickers extends Component {
                       borderRadius: 5
                     }}
                   >
-                    <TouchableHighlight onPress={() => {}}>
+                    <TouchableHighlight
+                      onPress={() =>
+                        this.props.navigation.navigate("StickerPreview")
+                      }
+                    >
                       <View
                         style={{
                           flexDirection: "row",
