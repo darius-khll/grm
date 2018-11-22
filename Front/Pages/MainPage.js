@@ -7,6 +7,7 @@ import {
   StatusBar,
   View,
   Image,
+  BackHandler,
   TextInput,
   Animated,
   FlatList,
@@ -19,6 +20,7 @@ import mainPageStore from "../MobX/MainPageStore";
 import Wallpaper from "../Components/Wallpaper";
 import toggler from "../APIs/toggler";
 import Axios from "axios";
+import { FloatingAction } from "react-native-floating-action";
 let { width } = Dimensions.get("window");
 
 const requester = Axios.create({
@@ -99,6 +101,16 @@ class MainPage extends Component {
     }
   };
 
+  actions = [
+    {
+      text: "New Chat",
+      color: "black",
+      icon: require("../RES/compose.png"),
+      name: "newChat",
+      position: 1
+    }
+  ];
+
   componentWillMount() {
     this.props.navigation.addListener("didBlur", () => {
       if (mainPageStore.expanded) this.toggle();
@@ -115,6 +127,9 @@ class MainPage extends Component {
           mainPageStore.flatList = response.data.flatlist;
         }
       });
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      BackHandler.exitApp();
+    });
   }
 
   modalCloser() {
@@ -329,6 +344,16 @@ class MainPage extends Component {
             />
           </Animated.View>
         </View>
+        <FloatingAction
+          visible={!mainPageStore.expanded}
+          listenKeyboard={true}
+          actions={this.actions}
+          color="black"
+          onPressItem={name => {
+            if (name === "newChat")
+              this.props.navigation.navigate("ContactSelection");
+          }}
+        />
       </View>
     );
   }
