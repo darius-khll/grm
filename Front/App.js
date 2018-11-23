@@ -30,6 +30,7 @@ import Themes from "./Pages/Themes";
 import Contacts from "./Pages/Contacts";
 import ThemePreview from "./Pages/ThemePreview";
 import SubStickers from "./Pages/SubStickers";
+import ContactSelection from "./Pages/ContactSelection";
 import ChatPage from "./Pages/ChatPage";
 import Shop from "./Pages/Shop";
 import MyProfile from "./Pages/MyProfile";
@@ -48,6 +49,12 @@ const RootStack = createStackNavigator(
   {
     SignInPage: {
       screen: SignInPage,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ContactSelection: {
+      screen: ContactSelection,
       navigationOptions: {
         header: null
       }
@@ -205,7 +212,7 @@ const RootStack = createStackNavigator(
           headerStyle: { backgroundColor: "#2196f3" },
           headerTintColor: "#000",
           headerLeft: (
-            <HeaderBackButton onPress={() => navigation.goBack(null)} />
+            <HeaderBackButton onPress={() => navigation.navigate("MainPage")} />
           )
         };
       }
@@ -224,7 +231,7 @@ const RootStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Shop"
+    initialRouteName: "SignInPage"
   }
 );
 
