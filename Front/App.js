@@ -231,7 +231,7 @@ const RootStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "SignInPage"
+    initialRouteName: "MainPage"
   }
 );
 
