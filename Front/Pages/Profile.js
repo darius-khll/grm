@@ -357,6 +357,7 @@ Friend  Request`;
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
           <Modal
+            transparent={false}
             visible={profileStore.isModalImageView}
             onRequestClose={() => {
               this.setModalImageViewerInvisible();
@@ -368,6 +369,28 @@ Friend  Request`;
               enableSwipeDown={true}
               saveToLocalByLongPress={false}
               renderIndicator={() => {}}
+              renderHeader={() => {
+                return (
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalImageViewerInvisible();
+                    }}
+                  >
+                    <View style={{}}>
+                      <Image
+                        source={require("../RES/backbuttonwhite.png")}
+                        style={{
+                          width: width / 10,
+                          marginTop: "5%",
+                          height: width / 10,
+                          resizeMode: "contain",
+                          marginLeft: "5%"
+                        }}
+                      />
+                    </View>
+                  </TouchableHighlight>
+                );
+              }}
             />
           </Modal>
           <ModalTwoButtons

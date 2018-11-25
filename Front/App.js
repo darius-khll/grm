@@ -198,12 +198,12 @@ const RootStack = createStackNavigator(
                 }
               >
                 <Image
-                  source={img}
+                  source={require("./RES/profile.png")}
                   style={{
-                    width: width / 8,
-                    height: width / 8,
-                    resizeMode: "contain",
-                    marginRight: width / 15
+                    width: width / 10,
+                    height: width / 10,
+                    marginRight: width / 45,
+                    resizeMode: "contain"
                   }}
                 />
               </TouchableHighlight>
