@@ -7,7 +7,6 @@ import {
   StatusBar,
   View,
   Image,
-  BackHandler,
   TextInput,
   Animated,
   FlatList,
@@ -127,9 +126,6 @@ class MainPage extends Component {
           mainPageStore.flatList = response.data.flatlist;
         }
       });
-    BackHandler.addEventListener("hardwareBackPress", () => {
-      BackHandler.exitApp();
-    });
   }
 
   modalCloser() {

@@ -16,11 +16,14 @@ const { width } = Dimensions.get("window");
 
 class NormalChat extends React.Component {
   componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", () => {
-      this.props.navigation.navigate("MainPage");
-      return true;
-    });
+    BackHandler.addEventListener("hardwareBackPress", this.listenerToChatPage);
   }
+
+  listenerToChatPage() {
+    this.props.navigation.navigate("MainPage");
+    return true;
+  }
+
   render() {
     return (
       <View style={styles.container}>

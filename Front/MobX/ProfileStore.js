@@ -2,6 +2,17 @@ import { observable, computed } from "mobx";
 
 class ProfileStore {
   @observable
+  isModalImageView = false;
+  @observable
+  images = [
+    {
+      props: {
+        source: require("../RES/sampleprofileimage.jpg")
+      }
+      // freeHeight: false
+    }
+  ];
+  @observable
   expanded = false;
   @observable
   collapseText = "";

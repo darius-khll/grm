@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableHighlight,
   Dimensions,
+  Modal,
   Image
 } from "react-native";
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
@@ -15,6 +16,7 @@ import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
 import Wallpaper from "../Components/Wallpaper";
+import ImageViewer from "react-native-image-zoom-viewer";
 import OptionsMenu from "react-native-options-menu";
 import Axios from "axios";
 import ModalTwoButtons from "../Components/ModalTwoButtons";
@@ -343,6 +345,9 @@ Friend  Request`;
     }
   }
 
+  setModalImageViewerInvisible() {
+    profileStore.isModalImageView = false;
+  }
   render() {
     const profileImage = this.props.navigation.getParam(
       "image",
@@ -351,6 +356,43 @@ Friend  Request`;
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
+          <Modal
+            transparent={false}
+            visible={profileStore.isModalImageView}
+            onRequestClose={() => {
+              this.setModalImageViewerInvisible();
+            }}
+          >
+            <ImageViewer
+              imageUrls={profileStore.images}
+              onSwipeDown={this.setModalImageViewerInvisible}
+              enableSwipeDown={true}
+              saveToLocalByLongPress={false}
+              renderIndicator={() => {}}
+              renderHeader={() => {
+                return (
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalImageViewerInvisible();
+                    }}
+                  >
+                    <View style={{}}>
+                      <Image
+                        source={require("../RES/backbuttonwhite.png")}
+                        style={{
+                          width: width / 10,
+                          marginTop: "5%",
+                          height: width / 10,
+                          resizeMode: "contain",
+                          marginLeft: "5%"
+                        }}
+                      />
+                    </View>
+                  </TouchableHighlight>
+                );
+              }}
+            />
+          </Modal>
           <ModalTwoButtons
             visibility={profileStore.isModalRemove}
             invisibleFunction={this.setModalRemoveInvisible}
@@ -416,7 +458,16 @@ Friend  Request`;
                   marginTop: "3%"
                 }}
               >
-                <Image style={this.state.profileImage} source={profileImage} />
+                <TouchableHighlight
+                  onPress={() => {
+                    profileStore.isModalImageView = true;
+                  }}
+                >
+                  <Image
+                    style={this.state.profileImage}
+                    source={profileImage}
+                  />
+                </TouchableHighlight>
                 <View
                   style={{
                     alignItems: "center",
@@ -450,7 +501,6 @@ Friend  Request`;
                       {profileStore.secondButtonText}
                     </Text>
                   </TouchableHighlight>
-                  {/*This Button should be evaluated.*/}
                 </View>
               </View>
               <Text style={styles.headerStyle}>Bio</Text>
