@@ -212,7 +212,7 @@ const RootStack = createStackNavigator(
           headerStyle: { backgroundColor: "#2196f3" },
           headerTintColor: "#000",
           headerLeft: (
-            <HeaderBackButton onPress={() => navigation.navigate("MainPage")} />
+            <HeaderBackButton onPress={() => navigation.goBack(null)} />
           )
         };
       }

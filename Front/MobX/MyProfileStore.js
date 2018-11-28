@@ -4,6 +4,17 @@ class MyProfileStore {
   @observable
   expanded = false;
   @observable
+  isModalImageView = false;
+  @observable
+  images = [
+    {
+      source: require("../RES/sampleprofileimage.jpg"),
+      title: "Paris",
+      width: 806,
+      height: 720
+    }
+  ];
+  @observable
   collapseText = "";
   @observable
   myProfileText = "";

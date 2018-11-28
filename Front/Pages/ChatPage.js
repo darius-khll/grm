@@ -15,15 +15,6 @@ import Wallpaper from "../Components/Wallpaper";
 const { width } = Dimensions.get("window");
 
 class NormalChat extends React.Component {
-  componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.listenerToChatPage);
-  }
-
-  listenerToChatPage() {
-    this.props.navigation.navigate("MainPage");
-    return true;
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -54,12 +45,6 @@ class NormalChat extends React.Component {
 }
 
 class SecureChat extends React.Component {
-  componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", () => {
-      this.props.navigation.navigate("MainPage");
-      return true;
-    });
-  }
   render() {
     return (
       <View style={styles.container}>

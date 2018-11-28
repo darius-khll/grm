@@ -14,6 +14,7 @@ import Wallpaper from "../Components/Wallpaper";
 import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
 import myProfileStore from "../MobX/MyProfileStore";
+import ImageView from "react-native-image-view";
 import { observer } from "mobx-react";
 import Axios from "axios";
 let { width } = Dimensions.get("window");
@@ -153,6 +154,13 @@ class MyProfile extends Component {
     return (
       <View style={styles.container}>
         <View style={{ flexDirection: "row", flex: 1 }}>
+          <ImageView
+            images={myProfileStore.images}
+            animationType="fade"
+            imageIndex={0}
+            isVisible={myProfileStore.isModalImageView}
+            onClose={() => (myProfileStore.isModalImageView = false)}
+          />
           <SideBar
             width={this.state.animation}
             toggle={this.toggle.bind(this)}
@@ -182,10 +190,14 @@ class MyProfile extends Component {
                   justifyContent: "space-evenly"
                 }}
               >
-                <Image
-                  style={this.state.profileImage}
-                  source={require("../RES/anonymous.png")}
-                />
+                <TouchableHighlight
+                  onPress={() => (myProfileStore.isModalImageView = true)}
+                >
+                  <Image
+                    style={this.state.profileImage}
+                    source={require("../RES/anonymous.png")}
+                  />
+                </TouchableHighlight>
                 <TouchableHighlight
                   onPress={() =>
                     this.props.navigation.navigate("EditProfile", {

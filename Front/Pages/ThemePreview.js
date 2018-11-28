@@ -13,6 +13,7 @@ import {
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import Wallpaper from "../Components/Wallpaper";
 import themePreviewStore from "../MobX/ThemePreviewStore";
+import ImageView from "react-native-image-view";
 import { observer } from "mobx-react";
 import Axios from "axios";
 let { width, height } = Dimensions.get("window");
@@ -66,6 +67,14 @@ class Themes extends Component {
           barStyle={themePreviewStore.statusStyle}
         />
         <Wallpaper source={themePreviewStore.wallpaper} />
+        <ImageView
+          images={themePreviewStore.images}
+          animationType="fade"
+          controls={{ next: true, prev: true }}
+          imageIndex={themePreviewStore.index}
+          isVisible={themePreviewStore.isModalShowImages}
+          onClose={() => (themePreviewStore.isModalShowImages = false)}
+        />
         <View
           style={{
             height: height / 3,
@@ -85,10 +94,18 @@ class Themes extends Component {
             <FlatList
               horizontal={true}
               data={themePreviewStore.previews}
-              renderItem={({ item }) => {
+              keyExtractor={(item, index) => index}
+              renderItem={({ item, index }) => {
                 return (
                   <View style={styles.viewStyler}>
-                    <Image style={styles.image} source={item.image} />
+                    <TouchableHighlight
+                      onPress={() => {
+                        themePreviewStore.isModalShowImages = true;
+                        themePreviewStore.index = index;
+                      }}
+                    >
+                      <Image style={styles.image} source={item.image} />
+                    </TouchableHighlight>
                   </View>
                 );
               }}
