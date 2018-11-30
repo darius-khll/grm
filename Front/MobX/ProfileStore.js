@@ -6,10 +6,10 @@ class ProfileStore {
   @observable
   images = [
     {
-      props: {
-        source: require("../RES/sampleprofileimage.jpg")
-      }
-      // freeHeight: false
+      source: require("../RES/sampleprofileimage.jpg"),
+      title: "Paris",
+      width: 806,
+      height: 720
     }
   ];
   @observable
