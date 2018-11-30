@@ -8,18 +8,19 @@ import {
   View,
   Image,
   TextInput,
-  Animated,
   FlatList,
   Modal
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
+import SideMenu from "react-native-side-menu";
 import { observer } from "mobx-react";
 import mainPageStore from "../MobX/MainPageStore";
 import Wallpaper from "../Components/Wallpaper";
-import toggler from "../APIs/toggler";
+import ShortcutBar from "../Components/ShortcutBar";
 import Axios from "axios";
 import { FloatingAction } from "react-native-floating-action";
+
 let { width } = Dimensions.get("window");
 
 const requester = Axios.create({
@@ -89,17 +90,6 @@ class MainPage extends Component {
     };
   };
 
-  state = {
-    animation: new Animated.Value(width / 8),
-    animation2: new Animated.Value((7 * width) / 8),
-    imageStyle: {
-      width: (0.85 * width) / 8,
-      height: (0.85 * width) / 8,
-      resizeMode: "contain",
-      margin: "3%"
-    }
-  };
-
   actions = [
     {
       text: "New Chat",
@@ -110,10 +100,13 @@ class MainPage extends Component {
     }
   ];
 
+  toggle() {
+    mainPageStore.isDrawerOpen = true;
+  }
+
   componentWillMount() {
     this.props.navigation.addListener("didBlur", () => {
-      if (mainPageStore.expanded) this.toggle();
-      this.props.navigation.setParams({ serachExpanded: false });
+      if (mainPageStore.isDrawerOpen) mainPageStore.isDrawerOpen = false;
     });
     requester
       .get("/", {
@@ -151,206 +144,193 @@ class MainPage extends Component {
     this.props.navigation.navigate("About");
   }
 
-  toggle() {
-    let initialValue = mainPageStore.expanded ? width : width / 8,
-      finalValue = mainPageStore.expanded ? width / 8 : width;
-
-    let initialValue2 = mainPageStore.expanded ? 0 : (7 * width) / 8,
-      finalValue2 = mainPageStore.expanded ? (7 * width) / 8 : 0;
-
-    mainPageStore.expanded = !mainPageStore.expanded;
-    this.state.animation.setValue(initialValue);
-    this.state.animation2.setValue(initialValue2);
-
-    let animate = Animated.parallel([
-      Animated.spring(this.state.animation, {
-        toValue: finalValue,
-        speed: 2
-      }),
-
-      Animated.timing(this.state.animation2, {
-        toValue: finalValue2,
-        duration: 600
-      })
-    ]);
-    if (mainPageStore.expanded) {
-      this.setState({
-        imageStyle: {
-          width: 0,
-          height: 0
-        }
-      });
-    } else {
-      this.setState({
-        imageStyle: {
-          width: (0.85 * width) / 8,
-          height: (0.85 * width) / 8,
-          resizeMode: "contain",
-          margin: "3%"
-        }
-      });
-    }
-    toggler(mainPageStore);
-    animate.start();
-  }
-
   render() {
     return (
-      <View style={styles.container}>
-        <StatusBar backgroundColor="#00ACF4" barStyle="dark-content" />
-        <View style={{ flexDirection: "row", flex: 1 }}>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={mainPageStore.isModalLongClick}
-            onRequestClose={() => {
-              this.modalCloser();
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "rgba(0,0,0,0.5)"
+      <SideMenu
+        openMenuOffset={(9 * width) / 10}
+        isOpen={mainPageStore.isDrawerOpen}
+        onChange={isOpen => {
+          if (!isOpen) mainPageStore.isDrawerOpen = false;
+          else if (isOpen) mainPageStore.isDrawerOpen = true;
+        }}
+        menu={<SideBar imageStyle={styles.imageStyle} />}
+      >
+        <View style={styles.container}>
+          <StatusBar backgroundColor="#00ACF4" barStyle="dark-content" />
+          <View style={{ flexDirection: "row", flex: 1 }}>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={mainPageStore.isModalLongClick}
+              onRequestClose={() => {
+                this.modalCloser();
               }}
             >
-              {this.props.children}
-              <View style={styles.modalView}>
-                <Wallpaper source={require("../RES/modalbackground.jpg")} />
-                <Text style={styles.modalHeader}>
-                  {mainPageStore.longClickItemName}
-                </Text>
-                <TouchableHighlight
-                  onPress={() => {
-                    requester.post("remove", {
-                      pramas: {
-                        itemToDelete: "_id"
-                      }
-                    });
-                  }}
-                  style={{ borderBottomColor: "white", borderBottomWidth: 0.5 }}
-                >
-                  <Text style={styles.modalButton}>Delete Chat</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  onPress={() => {}}
-                  style={{ borderBottomColor: "white", borderBottomWidth: 0.5 }}
-                >
-                  <Text style={styles.modalButton}>Pin On Top</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  onPress={() => {
-                    this.modalCloser();
-                    this.props.navigation.navigate("Profile", {
-                      name: mainPageStore.longClickItemName,
-                      image: mainPageStore.longClickItemImage
-                    });
-                  }}
-                  style={{ borderBottomColor: "white", borderBottomWidth: 0.5 }}
-                >
-                  <Text style={styles.modalButton}>Go to Profile</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  onPress={() => {
-                    this.modalCloser();
-                  }}
-                  style={{ marginBottom: "2%" }}
-                >
-                  <Text style={styles.modalButton}>Cancle</Text>
-                </TouchableHighlight>
-              </View>
-            </View>
-          </Modal>
-          <SideBar
-            width={this.state.animation}
-            toggle={this.toggle.bind(this)}
-            imageStyle={this.state.imageStyle}
-            textStyle={styles.textStyle}
-            store={mainPageStore}
-            navigationToMyProfile={this.navigationToMyProfile.bind(this)}
-            navigationToMainPage={this.navigationToMainPage.bind(this)}
-            navigationToContacts={this.navigationToContacts.bind(this)}
-            navigationToShop={this.navigationToShop.bind(this)}
-            navigationToSetting={this.navigationToSetting.bind(this)}
-            navigationToAbout={this.navigationToAbout.bind(this)}
-          />
-          <Animated.View
-            style={{ alignItems: "center", width: this.state.animation2 }}
-          >
-            <Wallpaper source={require("../RES/background.jpg")} />
-            <FlatList
-              style={{ width: "100%" }}
-              data={mainPageStore.flatListData}
-              renderItem={({ item }) => {
-                return (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "rgba(0,0,0,0.5)"
+                }}
+              >
+                {this.props.children}
+                <View style={styles.modalView}>
+                  <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                  <Text style={styles.modalHeader}>
+                    {mainPageStore.longClickItemName}
+                  </Text>
                   <TouchableHighlight
-                    onPress={() =>
-                      this.props.navigation.navigate("ChatPage", {
-                        name: item.key,
-                        image: item.image
-                      })
-                    }
-                    onLongPress={() => {
-                      mainPageStore.longClickItemName = item.key;
-                      mainPageStore.longClickItemImage = item.image;
-                      mainPageStore.isModalLongClick = true;
+                    onPress={() => {
+                      requester.post("remove", {
+                        pramas: {
+                          itemToDelete: "_id"
+                        }
+                      });
+                    }}
+                    style={{
+                      borderBottomColor: "white",
+                      borderBottomWidth: 0.5
                     }}
                   >
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        margin: "1%"
+                    <Text style={styles.modalButton}>Delete Chat</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={() => {}}
+                    style={{
+                      borderBottomColor: "white",
+                      borderBottomWidth: 0.5
+                    }}
+                  >
+                    <Text style={styles.modalButton}>Pin On Top</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.modalCloser();
+                      this.props.navigation.navigate("Profile", {
+                        name: mainPageStore.longClickItemName,
+                        image: mainPageStore.longClickItemImage
+                      });
+                    }}
+                    style={{
+                      borderBottomColor: "white",
+                      borderBottomWidth: 0.5
+                    }}
+                  >
+                    <Text style={styles.modalButton}>Go to Profile</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.modalCloser();
+                    }}
+                    style={{ marginBottom: "2%" }}
+                  >
+                    <Text style={styles.modalButton}>Cancle</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </Modal>
+            <ShortcutBar
+              width={mainPageStore.isShortcutAvailable ? width / 8 : 0}
+              toggle={this.toggle.bind(this)}
+              imageStyle={styles.imageStyle}
+              navigationToMyProfile={this.navigationToMyProfile.bind(this)}
+              navigationToMainPage={this.navigationToMainPage.bind(this)}
+              navigationToContacts={this.navigationToContacts.bind(this)}
+              navigationToShop={this.navigationToShop.bind(this)}
+              navigationToSetting={this.navigationToSetting.bind(this)}
+              navigationToAbout={this.navigationToAbout.bind(this)}
+            />
+            <View
+              style={{
+                alignItems: "center",
+                width: mainPageStore.isShortcutAvailable
+                  ? (7 * width) / 8
+                  : width
+              }}
+            >
+              <Wallpaper source={require("../RES/background.jpg")} />
+              <FlatList
+                style={{ width: "100%" }}
+                data={mainPageStore.flatListData}
+                renderItem={({ item }) => {
+                  return (
+                    <TouchableHighlight
+                      onPress={() =>
+                        this.props.navigation.navigate("ChatPage", {
+                          name: item.key,
+                          image: item.image
+                        })
+                      }
+                      onLongPress={() => {
+                        mainPageStore.longClickItemName = item.key;
+                        mainPageStore.longClickItemImage = item.image;
+                        mainPageStore.isModalLongClick = true;
                       }}
                     >
-                      <Image source={item.image} style={styles.profileImage} />
                       <View
                         style={{
-                          flexDirection: "column",
-                          justifyContent: "space-around",
-                          marginLeft: "2%",
-                          flex: 1
+                          flexDirection: "row",
+                          margin: "1%"
                         }}
                       >
-                        <Text
-                          style={{ fontSize: width / 22.5, fontWeight: "bold" }}
-                        >
-                          {item.key}
-                        </Text>
-                        <Text style={{ fontSize: width / 30 }}>
-                          {item.lastMessage}
-                        </Text>
+                        <Image
+                          source={item.image}
+                          style={styles.profileImage}
+                        />
                         <View
                           style={{
-                            flexDirection: "row-reverse",
-                            alignItems: "center"
+                            flexDirection: "column",
+                            justifyContent: "space-around",
+                            marginLeft: "2%",
+                            flex: 1
                           }}
                         >
                           <Text
-                            style={{ fontSize: width / 36, marginRight: "5%" }}
+                            style={{
+                              fontSize: width / 22.5,
+                              fontWeight: "bold"
+                            }}
                           >
-                            {item.date}
+                            {item.key}
                           </Text>
+                          <Text style={{ fontSize: width / 30 }}>
+                            {item.lastMessage}
+                          </Text>
+                          <View
+                            style={{
+                              flexDirection: "row-reverse",
+                              alignItems: "center"
+                            }}
+                          >
+                            <Text
+                              style={{
+                                fontSize: width / 36,
+                                marginRight: "5%"
+                              }}
+                            >
+                              {item.date}
+                            </Text>
+                          </View>
                         </View>
                       </View>
-                    </View>
-                  </TouchableHighlight>
-                );
-              }}
-            />
-          </Animated.View>
+                    </TouchableHighlight>
+                  );
+                }}
+              />
+            </View>
+          </View>
+          <FloatingAction
+            listenKeyboard={true}
+            actions={this.actions}
+            color="black"
+            onPressItem={name => {
+              if (name === "newChat")
+                this.props.navigation.navigate("ContactSelection");
+            }}
+          />
         </View>
-        <FloatingAction
-          visible={!mainPageStore.expanded}
-          listenKeyboard={true}
-          actions={this.actions}
-          color="black"
-          onPressItem={name => {
-            if (name === "newChat")
-              this.props.navigation.navigate("ContactSelection");
-          }}
-        />
-      </View>
+      </SideMenu>
     );
   }
 }
@@ -388,6 +368,12 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     alignItems: "center",
     width: "85%"
+  },
+  imageStyle: {
+    width: (0.85 * width) / 8,
+    height: (0.85 * width) / 8,
+    resizeMode: "contain",
+    margin: "3%"
   },
   modalButton: {
     color: "white",

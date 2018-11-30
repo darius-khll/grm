@@ -3,17 +3,16 @@ import {
   StyleSheet,
   Text,
   View,
-  Animated,
   ScrollView,
   TouchableHighlight,
   Dimensions,
-  Modal,
   Image
 } from "react-native";
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import profileStore from "../MobX/ProfileStore";
-import toggler from "../APIs/toggler";
 import SideBar from "../Components/SideBar";
+import SideMenu from "react-native-side-menu";
+import ShortcutBar from "../Components/ShortcutBar";
 import { observer } from "mobx-react";
 import Wallpaper from "../Components/Wallpaper";
 import ImageView from "react-native-image-view";
@@ -62,20 +61,6 @@ class Profile extends Component {
   };
 
   state = {
-    animation: new Animated.Value(width / 8),
-    animation2: new Animated.Value((7 * width) / 8),
-    profileImage: {
-      width: width / 4.8,
-      height: width / 4.8,
-      resizeMode: "contain",
-      margin: width / 180
-    },
-    imageStyle: {
-      width: (0.85 * width) / 8,
-      height: (0.85 * width) / 8,
-      resizeMode: "contain",
-      margin: "3%"
-    },
     buttonTwo: {
       borderWidth: width / 180,
       borderRadius: 5,
@@ -119,60 +104,12 @@ class Profile extends Component {
   }
 
   toggle() {
-    let initialValue = profileStore.expanded ? width : width / 8,
-      finalValue = profileStore.expanded ? width / 8 : width;
-
-    let initialValue2 = profileStore.expanded ? 0 : (7 * width) / 8,
-      finalValue2 = profileStore.expanded ? (7 * width) / 8 : 0;
-
-    profileStore.expanded = !profileStore.expanded;
-    this.state.animation.setValue(initialValue);
-    this.state.animation2.setValue(initialValue2);
-
-    let animate = Animated.parallel([
-      Animated.spring(this.state.animation, {
-        toValue: finalValue,
-        speed: 2
-      }),
-
-      Animated.timing(this.state.animation2, {
-        toValue: finalValue2,
-        duration: 600
-      })
-    ]);
-    if (profileStore.expanded) {
-      this.setState({
-        imageStyle: {
-          width: 0,
-          height: 0
-        },
-        profileImage: {
-          width: 0,
-          height: 0
-        }
-      });
-    } else {
-      this.setState({
-        imageStyle: {
-          width: (0.85 * width) / 8,
-          height: (0.85 * width) / 8,
-          resizeMode: "contain",
-          margin: 2
-        },
-        profileImage: {
-          width: 75,
-          height: 75,
-          resizeMode: "contain"
-        }
-      });
-    }
-    toggler(profileStore);
-    animate.start();
+    profileStore.isDrawerOpen = true;
   }
 
   componentWillMount() {
     this.props.navigation.addListener("didBlur", () => {
-      if (profileStore.expanded) this.toggle();
+      if (profileStore.isDrawerOpen) profileStore.isDrawerOpen = false;
     });
     requester
       .get("/get", {
@@ -351,184 +288,190 @@ Friend  Request`;
       require("../RES/anonymous.png")
     );
     return (
-      <View style={styles.container}>
-        <View style={{ flexDirection: "row", flex: 1 }}>
-          <ImageView
-            images={profileStore.images}
-            controls={{ close: true }}
-            animationType="fade"
-            imageIndex={0}
-            isVisible={profileStore.isModalImageView}
-            onClose={() => (profileStore.isModalImageView = false)}
-          />
-          <ModalTwoButtons
-            visibility={profileStore.isModalRemove}
-            invisibleFunction={this.setModalRemoveInvisible}
-            yesFunction={() => {
-              this.setModalRemoveInvisible();
-              requester.post("/status", {
-                uniqueId: "_id",
-                addingStatus: "notAdded"
-              });
-              profileStore.addingStatus = "notAdded";
-              profileStore.buttonText = "Add to Friends";
-              this.setState({
-                buttonTwo: {
-                  borderWidth: 0,
-                  borderRadius: 5,
-                  padding: "1%",
-                  paddingRight: "6%",
-                  paddingLeft: "6%",
-                  width: 0,
-                  height: 0
-                },
-                viewButton: {
-                  height: 0
-                }
-              });
-            }}
-            noFunction={this.setModalRemoveInvisible}
-            headerTitle="Remove?"
-            body={`Are You sure you want to remove ${this.props.navigation.getParam(
-              "name",
-              "?"
-            )} ?`}
-            buttonNoText="NO"
-            buttonYesText="YES"
-          />
-
-          <SideBar
-            width={this.state.animation}
-            toggle={this.toggle.bind(this)}
-            imageStyle={this.state.imageStyle}
-            textStyle={styles.textStyle}
-            store={profileStore}
-            navigationToMyProfile={this.navigationToMyProfile.bind(this)}
-            navigationToMainPage={this.navigationToMainPage.bind(this)}
-            navigationToContacts={this.navigationToContacts.bind(this)}
-            navigationToShop={this.navigationToShop.bind(this)}
-            navigationToSetting={this.navigationToSetting.bind(this)}
-            navigationToAbout={this.navigationToAbout.bind(this)}
-          />
-          <Animated.View
-            style={{
-              width: this.state.animation2,
-              alignItems: "center"
-            }}
-          >
-            <Wallpaper source={require("../RES/background.jpg")} />
-            <ScrollView style={{ width: "100%" }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginTop: "3%"
-                }}
-              >
-                <TouchableHighlight
-                  onPress={() => {
-                    profileStore.isModalImageView = true;
-                  }}
-                >
-                  <Image
-                    style={this.state.profileImage}
-                    source={profileImage}
-                  />
-                </TouchableHighlight>
+      <SideMenu
+        openMenuOffset={(9 * width) / 10}
+        isOpen={profileStore.isDrawerOpen}
+        onChange={isOpen => {
+          if (!isOpen) profileStore.isDrawerOpen = false;
+          else if (isOpen) profileStore.isDrawerOpen = true;
+        }}
+        menu={<SideBar imageStyle={styles.imageStyle} />}
+      >
+        <View style={styles.container}>
+          <View style={{ flexDirection: "row", flex: 1 }}>
+            <ImageView
+              images={profileStore.images}
+              controls={{ close: true }}
+              animationType="fade"
+              imageIndex={0}
+              isVisible={profileStore.isModalImageView}
+              onClose={() => (profileStore.isModalImageView = false)}
+            />
+            <ModalTwoButtons
+              visibility={profileStore.isModalRemove}
+              invisibleFunction={this.setModalRemoveInvisible}
+              yesFunction={() => {
+                this.setModalRemoveInvisible();
+                requester.post("/status", {
+                  uniqueId: "_id",
+                  addingStatus: "notAdded"
+                });
+                profileStore.addingStatus = "notAdded";
+                profileStore.buttonText = "Add to Friends";
+                this.setState({
+                  buttonTwo: {
+                    borderWidth: 0,
+                    borderRadius: 5,
+                    padding: "1%",
+                    paddingRight: "6%",
+                    paddingLeft: "6%",
+                    width: 0,
+                    height: 0
+                  },
+                  viewButton: {
+                    height: 0
+                  }
+                });
+              }}
+              noFunction={this.setModalRemoveInvisible}
+              headerTitle="Remove?"
+              body={`Are You sure you want to remove ${this.props.navigation.getParam(
+                "name",
+                "?"
+              )} ?`}
+              buttonNoText="NO"
+              buttonYesText="YES"
+            />
+            <ShortcutBar
+              width={profileStore.isShortcutAvailable ? width / 8 : 0}
+              toggle={this.toggle.bind(this)}
+              imageStyle={styles.imageStyle}
+              navigationToMyProfile={this.navigationToMyProfile.bind(this)}
+              navigationToMainPage={this.navigationToMainPage.bind(this)}
+              navigationToContacts={this.navigationToContacts.bind(this)}
+              navigationToShop={this.navigationToShop.bind(this)}
+              navigationToSetting={this.navigationToSetting.bind(this)}
+              navigationToAbout={this.navigationToAbout.bind(this)}
+            />
+            <View
+              style={{
+                width: profileStore.isShortcutAvailable
+                  ? (7 * width) / 8
+                  : width,
+                alignItems: "center"
+              }}
+            >
+              <Wallpaper source={require("../RES/background.jpg")} />
+              <ScrollView style={{ width: "100%" }}>
                 <View
                   style={{
+                    flexDirection: "row",
                     alignItems: "center",
-                    width: "60%"
+                    justifyContent: "center",
+                    marginTop: "3%"
                   }}
                 >
                   <TouchableHighlight
-                    onPress={this.clickOnButtonOne.bind(this)}
-                    style={this.state.buttonOne}
+                    onPress={() => {
+                      profileStore.isModalImageView = true;
+                    }}
                   >
-                    <Text
-                      style={{
-                        fontSize: width / 22,
-                        fontWeight: "bold"
-                      }}
-                    >
-                      {profileStore.buttonText}
-                    </Text>
+                    <Image style={styles.profileImage} source={profileImage} />
                   </TouchableHighlight>
-                  <View style={this.state.viewButton} />
-                  <TouchableHighlight
-                    onPress={this.clickOnButtonTwo.bind(this)}
-                    style={this.state.buttonTwo}
+                  <View
+                    style={{
+                      alignItems: "center",
+                      width: "60%"
+                    }}
                   >
-                    <Text
-                      style={{
-                        fontSize: width / 22,
-                        fontWeight: "bold"
-                      }}
+                    <TouchableHighlight
+                      onPress={this.clickOnButtonOne.bind(this)}
+                      style={this.state.buttonOne}
                     >
-                      {profileStore.secondButtonText}
-                    </Text>
-                  </TouchableHighlight>
+                      <Text
+                        style={{
+                          fontSize: width / 22,
+                          fontWeight: "bold"
+                        }}
+                      >
+                        {profileStore.buttonText}
+                      </Text>
+                    </TouchableHighlight>
+                    <View style={this.state.viewButton} />
+                    <TouchableHighlight
+                      onPress={this.clickOnButtonTwo.bind(this)}
+                      style={this.state.buttonTwo}
+                    >
+                      <Text
+                        style={{
+                          fontSize: width / 22,
+                          fontWeight: "bold"
+                        }}
+                      >
+                        {profileStore.secondButtonText}
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
                 </View>
-              </View>
-              <Text style={styles.headerStyle}>Bio</Text>
-              <Text
-                style={{
-                  width: "87.5%",
-                  marginLeft: "6.25%"
-                }}
-              >
-                Bio From The Server
-              </Text>
-              <Text style={styles.headerStyle}>General Informations</Text>
-              <View style={styles.bodyStyle}>
-                <Text>Name:</Text>
-                <Text>Name Of Person From Server</Text>
-              </View>
-              <View style={styles.bodyStyle}>
-                <Text>Age:</Text>
-                <Text>Age of Person From Server</Text>
-              </View>
-              <View style={styles.bodyStyle}>
-                <Text>Gender:</Text>
-                <Text>From Server</Text>
-              </View>
-              <View style={styles.bodyStyle}>
-                <Text>ID:</Text>
-                <Text>ID From Server</Text>
-              </View>
-              <Text style={styles.headerStyle}>Location Informations</Text>
-              <View style={styles.bodyStyle}>
-                <Text>Country:</Text>
-                <Text>Country From Server</Text>
-              </View>
-              <View style={styles.bodyStyle}>
-                <Text>City:</Text>
-                <Text>City from Server</Text>
-              </View>
-              <Text style={styles.headerStyle}>Contact Informations</Text>
-              <View style={styles.bodyStyle}>
-                <Text>Phone Number:</Text>
-                <Text>From Server</Text>
-              </View>
-              <View style={styles.bodyStyle}>
-                <Text>Email:</Text>
-                <Text>From Server</Text>
-              </View>
-              <Text style={styles.headerStyle}>Tags</Text>
-              <Text
-                style={{
-                  marginLeft: "6.25%",
-                  width: "87.5%",
-                  marginBottom: "10%"
-                }}
-              >
-                #Tag1, #Tag2, #Tag3, #Tag4
-              </Text>
-            </ScrollView>
-          </Animated.View>
+                <Text style={styles.headerStyle}>Bio</Text>
+                <Text
+                  style={{
+                    width: "87.5%",
+                    marginLeft: "6.25%"
+                  }}
+                >
+                  Bio From The Server
+                </Text>
+                <Text style={styles.headerStyle}>General Informations</Text>
+                <View style={styles.bodyStyle}>
+                  <Text>Name:</Text>
+                  <Text>Name Of Person From Server</Text>
+                </View>
+                <View style={styles.bodyStyle}>
+                  <Text>Age:</Text>
+                  <Text>Age of Person From Server</Text>
+                </View>
+                <View style={styles.bodyStyle}>
+                  <Text>Gender:</Text>
+                  <Text>From Server</Text>
+                </View>
+                <View style={styles.bodyStyle}>
+                  <Text>ID:</Text>
+                  <Text>ID From Server</Text>
+                </View>
+                <Text style={styles.headerStyle}>Location Informations</Text>
+                <View style={styles.bodyStyle}>
+                  <Text>Country:</Text>
+                  <Text>Country From Server</Text>
+                </View>
+                <View style={styles.bodyStyle}>
+                  <Text>City:</Text>
+                  <Text>City from Server</Text>
+                </View>
+                <Text style={styles.headerStyle}>Contact Informations</Text>
+                <View style={styles.bodyStyle}>
+                  <Text>Phone Number:</Text>
+                  <Text>From Server</Text>
+                </View>
+                <View style={styles.bodyStyle}>
+                  <Text>Email:</Text>
+                  <Text>From Server</Text>
+                </View>
+                <Text style={styles.headerStyle}>Tags</Text>
+                <Text
+                  style={{
+                    marginLeft: "6.25%",
+                    width: "87.5%",
+                    marginBottom: "40%"
+                  }}
+                >
+                  #Tag1, #Tag2, #Tag3, #Tag4
+                </Text>
+              </ScrollView>
+            </View>
+          </View>
         </View>
-      </View>
+      </SideMenu>
     );
   }
 }
@@ -550,6 +493,18 @@ const styles = StyleSheet.create({
     marginTop: "4%",
     borderBottomWidth: width / 720,
     width: "90%"
+  },
+  profileImage: {
+    width: width / 4.8,
+    height: width / 4.8,
+    resizeMode: "contain",
+    margin: width / 180
+  },
+  imageStyle: {
+    width: (0.85 * width) / 8,
+    height: (0.85 * width) / 8,
+    resizeMode: "contain",
+    margin: "3%"
   },
   bodyStyle: {
     width: "87.5%",
