@@ -13,7 +13,7 @@ import { createStackNavigator, HeaderBackButton } from "react-navigation";
 import { FloatingAction } from "react-native-floating-action";
 import Wallpaper from "../Components/Wallpaper";
 import contactsStore from "../MobX/ContactsStore";
-import SideMenu from "react-native-side-menu";
+import Drawer from "react-native-drawer";
 import ShortcutBar from "../Components/ShortcutBar";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
@@ -166,19 +166,25 @@ class Contacts extends Component {
   }
 
   toggle() {
-    contactsStore.isDrawerOpen = true;
+    this._drawer.open();
   }
 
   render() {
     return (
-      <SideMenu
-        openMenuOffset={(9 * width) / 10}
-        isOpen={contactsStore.isDrawerOpen}
-        onChange={isOpen => {
-          if (!isOpen) contactsStore.isDrawerOpen = false;
-          else if (isOpen) contactsStore.isDrawerOpen = true;
-        }}
-        menu={<SideBar imageStyle={styles.imageStyle} />}
+      <Drawer
+        ref={c => (this._drawer = c)}
+        type="overlay"
+        elevation={2}
+        openDrawerOffset={0.15}
+        panOpenMask={0.95}
+        captureGestures={true}
+        negotiatePan={true}
+        panThreshold={0.3}
+        panCloseMask={0.2}
+        tweenEasing="linear"
+        tweenDuration={500}
+        tapToClose={true}
+        content={<SideBar imageStyle={styles.imageStyle} />}
       >
         <View style={styles.container}>
           <View style={{ flexDirection: "row", flex: 1 }}>
@@ -269,7 +275,7 @@ class Contacts extends Component {
             }}
           />
         </View>
-      </SideMenu>
+      </Drawer>
     );
   }
 }

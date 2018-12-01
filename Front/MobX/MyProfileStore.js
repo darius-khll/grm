@@ -2,8 +2,6 @@ import { computed, observable } from "mobx";
 
 class MyProfileStore {
   @observable
-  isDrawerOpen = false;
-  @observable
   isShortcutAvailable = true;
   @observable
   expanded = false;

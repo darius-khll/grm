@@ -2,8 +2,6 @@ import { computed, observable } from "mobx";
 
 class ContactsStore {
   @observable
-  isDrawerOpen = false;
-  @observable
   isShortcutAvailable = true;
   @observable
   sections = [

@@ -13,8 +13,6 @@ class ProfileStore {
     }
   ];
   @observable
-  isDrawerOpen = false;
-  @observable
   isShortcutAvailable = true;
   @observable
   bio = "";

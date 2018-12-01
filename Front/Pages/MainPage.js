@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
-import SideMenu from "react-native-side-menu";
+import Drawer from "react-native-drawer";
 import { observer } from "mobx-react";
 import mainPageStore from "../MobX/MainPageStore";
 import Wallpaper from "../Components/Wallpaper";
@@ -101,13 +101,10 @@ class MainPage extends Component {
   ];
 
   toggle() {
-    mainPageStore.isDrawerOpen = true;
+    this._drawer.open();
   }
 
   componentWillMount() {
-    this.props.navigation.addListener("didBlur", () => {
-      if (mainPageStore.isDrawerOpen) mainPageStore.isDrawerOpen = false;
-    });
     requester
       .get("/", {
         params: {
@@ -146,14 +143,20 @@ class MainPage extends Component {
 
   render() {
     return (
-      <SideMenu
-        openMenuOffset={(9 * width) / 10}
-        isOpen={mainPageStore.isDrawerOpen}
-        onChange={isOpen => {
-          if (!isOpen) mainPageStore.isDrawerOpen = false;
-          else if (isOpen) mainPageStore.isDrawerOpen = true;
-        }}
-        menu={<SideBar imageStyle={styles.imageStyle} />}
+      <Drawer
+        ref={c => (this._drawer = c)}
+        type="overlay"
+        elevation={2}
+        openDrawerOffset={0.15}
+        panOpenMask={0.95}
+        captureGestures={true}
+        negotiatePan={true}
+        panThreshold={0.3}
+        panCloseMask={0.2}
+        tweenEasing="linear"
+        tweenDuration={500}
+        tapToClose={true}
+        content={<SideBar imageStyle={styles.imageStyle} />}
       >
         <View style={styles.container}>
           <StatusBar backgroundColor="#00ACF4" barStyle="dark-content" />
@@ -330,7 +333,7 @@ class MainPage extends Component {
             }}
           />
         </View>
-      </SideMenu>
+      </Drawer>
     );
   }
 }

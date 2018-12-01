@@ -2,8 +2,6 @@ import { observable } from "mobx";
 
 class AboutStore {
   @observable
-  isDrawerOpen = false;
-  @observable
   isShortcutAvailable = true;
 }
 
