@@ -6,7 +6,6 @@ import {
   Image,
   TextInput,
   Dimensions,
-  Animated,
   SectionList,
   TouchableHighlight
 } from "react-native";
@@ -14,7 +13,8 @@ import { createStackNavigator, HeaderBackButton } from "react-navigation";
 import { FloatingAction } from "react-native-floating-action";
 import Wallpaper from "../Components/Wallpaper";
 import contactsStore from "../MobX/ContactsStore";
-import toggler from "../APIs/toggler";
+import SideMenu from "react-native-side-menu";
+import ShortcutBar from "../Components/ShortcutBar";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
 import Axios from "axios";
@@ -128,20 +128,10 @@ class Contacts extends Component {
       position: 1
     }
   ];
-  state = {
-    animation: new Animated.Value(width / 8),
-    animation2: new Animated.Value((7 * width) / 8),
-    imageStyle: {
-      width: (0.85 * width) / 8,
-      height: (0.85 * width) / 8,
-      resizeMode: "contain",
-      margin: "3%"
-    }
-  };
 
   componentWillMount() {
     this.props.navigation.addListener("didBlur", () => {
-      if (contactsStore.expanded) this.toggle();
+      if (contactsStore.isDrawerOpen) contactsStore.isDrawerOpen = false;
     });
     requester
       .get("/get", {
@@ -176,133 +166,110 @@ class Contacts extends Component {
   }
 
   toggle() {
-    let initialValue = contactsStore.expanded ? width : width / 8,
-      finalValue = contactsStore.expanded ? width / 8 : width;
-
-    let initialValue2 = contactsStore.expanded ? 0 : (7 * width) / 8,
-      finalValue2 = contactsStore.expanded ? (7 * width) / 8 : 0;
-
-    contactsStore.expanded = !contactsStore.expanded;
-    this.state.animation.setValue(initialValue);
-    this.state.animation2.setValue(initialValue2);
-
-    let animate = Animated.parallel([
-      Animated.spring(this.state.animation, {
-        toValue: finalValue,
-        speed: 2
-      }),
-
-      Animated.timing(this.state.animation2, {
-        toValue: finalValue2,
-        duration: 600
-      })
-    ]);
-    if (contactsStore.expanded) {
-      this.setState({
-        imageStyle: {
-          width: 0,
-          height: 0
-        }
-      });
-    } else {
-      this.setState({
-        imageStyle: {
-          width: (0.85 * width) / 8,
-          height: (0.85 * width) / 8,
-          resizeMode: "contain",
-          margin: 2
-        }
-      });
-    }
-    toggler(contactsStore);
-    animate.start();
+    contactsStore.isDrawerOpen = true;
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={{ flexDirection: "row", flex: 1 }}>
-          <SideBar
-            width={this.state.animation}
-            toggle={this.toggle.bind(this)}
-            imageStyle={this.state.imageStyle}
-            textStyle={styles.textStyle}
-            store={contactsStore}
-            navigationToMyProfile={this.navigationToMyProfile.bind(this)}
-            navigationToMainPage={this.navigationToMainPage.bind(this)}
-            navigationToContacts={this.navigationToContacts.bind(this)}
-            navigationToShop={this.navigationToShop.bind(this)}
-            navigationToSetting={this.navigationToSetting.bind(this)}
-            navigationToAbout={this.navigationToAbout.bind(this)}
-          />
-          <Animated.View
-            style={{ width: this.state.animation2, alignItems: "center" }}
-          >
-            <Wallpaper source={require("../RES/background.jpg")} />
-
-            <SectionList
-              style={{ width: "100%" }}
-              sections={contactsStore.dataSource}
-              renderItem={({ item }) => {
-                return (
-                  <View style={{ alignItems: "center" }}>
-                    <TouchableHighlight
-                      style={{ width: "90%" }}
-                      onPress={() =>
-                        this.props.navigation.navigate("Profile", {
-                          name: item.name,
-                          image: item.image
-                        })
-                      }
-                    >
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center"
-                        }}
-                      >
-                        <Image
-                          source={item.image}
-                          style={styles.profileImage}
-                        />
-                        <Text style={{ margin: width / 72 }}>{item.name}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </View>
-                );
+      <SideMenu
+        openMenuOffset={(9 * width) / 10}
+        isOpen={contactsStore.isDrawerOpen}
+        onChange={isOpen => {
+          if (!isOpen) contactsStore.isDrawerOpen = false;
+          else if (isOpen) contactsStore.isDrawerOpen = true;
+        }}
+        menu={<SideBar imageStyle={styles.imageStyle} />}
+      >
+        <View style={styles.container}>
+          <View style={{ flexDirection: "row", flex: 1 }}>
+            <ShortcutBar
+              width={contactsStore.isShortcutAvailable ? width / 8 : 0}
+              toggle={this.toggle.bind(this)}
+              imageStyle={styles.imageStyle}
+              navigationToMyProfile={this.navigationToMyProfile.bind(this)}
+              navigationToMainPage={this.navigationToMainPage.bind(this)}
+              navigationToContacts={this.navigationToContacts.bind(this)}
+              navigationToShop={this.navigationToShop.bind(this)}
+              navigationToSetting={this.navigationToSetting.bind(this)}
+              navigationToAbout={this.navigationToAbout.bind(this)}
+            />
+            <View
+              style={{
+                width: contactsStore.isShortcutAvailable
+                  ? (7 * width) / 8
+                  : width,
+                alignItems: "center"
               }}
-              renderSectionHeader={({ section: { title, data } }) => {
-                if (data.length)
+            >
+              <Wallpaper source={require("../RES/background.jpg")} />
+
+              <SectionList
+                style={{ width: "100%" }}
+                sections={contactsStore.dataSource}
+                renderItem={({ item }) => {
                   return (
-                    <View
-                      style={{
-                        borderTopWidth: width / 180,
-                        borderRadius: 5,
-                        width: "92%",
-                        marginTop: "1%",
-                        marginLeft: "4%",
-                        alignItems: "center",
-                        borderBottomWidth: width / 180
-                      }}
-                    >
-                      <Text style={{ marginLeft: 5 }}>{title}</Text>
+                    <View style={{ alignItems: "center" }}>
+                      <TouchableHighlight
+                        style={{ width: "90%" }}
+                        onPress={() =>
+                          this.props.navigation.navigate("Profile", {
+                            name: item.name,
+                            image: item.image
+                          })
+                        }
+                      >
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center"
+                          }}
+                        >
+                          <Image
+                            source={item.image}
+                            style={styles.profileImage}
+                          />
+                          <Text style={{ margin: width / 72 }}>
+                            {item.name}
+                          </Text>
+                        </View>
+                      </TouchableHighlight>
                     </View>
                   );
-              }}
-              keyExtractor={(item, index) => index}
-            />
-          </Animated.View>
+                }}
+                renderSectionHeader={({ section: { title, data } }) => {
+                  if (data.length)
+                    return (
+                      <View
+                        style={{
+                          borderTopWidth: width / 180,
+                          borderRadius: 5,
+                          width: "92%",
+                          marginTop: "1%",
+                          marginLeft: "4%",
+                          alignItems: "center",
+                          borderBottomWidth: width / 180
+                        }}
+                      >
+                        <Text style={{ marginLeft: 5 }}>{title}</Text>
+                      </View>
+                    );
+                }}
+                keyExtractor={(item, index) => index}
+              />
+            </View>
+          </View>
+          <FloatingAction
+            visible={!contactsStore.expanded}
+            listenKeyboard={true}
+            actions={this.actions}
+            color="black"
+            onPressItem={name => {
+              if (name === "search")
+                this.props.navigation.navigate("SearchPage");
+            }}
+          />
         </View>
-        <FloatingAction
-          visible={!contactsStore.expanded}
-          listenKeyboard={true}
-          actions={this.actions}
-          color="black"
-          onPressItem={name => {
-            if (name === "search") this.props.navigation.navigate("SearchPage");
-          }}
-        />
-      </View>
+      </SideMenu>
     );
   }
 }
@@ -324,6 +291,12 @@ const styles = StyleSheet.create({
     fontSize: width / 20,
     fontWeight: "bold",
     marginTop: "3%"
+  },
+  imageStyle: {
+    width: (0.85 * width) / 8,
+    height: (0.85 * width) / 8,
+    resizeMode: "contain",
+    margin: "3%"
   }
 });
 

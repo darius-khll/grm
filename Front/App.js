@@ -20,7 +20,7 @@ import {
 import SignInPage from "./Pages/SignInPage";
 import MainPage from "./Pages/MainPage";
 import OptionsMenu from "react-native-options-menu";
-import About from "./Pages/About";
+import About from "./Pages/Abouts";
 import Setting from "./Pages/Setting";
 import Profile from "./Pages/Profile";
 import Stickers from "./Pages/Stickers";
@@ -231,7 +231,7 @@ const RootStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "About"
+    initialRouteName: "MainPage"
   }
 );
 

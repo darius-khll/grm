@@ -6,11 +6,11 @@ import {
   Dimensions,
   Linking,
   ScrollView,
-  Animated,
   TouchableHighlight
 } from "react-native";
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
-import toggler from "../APIs/toggler";
+import SideMenu from "react-native-side-menu";
+import ShortcutBar from "../Components/ShortcutBar";
 import settingStore from "../MobX/SettingStore";
 import Wallpaper from "../Components/Wallpaper";
 import SideBar from "../Components/SideBar";
@@ -28,20 +28,9 @@ class Setting extends Component {
     };
   };
 
-  state = {
-    animation: new Animated.Value(width / 8),
-    animation2: new Animated.Value((7 * width) / 8),
-    imageStyle: {
-      width: (0.85 * width) / 8,
-      height: (0.85 * width) / 8,
-      resizeMode: "contain",
-      margin: "3%"
-    }
-  };
-
   componentWillMount() {
     this.props.navigation.addListener("didBlur", () => {
-      if (settingStore.expanded) this.toggle();
+      if (settingStore.isDrawerOpen) settingStore.isDrawerOpen = false;
     });
   }
 
@@ -63,159 +52,128 @@ class Setting extends Component {
   navigationToAbout() {
     this.props.navigation.navigate("About");
   }
-
   toggle() {
-    let initialValue = settingStore.expanded ? width : width / 8,
-      finalValue = settingStore.expanded ? width / 8 : width;
-
-    let initialValue2 = settingStore.expanded ? 0 : (7 * width) / 8,
-      finalValue2 = settingStore.expanded ? (7 * width) / 8 : 0;
-
-    settingStore.expanded = !settingStore.expanded;
-    this.state.animation.setValue(initialValue);
-    this.state.animation2.setValue(initialValue2);
-
-    let animate = Animated.parallel([
-      Animated.spring(this.state.animation, {
-        toValue: finalValue,
-        speed: 2
-      }),
-
-      Animated.timing(this.state.animation2, {
-        toValue: finalValue2,
-        duration: 600
-      })
-    ]);
-    if (settingStore.expanded) {
-      this.setState({
-        imageStyle: {
-          width: 0,
-          height: 0
-        }
-      });
-    } else {
-      this.setState({
-        imageStyle: {
-          width: (0.85 * width) / 8,
-          height: (0.85 * width) / 8,
-          resizeMode: "contain",
-          margin: 2
-        }
-      });
-    }
-    toggler(settingStore);
-    animate.start();
+    settingStore.isDrawerOpen = true;
   }
-
   render() {
     return (
-      <View style={styles.container}>
-        <View style={{ flexDirection: "row", flex: 1 }}>
-          <SideBar
-            width={this.state.animation}
-            toggle={this.toggle.bind(this)}
-            imageStyle={this.state.imageStyle}
-            textStyle={styles.textStyle}
-            store={settingStore}
-            navigationToMyProfile={this.navigationToMyProfile.bind(this)}
-            navigationToMainPage={this.navigationToMainPage.bind(this)}
-            navigationToContacts={this.navigationToContacts.bind(this)}
-            navigationToShop={this.navigationToShop.bind(this)}
-            navigationToSetting={this.navigationToSetting.bind(this)}
-            navigationToAbout={this.navigationToAbout.bind(this)}
-          />
-          <Animated.View
-            style={{
-              width: this.state.animation2,
-              alignItems: "center"
-            }}
-          >
-            <Wallpaper source={require("../RES/background.jpg")} />
-            <ScrollView style={{ width: "100%" }}>
-              <View style={{ alignItems: "center" }}>
-                <Text style={styles.headerStyle}>General Settings</Text>
-                <Text style={styles.headerStyle}>Theme Settings</Text>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => {}}
-                >
-                  <Text>Theme</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => {}}
-                >
-                  <Text>Change Chat Background</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => {}}
-                >
-                  <Text>Chat Font</Text>
-                </TouchableHighlight>
-                <Text style={styles.headerStyle}>Notification Settings</Text>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => {}}
-                >
-                  <Text>LED Color</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => {}}
-                >
-                  <Text>Vibration</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => {}}
-                >
-                  <Text>Notificarion Sound</Text>
-                </TouchableHighlight>
-                <Text style={styles.headerStyle}>Privacy Settings</Text>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => {}}
-                >
-                  <Text>Last Seen Status</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => this.props.navigation.navigate("SignInPage")}
-                >
-                  <Text>Log Out!</Text>
-                </TouchableHighlight>
+      <SideMenu
+        openMenuOffset={(9 * width) / 10}
+        isOpen={settingStore.isDrawerOpen}
+        onChange={isOpen => {
+          if (!isOpen) settingStore.isDrawerOpen = false;
+          else if (isOpen) settingStore.isDrawerOpen = true;
+        }}
+        menu={<SideBar imageStyle={styles.imageStyle} />}
+      >
+        <View style={styles.container}>
+          <View style={{ flexDirection: "row", flex: 1 }}>
+            <ShortcutBar
+              width={settingStore.isShortcutAvailable ? width / 8 : 0}
+              toggle={this.toggle.bind(this)}
+              imageStyle={styles.imageStyle}
+              navigationToMyProfile={this.navigationToMyProfile.bind(this)}
+              navigationToMainPage={this.navigationToMainPage.bind(this)}
+              navigationToContacts={this.navigationToContacts.bind(this)}
+              navigationToShop={this.navigationToShop.bind(this)}
+              navigationToSetting={this.navigationToSetting.bind(this)}
+              navigationToAbout={this.navigationToAbout.bind(this)}
+            />
+            <View
+              style={{
+                width: settingStore.isShortcutAvailable
+                  ? (7 * width) / 8
+                  : width,
+                alignItems: "center"
+              }}
+            >
+              <Wallpaper source={require("../RES/background.jpg")} />
+              <ScrollView style={{ width: "100%" }}>
+                <View style={{ alignItems: "center" }}>
+                  <Text style={styles.headerStyle}>General Settings</Text>
+                  <Text style={styles.headerStyle}>Theme Settings</Text>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => {}}
+                  >
+                    <Text>Theme</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => {}}
+                  >
+                    <Text>Change Chat Background</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => {}}
+                  >
+                    <Text>Chat Font</Text>
+                  </TouchableHighlight>
+                  <Text style={styles.headerStyle}>Notification Settings</Text>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => {}}
+                  >
+                    <Text>LED Color</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => {}}
+                  >
+                    <Text>Vibration</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => {}}
+                  >
+                    <Text>Notificarion Sound</Text>
+                  </TouchableHighlight>
+                  <Text style={styles.headerStyle}>Privacy Settings</Text>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => {}}
+                  >
+                    <Text>Last Seen Status</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => this.props.navigation.navigate("SignInPage")}
+                  >
+                    <Text>Log Out!</Text>
+                  </TouchableHighlight>
 
-                <Text style={styles.headerStyle}>Support</Text>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => {
-                    Linking.openURL("http://www.google.com");
-                  }}
-                >
-                  <Text>How does it work?</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => {
-                    Linking.openURL("http://www.google.com");
-                  }}
-                >
-                  <Text>Ask a Question</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                  style={styles.optionStyle}
-                  onPress={() => {
-                    Linking.openURL("http://www.google.com");
-                  }}
-                >
-                  <Text>Rich Messenger FAQ</Text>
-                </TouchableHighlight>
-              </View>
-            </ScrollView>
-          </Animated.View>
+                  <Text style={styles.headerStyle}>Support</Text>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => {
+                      Linking.openURL("http://www.google.com");
+                    }}
+                  >
+                    <Text>How does it work?</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => {
+                      Linking.openURL("http://www.google.com");
+                    }}
+                  >
+                    <Text>Ask a Question</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight
+                    style={styles.optionStyle}
+                    onPress={() => {
+                      Linking.openURL("http://www.google.com");
+                    }}
+                  >
+                    <Text>Rich Messenger FAQ</Text>
+                  </TouchableHighlight>
+                </View>
+              </ScrollView>
+            </View>
+          </View>
         </View>
-      </View>
+      </SideMenu>
     );
   }
 }
@@ -248,6 +206,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: width / 720,
     width: "85%",
     padding: "1%"
+  },
+  imageStyle: {
+    width: (0.85 * width) / 8,
+    height: (0.85 * width) / 8,
+    resizeMode: "contain",
+    margin: "3%"
   }
 });
 

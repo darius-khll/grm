@@ -1,135 +1,136 @@
 import React, { Component } from "react";
-const drawerStyles = {
-  drawer: {
-    shadowColor: "#000000",
-    shadowOpacity: 0.8,
-    shadowRadius: 0
-  }
-};
+import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { HeaderBackButton, createStackNavigator } from "react-navigation";
+import SideBar from "../Components/SideBar";
+import SideMenu from "react-native-side-menu";
+import ShortcutBar from "../Components/ShortcutBar";
+import aboutStore from "../MobX/AboutStore";
+import Wallpaper from "../Components/Wallpaper";
+import { observer } from "mobx-react";
 
-import Drawer from "react-native-drawer";
+let { width } = Dimensions.get("window");
 
-import { createStackNavigator } from "react-navigation";
-import MyMainView from "../Components/MyMainView";
-import MyControlPanel from "../Components/ControlPanel";
-
-import tweens from "../Components/tweens";
-
-let counter = 0;
-
+@observer
 class About extends Component {
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      drawerType: "overlay",
-      openDrawerOffset: 100,
-      closedDrawerOffset: 0,
-      panOpenMask: 0.1,
-      panCloseMask: 0.9,
-      relativeDrag: false,
-      panThreshold: 0.25,
-      tweenHandlerOn: false,
-      tweenDuration: 350,
-      tweenEasing: "linear",
-      disabled: false,
-      tweenHandlerPreset: null,
-      acceptDoubleTap: false,
-      acceptTap: false,
-      acceptPan: true,
-      tapToClose: false,
-      negotiatePan: false,
-      side: "top"
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "About",
+      headerStyle: { backgroundColor: "#2196f3" },
+      headerTintColor: "#000",
+      headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />
     };
-  }
+  };
 
-  setDrawerType(type) {
-    this.setState({
-      drawerType: type
+  componentWillMount() {
+    this.props.navigation.addListener("didBlur", () => {
+      if (aboutStore.isDrawerOpen) aboutStore.isDrawerOpen = false;
     });
   }
 
-  tweenHandler(ratio) {
-    if (!this.state.tweenHandlerPreset) {
-      return {};
-    }
-    return tweens[this.state.tweenHandlerPreset](ratio);
+  toggle() {
+    aboutStore.isDrawerOpen = true;
   }
-
-  noopChange() {
-    this.setState({
-      changeVal: Math.random()
-    });
+  navigationToMyProfile() {
+    this.props.navigation.navigate("MyProfile");
   }
-
-  openDrawer() {
-    this.drawer.open();
+  navigationToMainPage() {
+    this.props.navigation.navigate("MainPage");
   }
-
-  setStateFrag(frag) {
-    this.setState(frag);
+  navigationToShop() {
+    this.props.navigation.navigate("Shop");
   }
-
+  navigationToContacts() {
+    this.props.navigation.navigate("Contacts");
+  }
+  navigationToSetting() {
+    this.props.navigation.navigate("Setting");
+  }
+  navigationToAbout() {
+    this.props.navigation.navigate("About");
+  }
   render() {
-    var controlPanel = (
-      <MyControlPanel
-        closeDrawer={() => {
-          this.drawer.close();
-        }}
-      />
-    );
     return (
-      <Drawer
-        ref={c => (this.drawer = c)}
-        type={this.state.drawerType}
-        animation={this.state.animation}
-        openDrawerOffset={this.state.openDrawerOffset}
-        closedDrawerOffset={this.state.closedDrawerOffset}
-        panOpenMask={this.state.panOpenMask}
-        panCloseMask={this.state.panCloseMask}
-        relativeDrag={this.state.relativeDrag}
-        panThreshold={this.state.panThreshold}
-        content={controlPanel}
-        styles={drawerStyles}
-        disabled={this.state.disabled}
-        tweenHandler={this.tweenHandler.bind(this)}
-        tweenDuration={this.state.tweenDuration}
-        tweenEasing={this.state.tweenEasing}
-        acceptDoubleTap={this.state.acceptDoubleTap}
-        acceptTap={this.state.acceptTap}
-        acceptPan={this.state.acceptPan}
-        tapToClose={this.state.tapToClose}
-        negotiatePan={this.state.negotiatePan}
-        changeVal={this.state.changeVal}
-        side={this.state.side}
+      <SideMenu
+        openMenuOffset={(9 * width) / 10}
+        isOpen={aboutStore.isDrawerOpen}
+        onChange={isOpen => {
+          if (!isOpen) aboutStore.isDrawerOpen = false;
+          else if (isOpen) aboutStore.isDrawerOpen = true;
+        }}
+        menu={<SideBar imageStyle={styles.imageStyle} />}
       >
-        <MyMainView
-          drawerType={this.state.drawerType}
-          setParentState={this.setStateFrag.bind(this)}
-          openDrawer={this.openDrawer.bind(this)}
-          openDrawerOffset={this.state.openDrawerOffset}
-          closedDrawerOffset={this.state.closedDrawerOffset}
-          panOpenMask={this.state.panOpenMask}
-          panCloseMask={this.state.panCloseMask}
-          relativeDrag={this.state.relativeDrag}
-          panStartCompensation={this.state.panStartCompensation}
-          tweenHandlerOn={this.state.tweenHandlerOn}
-          disabled={this.state.disabled}
-          panThreshold={this.state.panThreshold}
-          tweenEasing={this.state.tweenEasing}
-          tweenHandlerPreset={this.state.tweenHandlerPreset}
-          animation={this.state.animation}
-          noopChange={this.noopChange.bind(this)}
-          acceptTap={this.state.acceptTap}
-          acceptDoubleTap={this.state.acceptDoubleTap}
-          acceptPan={this.state.acceptPan}
-          tapToClose={this.state.tapToClose}
-          negotiatePan={this.state.negotiatePan}
-          side={this.state.side}
-        />
-      </Drawer>
+        <View style={{ flexDirection: "row", flex: 1 }}>
+          <ShortcutBar
+            width={aboutStore.isShortcutAvailable ? width / 8 : 0}
+            toggle={this.toggle.bind(this)}
+            imageStyle={styles.imageStyle}
+            navigationToMyProfile={this.navigationToMyProfile.bind(this)}
+            navigationToMainPage={this.navigationToMainPage.bind(this)}
+            navigationToContacts={this.navigationToContacts.bind(this)}
+            navigationToShop={this.navigationToShop.bind(this)}
+            navigationToSetting={this.navigationToSetting.bind(this)}
+            navigationToAbout={this.navigationToAbout.bind(this)}
+          />
+          <View style={styles.container}>
+            <View
+              style={{
+                width: aboutStore.isShortcutAvailable ? (7 * width) / 8 : width,
+                height: "100%"
+              }}
+            >
+              <Wallpaper source={require("../RES/background.jpg")} />
+              <Text style={styles.welcome}>Welcome to Rich Messenger</Text>
+              <Text style={styles.version}>Rich Messenger Version 1.0.0 </Text>
+              <Text style={styles.creators}>
+                Created By Ali Khalili & Arash Heidary
+              </Text>
+              <Text style={{ marginBottom: 2, textAlign: "center" }}>
+                Website: www.richmessenger.com
+              </Text>
+              <Text style={{ marginBottom: 30, textAlign: "center" }}>
+                E-Mail: info@richmessenger.com
+              </Text>
+              <Text style={{ textAlign: "center" }}>©2018</Text>
+            </View>
+          </View>
+        </View>
+      </SideMenu>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  imageStyle: {
+    width: (0.85 * width) / 8,
+    height: (0.85 * width) / 8,
+    resizeMode: "contain",
+    margin: "3%"
+  },
+  welcome: {
+    fontSize: width / 14.4,
+    textAlign: "center",
+    marginTop: width / 20,
+    marginBottom: width / 30
+  },
+  version: {
+    textAlign: "center",
+    marginBottom: width / 2
+  },
+  creators: {
+    textAlign: "center",
+    marginBottom: width / 24
+  },
+  textStyle: {
+    fontSize: width / 18,
+    fontWeight: "bold",
+    marginTop: "3%"
+  }
+});
 
 export default createStackNavigator({
   About: {

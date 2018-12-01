@@ -14,7 +14,8 @@ import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
 import notificationStore from "../MobX/NotificationStore";
 import { observer } from "mobx-react";
-import toggler from "../APIs/toggler";
+import SideMenu from "react-native-side-menu";
+import ShortcutBar from "../Components/ShortcutBar";
 import Wallpaper from "../Components/Wallpaper";
 import Axios from "axios";
 let { width, height } = Dimensions.get("window");
@@ -34,14 +35,6 @@ class Notifications extends Component {
     };
   };
   state = {
-    animation: new Animated.Value(width / 8),
-    animation2: new Animated.Value((7 * width) / 8),
-    imageStyle: {
-      width: (0.85 * width) / 8,
-      height: (0.85 * width) / 8,
-      resizeMode: "contain",
-      margin: "3%"
-    },
     heightOfResponding: new Animated.Value(height / 2.8),
     heightOfWaiting: new Animated.Value(height / 2.8)
   };
@@ -72,7 +65,8 @@ class Notifications extends Component {
 
   componentWillMount() {
     this.props.navigation.addListener("didBlur", () => {
-      if (notificationStore.expanded) this.toggle();
+      if (notificationStore.isDrawerOpen)
+        notificationStore.isDrawerOpen = false;
     });
     requester
       .get("/get", {
@@ -108,202 +102,180 @@ class Notifications extends Component {
   }
 
   toggle() {
-    let initialValue = notificationStore.expanded ? width : width / 8,
-      finalValue = notificationStore.expanded ? width / 8 : width;
-
-    let initialValue2 = notificationStore.expanded ? 0 : (7 * width) / 8,
-      finalValue2 = notificationStore.expanded ? (7 * width) / 8 : 0;
-
-    notificationStore.expanded = !notificationStore.expanded;
-    this.state.animation.setValue(initialValue);
-    this.state.animation2.setValue(initialValue2);
-
-    let animate = Animated.parallel([
-      Animated.spring(this.state.animation, {
-        toValue: finalValue,
-        speed: 2
-      }),
-
-      Animated.timing(this.state.animation2, {
-        toValue: finalValue2,
-        duration: 600
-      })
-    ]);
-    if (notificationStore.expanded) {
-      this.setState({
-        imageStyle: {
-          width: 0,
-          height: 0
-        }
-      });
-    } else {
-      this.setState({
-        imageStyle: {
-          width: (0.85 * width) / 8,
-          height: (0.85 * width) / 8,
-          resizeMode: "contain",
-          margin: 2
-        }
-      });
-    }
-    toggler(notificationStore);
-    animate.start();
+    notificationStore.isDrawerOpen = true;
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={{ flexDirection: "row", flex: 1 }}>
-          <SideBar
-            width={this.state.animation}
-            toggle={this.toggle.bind(this)}
-            imageStyle={this.state.imageStyle}
-            textStyle={styles.textStyle}
-            store={notificationStore}
-            navigationToMyProfile={this.navigationToMyProfile.bind(this)}
-            navigationToMainPage={this.navigationToMainPage.bind(this)}
-            navigationToContacts={this.navigationToContacts.bind(this)}
-            navigationToShop={this.navigationToShop.bind(this)}
-            navigationToSetting={this.navigationToSetting.bind(this)}
-            navigationToAbout={this.navigationToAbout.bind(this)}
-          />
-          <Animated.View style={{ width: this.state.animation2, flex: 1 }}>
-            <Wallpaper source={require("../RES/background.jpg")} />
-            <View style={{ alignItems: "center" }}>
-              <View style={styles.styleHeader}>
-                <TouchableHighlight onPress={this.toggleResponding.bind(this)}>
-                  <Text
-                    style={{
-                      fontSize: width / 26
-                    }}
+      <SideMenu
+        openMenuOffset={(9 * width) / 10}
+        isOpen={notificationStore.isDrawerOpen}
+        onChange={isOpen => {
+          if (!isOpen) notificationStore.isDrawerOpen = false;
+          else if (isOpen) notificationStore.isDrawerOpen = true;
+        }}
+        menu={<SideBar imageStyle={styles.imageStyle} />}
+      >
+        <View style={styles.container}>
+          <View style={{ flexDirection: "row", flex: 1 }}>
+            <ShortcutBar
+              width={notificationStore.isShortcutAvailable ? width / 8 : 0}
+              toggle={this.toggle.bind(this)}
+              imageStyle={styles.imageStyle}
+              navigationToMyProfile={this.navigationToMyProfile.bind(this)}
+              navigationToMainPage={this.navigationToMainPage.bind(this)}
+              navigationToContacts={this.navigationToContacts.bind(this)}
+              navigationToShop={this.navigationToShop.bind(this)}
+              navigationToSetting={this.navigationToSetting.bind(this)}
+              navigationToAbout={this.navigationToAbout.bind(this)}
+            />
+            <View
+              style={{
+                width: notificationStore.isShortcutAvailable
+                  ? (7 * width) / 8
+                  : width,
+                flex: 1
+              }}
+            >
+              <Wallpaper source={require("../RES/background.jpg")} />
+              <View style={{ alignItems: "center" }}>
+                <View style={styles.styleHeader}>
+                  <TouchableHighlight
+                    onPress={this.toggleResponding.bind(this)}
                   >
-                    People, who sent you a friend request
-                  </Text>
-                </TouchableHighlight>
-              </View>
-              <Animated.View
-                style={{
-                  height: this.state.heightOfResponding,
-                  width: "100%"
-                }}
-              >
-                <ScrollView>
-                  <FlatList
-                    style={styles.listStyle}
-                    data={notificationStore.responsingList}
-                    renderItem={({ item }) => {
-                      return (
-                        <TouchableHighlight
-                          onPress={() =>
-                            this.props.navigation.navigate("Profile", {
-                              name: item.key,
-                              image: item.image
-                            })
-                          }
-                        >
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              margin: "1%"
-                            }}
+                    <Text
+                      style={{
+                        fontSize: width / 26
+                      }}
+                    >
+                      People, who sent you a friend request
+                    </Text>
+                  </TouchableHighlight>
+                </View>
+                <Animated.View
+                  style={{
+                    height: this.state.heightOfResponding,
+                    width: "100%"
+                  }}
+                >
+                  <ScrollView>
+                    <FlatList
+                      style={styles.listStyle}
+                      data={notificationStore.responsingList}
+                      renderItem={({ item }) => {
+                        return (
+                          <TouchableHighlight
+                            onPress={() =>
+                              this.props.navigation.navigate("Profile", {
+                                name: item.key,
+                                image: item.image
+                              })
+                            }
                           >
-                            <Image
-                              source={item.image}
-                              style={styles.profileImage}
-                            />
                             <View
                               style={{
-                                flexDirection: "column",
-                                justifyContent: "space-around",
-                                marginLeft: "2%",
-                                flex: 1
+                                flexDirection: "row",
+                                margin: "1%"
                               }}
                             >
-                              <Text
+                              <Image
+                                source={item.image}
+                                style={styles.profileImage}
+                              />
+                              <View
                                 style={{
-                                  fontSize: width / 22.5,
-                                  fontWeight: "bold"
+                                  flexDirection: "column",
+                                  justifyContent: "space-around",
+                                  marginLeft: "2%",
+                                  flex: 1
                                 }}
                               >
-                                {item.key}
-                              </Text>
+                                <Text
+                                  style={{
+                                    fontSize: width / 22.5,
+                                    fontWeight: "bold"
+                                  }}
+                                >
+                                  {item.key}
+                                </Text>
+                              </View>
                             </View>
-                          </View>
-                        </TouchableHighlight>
-                      );
-                    }}
-                  />
-                </ScrollView>
-              </Animated.View>
-              <View style={styles.styleHeader}>
-                <TouchableHighlight onPress={this.toggleWaiting.bind(this)}>
-                  <Text
-                    style={{
-                      fontSize: width / 26
-                    }}
-                  >
-                    People, you sent them a friend request
-                  </Text>
-                </TouchableHighlight>
-              </View>
-              <Animated.View
-                style={{
-                  height: this.state.heightOfWaiting,
-                  width: "100%"
-                }}
-              >
-                <ScrollView>
-                  <FlatList
-                    style={styles.listStyle}
-                    data={notificationStore.waitingList}
-                    renderItem={({ item }) => {
-                      return (
-                        <TouchableHighlight
-                          onPress={() =>
-                            this.props.navigation.navigate("Profile", {
-                              name: item.key,
-                              image: item.image
-                            })
-                          }
-                        >
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              margin: "1%"
-                            }}
+                          </TouchableHighlight>
+                        );
+                      }}
+                    />
+                  </ScrollView>
+                </Animated.View>
+                <View style={styles.styleHeader}>
+                  <TouchableHighlight onPress={this.toggleWaiting.bind(this)}>
+                    <Text
+                      style={{
+                        fontSize: width / 26
+                      }}
+                    >
+                      People, you sent them a friend request
+                    </Text>
+                  </TouchableHighlight>
+                </View>
+                <Animated.View
+                  style={{
+                    height: this.state.heightOfWaiting,
+                    width: "100%"
+                  }}
+                >
+                  <ScrollView>
+                    <FlatList
+                      style={styles.listStyle}
+                      data={notificationStore.waitingList}
+                      renderItem={({ item }) => {
+                        return (
+                          <TouchableHighlight
+                            onPress={() =>
+                              this.props.navigation.navigate("Profile", {
+                                name: item.key,
+                                image: item.image
+                              })
+                            }
                           >
-                            <Image
-                              source={item.image}
-                              style={styles.profileImage}
-                            />
                             <View
                               style={{
-                                flexDirection: "column",
-                                justifyContent: "space-around",
-                                marginLeft: "2%",
-                                flex: 1
+                                flexDirection: "row",
+                                margin: "1%"
                               }}
                             >
-                              <Text
+                              <Image
+                                source={item.image}
+                                style={styles.profileImage}
+                              />
+                              <View
                                 style={{
-                                  fontSize: width / 22.5,
-                                  fontWeight: "bold"
+                                  flexDirection: "column",
+                                  justifyContent: "space-around",
+                                  marginLeft: "2%",
+                                  flex: 1
                                 }}
                               >
-                                {item.key}
-                              </Text>
+                                <Text
+                                  style={{
+                                    fontSize: width / 22.5,
+                                    fontWeight: "bold"
+                                  }}
+                                >
+                                  {item.key}
+                                </Text>
+                              </View>
                             </View>
-                          </View>
-                        </TouchableHighlight>
-                      );
-                    }}
-                  />
-                </ScrollView>
-              </Animated.View>
+                          </TouchableHighlight>
+                        );
+                      }}
+                    />
+                  </ScrollView>
+                </Animated.View>
+              </View>
             </View>
-          </Animated.View>
+          </View>
         </View>
-      </View>
+      </SideMenu>
     );
   }
 }
@@ -332,6 +304,12 @@ const styles = StyleSheet.create({
     height: width / 10,
     resizeMode: "contain",
     margin: "1%"
+  },
+  imageStyle: {
+    width: (0.85 * width) / 8,
+    height: (0.85 * width) / 8,
+    resizeMode: "contain",
+    margin: "3%"
   },
   listStyle: {
     width: "85%",
