@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
 import "core-js/es6/symbol";
 import "core-js/fn/symbol/iterator";
 import "es6-symbol/implement";
@@ -18,6 +11,7 @@ import {
   TouchableHighlight
 } from "react-native";
 import SignInPage from "./Pages/SignInPage";
+import ProfileImage from "./Pages/ProfileImage";
 import MainPage from "./Pages/MainPage";
 import OptionsMenu from "react-native-options-menu";
 import About from "./Pages/Abouts";
@@ -49,6 +43,12 @@ const RootStack = createStackNavigator(
   {
     SignInPage: {
       screen: SignInPage,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ProfileImage: {
+      screen: ProfileImage,
       navigationOptions: {
         header: null
       }

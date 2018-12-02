@@ -20,6 +20,7 @@
     "react-native-drawer": "^2.5.1",
     "react-native-drawer-menu": "^0.2.5",
     "react-native-floating-action": "^1.13.0",
+    "react-native-image-picker": "^0.26.2",
     "react-native-image-view": "^2.1.1",
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-options-menu": "^2.0.2",
