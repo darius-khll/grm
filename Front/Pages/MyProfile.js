@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import Wallpaper from "../Components/Wallpaper";
-import SideMenu from "react-native-side-menu";
+import Drawer from "react-native-drawer";
 import ShortcutBar from "../Components/ShortcutBar";
 import SideBar from "../Components/SideBar";
 import myProfileStore from "../MobX/MyProfileStore";
@@ -81,19 +81,25 @@ class MyProfile extends Component {
   }
 
   toggle() {
-    myProfileStore.isDrawerOpen = true;
+    this._drawer.open();
   }
 
   render() {
     return (
-      <SideMenu
-        openMenuOffset={(9 * width) / 10}
-        isOpen={myProfileStore.isDrawerOpen}
-        onChange={isOpen => {
-          if (!isOpen) myProfileStore.isDrawerOpen = false;
-          else if (isOpen) myProfileStore.isDrawerOpen = true;
-        }}
-        menu={<SideBar imageStyle={styles.imageStyle} />}
+      <Drawer
+        ref={c => (this._drawer = c)}
+        type="overlay"
+        elevation={2}
+        openDrawerOffset={0.15}
+        panOpenMask={0.95}
+        captureGestures={true}
+        negotiatePan={true}
+        panThreshold={0.3}
+        panCloseMask={0.2}
+        tweenEasing="linear"
+        tweenDuration={500}
+        tapToClose={true}
+        content={<SideBar imageStyle={styles.imageStyle} />}
       >
         <View style={styles.container}>
           <View style={{ flexDirection: "row", flex: 1 }}>
@@ -214,7 +220,7 @@ class MyProfile extends Component {
             </View>
           </View>
         </View>
-      </SideMenu>
+      </Drawer>
     );
   }
 }

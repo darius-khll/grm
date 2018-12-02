@@ -6,8 +6,6 @@ class NotificationStore {
   @observable
   waitingExpanded = true;
   @observable
-  isDrawerOpen = false;
-  @observable
   isShortcutAvailable = true;
   @observable
   responsingList = [

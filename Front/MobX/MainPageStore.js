@@ -2,8 +2,6 @@ import { observable } from "mobx";
 
 class MainPageStore {
   @observable
-  isDrawerOpen = false;
-  @observable
   isShortcutAvailable = true;
   @observable
   longClickItemName = "";

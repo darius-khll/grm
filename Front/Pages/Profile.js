@@ -11,7 +11,7 @@ import {
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import profileStore from "../MobX/ProfileStore";
 import SideBar from "../Components/SideBar";
-import SideMenu from "react-native-side-menu";
+import Drawer from "react-native-drawer";
 import ShortcutBar from "../Components/ShortcutBar";
 import { observer } from "mobx-react";
 import Wallpaper from "../Components/Wallpaper";
@@ -104,7 +104,7 @@ class Profile extends Component {
   }
 
   toggle() {
-    profileStore.isDrawerOpen = true;
+    this._drawer.open();
   }
 
   componentWillMount() {
@@ -288,14 +288,20 @@ Friend  Request`;
       require("../RES/anonymous.png")
     );
     return (
-      <SideMenu
-        openMenuOffset={(9 * width) / 10}
-        isOpen={profileStore.isDrawerOpen}
-        onChange={isOpen => {
-          if (!isOpen) profileStore.isDrawerOpen = false;
-          else if (isOpen) profileStore.isDrawerOpen = true;
-        }}
-        menu={<SideBar imageStyle={styles.imageStyle} />}
+      <Drawer
+        ref={c => (this._drawer = c)}
+        type="overlay"
+        elevation={2}
+        openDrawerOffset={0.15}
+        panOpenMask={0.95}
+        captureGestures={true}
+        negotiatePan={true}
+        panThreshold={0.3}
+        panCloseMask={0.2}
+        tweenEasing="linear"
+        tweenDuration={500}
+        tapToClose={true}
+        content={<SideBar imageStyle={styles.imageStyle} />}
       >
         <View style={styles.container}>
           <View style={{ flexDirection: "row", flex: 1 }}>
@@ -471,7 +477,7 @@ Friend  Request`;
             </View>
           </View>
         </View>
-      </SideMenu>
+      </Drawer>
     );
   }
 }
