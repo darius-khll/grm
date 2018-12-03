@@ -6,13 +6,16 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  NativeModules,
   PixelRatio
 } from "react-native";
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
-import ImagePicker from "react-native-image-picker";
 import { observer } from "mobx-react";
 import Wallpaper from "../Components/Wallpaper";
+import profileImageStore from "../MobX/ProfileImageStore";
 import Axios from "axios";
+
+const ImagePicker = NativeModules.ImageCropPicker;
 
 const { width } = Dimensions.get("window");
 const requester = Axios.create({
@@ -21,45 +24,6 @@ const requester = Axios.create({
 
 @observer
 class ProfileImage extends Component {
-  state = {
-    avatarSource: null
-  };
-  constructor(props) {
-    super(props);
-
-    this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
-  }
-  selectPhotoTapped() {
-    const options = {
-      quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
-      storageOptions: {
-        skipBackup: true
-      }
-    };
-    ImagePicker.showImagePicker(options, response => {
-      console.log("Response = ", response);
-
-      if (response.didCancel) {
-        console.log("User cancelled photo picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        let source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.setState({
-          avatarSource: source
-        });
-      }
-    });
-  }
-
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: "Profile Image",
@@ -75,20 +39,46 @@ class ProfileImage extends Component {
     return (
       <View style={styles.container}>
         <Wallpaper source={require("../RES/background.jpg")} />
-        <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-          <View
-            style={[
-              styles.avatar,
-              styles.avatarContainer,
-              { marginBottom: 20 }
-            ]}
-          >
-            {this.state.avatarSource === null ? (
-              <Text>Select a Photo</Text>
-            ) : (
-              <Image style={styles.avatar} source={this.state.avatarSource} />
-            )}
-          </View>
+        <View
+          style={[styles.avatar, styles.avatarContainer, { marginBottom: 20 }]}
+        >
+          {profileImageStore.image === null ? (
+            <Text>Select a Photo</Text>
+          ) : (
+            <Image style={styles.avatar} source={profileImageStore.image} />
+          )}
+        </View>
+        <TouchableOpacity
+          onPress={() =>
+            ImagePicker.openCamera({
+              cropping: true,
+              cropperCircleOverlay: true
+            }).then(image => {
+              profileImageStore.image = {
+                uri: image.path,
+                width: image.width,
+                height: image.height
+              };
+            })
+          }
+        >
+          <Text>Take a Photo</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            ImagePicker.openPicker({
+              cropperCircleOverlay: true,
+              cropping: true
+            }).then(image => {
+              profileImageStore.image = {
+                uri: image.path,
+                width: image.width,
+                height: image.height
+              };
+            })
+          }
+        >
+          <Text>From Gallery</Text>
         </TouchableOpacity>
       </View>
     );
