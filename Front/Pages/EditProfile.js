@@ -164,7 +164,12 @@ class EditProfile extends Component {
                 justifyContent: "space-around"
               }}
             >
-              <TouchableHighlight onPress={() => {}} style={styles.button}>
+              <TouchableHighlight
+                onPress={() => {
+                  this.props.navigation.navigate("ProfileImage");
+                }}
+                style={styles.button}
+              >
                 <Text style={{ fontWeight: "bold" }}>
                   Change Profile Picture
                 </Text>
