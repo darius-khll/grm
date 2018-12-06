@@ -2,6 +2,23 @@ import { computed, observable } from "mobx";
 
 class EditProfileStore {
   @observable
+  image = null;
+  @observable
+  isModalChangeImage = false;
+  @observable
+  images = [
+    {
+      source: null,
+      title: "Profile Image",
+      width: 700,
+      height: 700
+    }
+  ];
+  @observable
+  isModalImageView = false;
+  @observable
+  isModalRemoveImage = false;
+  @observable
   isDateTimePickerVisible = false;
   @observable
   isCheckedEmail = false;

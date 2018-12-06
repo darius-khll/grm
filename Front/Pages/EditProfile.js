@@ -5,7 +5,8 @@ import {
   Text,
   Modal,
   View,
-  TouchableHighlight,
+  NativeModules,
+  TouchableOpacity,
   Picker,
   Dimensions,
   Image,
@@ -18,7 +19,9 @@ import CheckBox from "react-native-check-box";
 import editProfileStore from "../MobX/EditProfileStore";
 import { observer } from "mobx-react";
 import Wallpaper from "../Components/Wallpaper";
+import ImageView from "react-native-image-view";
 import ModalInput from "../Components/ModalInput";
+import ModalTwoButtons from "../Components/ModalTwoButtons";
 import Axios from "axios";
 import ModalOneButton from "../Components/ModalOneButton";
 
@@ -26,6 +29,8 @@ const { width } = Dimensions.get("window");
 const requester = Axios.create({
   baseURL: "https://localhost:3000/api/editprofile"
 });
+
+const ImagePicker = NativeModules.ImageCropPicker;
 
 @observer
 class EditProfile extends Component {
@@ -75,6 +80,12 @@ class EditProfile extends Component {
   setModalAddTagInvisible = () => (editProfileStore.isModalAddTag = false);
   setModalRemoveTagInvisible = () =>
     (editProfileStore.isModalRemoveTag = false);
+  setModalRemoveInvisible() {
+    editProfileStore.isModalRemoveImage = false;
+  }
+  setModalChangeInvisible() {
+    editProfileStore.isModalChangeImage = false;
+  }
   handleDatePicked = date => {
     this.setState({
       date
@@ -84,7 +95,124 @@ class EditProfile extends Component {
     return (
       <View style={styles.container}>
         <Wallpaper source={require("../RES/background.jpg")} />
+        <ImageView
+          images={editProfileStore.images}
+          controls={{ close: true }}
+          animationType="fade"
+          imageIndex={0}
+          isVisible={editProfileStore.isModalImageView}
+          onClose={() => (editProfileStore.isModalImageView = false)}
+        />
+
         <ScrollView style={{ width: "100%" }}>
+          <ModalTwoButtons
+            visibility={editProfileStore.isModalRemoveImage}
+            invisibleFunction={this.setModalRemoveInvisible}
+            yesFunction={() => {
+              this.setModalRemoveInvisible();
+
+              editProfileStore.image = null;
+              editProfileStore.images[0].source = null;
+            }}
+            noFunction={this.setModalRemoveInvisible}
+            headerTitle="Remove Profile Image?"
+            body="Are You sure you want to remove your profile Image?"
+            buttonNoText="NO"
+            buttonYesText="YES"
+          />
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={editProfileStore.isModalChangeImage}
+            onRequestClose={() => {
+              this.setModalChangeInvisible();
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(0,0,0,0.5)"
+              }}
+            >
+              {this.props.children}
+              <View style={styles.modalView}>
+                <Wallpaper source={require("../RES/modalbackground.jpg")} />
+                <Text style={styles.modalHeader}>
+                  Change Your Profile Image
+                </Text>
+                <Text style={styles.modalBody}>Choose an option</Text>
+                <View
+                  style={{
+                    marginTop: "10%",
+                    alignItems: "center"
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      ImagePicker.openPicker({
+                        cropperCircleOverlay: true,
+                        cropping: true
+                      }).then(image => {
+                        editProfileStore.image = {
+                          uri: image.path
+                        };
+                        editProfileStore.images[0].source = {
+                          uri: image.path
+                        };
+                      });
+                      this.setModalChangeInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>From Gallery</Text>
+                  </TouchableOpacity>
+                  <View style={{ width: "10%" }} />
+                  <TouchableOpacity
+                    onPress={() => {
+                      ImagePicker.openCamera({
+                        cropping: true,
+                        cropperCircleOverlay: true
+                      }).then(image => {
+                        editProfileStore.image = {
+                          uri: image.path
+                        };
+                        editProfileStore.images[0].source = {
+                          uri: image.path
+                        };
+                      });
+                      this.setModalChangeInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>Take a Picture</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (editProfileStore.image !== null) {
+                        this.setModalChangeInvisible();
+                        editProfileStore.isModalRemoveImage = true;
+                      }
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>
+                      Delete existing Image
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.setModalChangeInvisible();
+                    }}
+                    style={styles.modalTouchable}
+                  >
+                    <Text style={styles.modalButton}>Cancle</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
           <ModalInput
             visiblity={editProfileStore.isModalRemoveTag}
             invisibleFunction={this.setModalRemoveTagInvisible}
@@ -164,23 +292,32 @@ class EditProfile extends Component {
                 justifyContent: "space-around"
               }}
             >
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => {
-                  this.props.navigation.navigate("ProfileImage");
+                  editProfileStore.isModalChangeImage = true;
                 }}
                 style={styles.button}
               >
                 <Text style={{ fontWeight: "bold" }}>
                   Change Profile Picture
                 </Text>
-              </TouchableHighlight>
-              <Image
-                style={styles.profileImage}
-                source={this.props.navigation.getParam(
-                  "image",
-                  require("../RES/anonymous.png")
-                )}
-              />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  editProfileStore.image === null
+                    ? (editProfileStore.isModalImageView = false)
+                    : (editProfileStore.isModalImageView = true)
+                }
+              >
+                <Image
+                  style={styles.profileImage}
+                  source={
+                    editProfileStore.image === null
+                      ? require("../RES/anonymous.png")
+                      : editProfileStore.image
+                  }
+                />
+              </TouchableOpacity>
             </View>
             <Text
               style={{
@@ -252,14 +389,14 @@ class EditProfile extends Component {
               >
                 <Text>Birth Date:</Text>
                 <Text>{this.state.date.toDateString()}</Text>
-                <TouchableHighlight
+                <TouchableOpacity
                   onPress={() =>
                     (editProfileStore.isDateTimePickerVisible = true)
                   }
                   style={styles.button}
                 >
                   <Text style={{ fontWeight: "bold" }}>Pick a Date</Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
               </View>
             </View>
             <Text
@@ -637,14 +774,14 @@ class EditProfile extends Component {
               }}
             >
               <Text>Edit Tags</Text>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => (editProfileStore.isModalTag = true)}
               >
                 <Image
                   style={styles.image}
                   source={require("../RES/help.png")}
                 />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
             <Text style={{ marginTop: "3%", marginBottom: "5%" }}>
               {editProfileStore.getTags}
@@ -658,18 +795,18 @@ class EditProfile extends Component {
                 alignItems: "center"
               }}
             >
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => (editProfileStore.isModalAddTag = true)}
                 style={styles.button}
               >
                 <Text style={{ fontWeight: "bold" }}>Add a new TAG</Text>
-              </TouchableHighlight>
-              <TouchableHighlight
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => (editProfileStore.isModalRemoveTag = true)}
                 style={styles.button}
               >
                 <Text style={{ fontWeight: "bold" }}>Remove a TAG</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
             <View
               style={{
@@ -680,7 +817,7 @@ class EditProfile extends Component {
                 justifyContent: "space-around"
               }}
             >
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => {
                   requester
                     .post("/save", {
@@ -707,7 +844,7 @@ class EditProfile extends Component {
                 style={styles.button}
               >
                 <Text style={{ fontWeight: "bold" }}>Save</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
             <DateTimePicker
               isVisible={editProfileStore.isDateTimePickerVisible}
@@ -745,6 +882,38 @@ const styles = StyleSheet.create({
     height: width / 30,
     marginLeft: "15%",
     resizeMode: "contain"
+  },
+  modalHeader: {
+    marginTop: "3%",
+    color: "white",
+    marginBottom: "5%",
+    fontWeight: "bold",
+    fontSize: 20
+  },
+  modalBody: {
+    color: "white",
+    marginLeft: "5%",
+    marginRight: "5%",
+    marginTop: "2%",
+    textAlign: "center"
+  },
+  modalTouchable: {
+    borderBottomWidth: 0.5,
+    borderColor: "white",
+    padding: "1%",
+    marginBottom: "5%"
+  },
+  modalView: {
+    borderWidth: 1.5,
+    alignItems: "center",
+    width: "85%"
+  },
+  modalButton: {
+    color: "white",
+    fontSize: width / 22,
+    fontWeight: "bold",
+    paddingRight: "5%",
+    paddingLeft: "5%"
   }
 });
 
