@@ -131,6 +131,7 @@ class MyProfile extends Component {
             >
               <Wallpaper source={require("../RES/background.jpg")} />
               <ScrollView style={{ width: "100%" }}>
+                <View style={{ height: "3%" }} />
                 <View
                   style={{
                     flexDirection: "row",
@@ -211,7 +212,7 @@ class MyProfile extends Component {
                   style={{
                     marginLeft: "6.25%",
                     width: "87.5%",
-                    marginBottom: "25%"
+                    marginBottom: "35%"
                   }}
                 >
                   #Tag1, #Tag2, #Tag3, #Tag4
@@ -251,10 +252,15 @@ const styles = StyleSheet.create({
     marginTop: "3%"
   },
   profileImage: {
-    marginRight: 30,
-    width: width / 4.8,
-    height: width / 4.8,
-    resizeMode: "contain"
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    width: width / 4,
+    height: width / 4,
+    backgroundColor: "#fff",
+    borderRadius: 100,
+    margin: "1%"
   },
   button: {
     borderWidth: width / 180,
@@ -262,12 +268,6 @@ const styles = StyleSheet.create({
     padding: "1%",
     paddingRight: "6%",
     paddingLeft: "6%"
-  },
-  profileImage: {
-    marginRight: width / 12,
-    width: width / 4.8,
-    height: width / 4.8,
-    resizeMode: "contain"
   },
   imageStyle: {
     width: (0.85 * width) / 8,

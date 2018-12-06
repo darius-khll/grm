@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  FlatList,
   TouchableHighlight,
   ScrollView,
   Dimensions,
@@ -14,8 +15,12 @@ import ShortcutBar from "../Components/ShortcutBar";
 import shopStore from "../MobX/ShopStore";
 import Wallpaper from "../Components/Wallpaper";
 import SideBar from "../Components/SideBar";
+import Axios from "axios";
 import { observer } from "mobx-react";
 let { width } = Dimensions.get("window");
+const requester = Axios.create({
+  baseURL: "https://localhost:3000/api/shop"
+});
 
 @observer
 class Shop extends Component {
@@ -29,8 +34,11 @@ class Shop extends Component {
   };
 
   componentWillMount() {
-    this.props.navigation.addListener("didBlur", () => {
-      if (shopStore.isDrawerOpen) shopStore.isDrawerOpen = false;
+    requester.get("/").then(response => {
+      if (response.status === 200) {
+        shopStore.stickers = response.data.sticekrs;
+        shopStore.themes = response.data.themes;
+      }
     });
   }
   toggle() {
@@ -101,108 +109,87 @@ class Shop extends Component {
               <View style={{ width: "90%" }}>
                 <Text>You have 6 days left.</Text>
                 <Text
-                  style={{ borderBottomWidth: width / 720, marginTop: "3%" }}
+                  style={{
+                    borderBottomWidth: width / 720,
+                    marginTop: "3%",
+                    marginBottom: "2%"
+                  }}
                 >
                   Buy some days!
                 </Text>
-                <ScrollView
-                  style={{ marginTop: "2%" }}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                >
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
+                <ScrollView horizontal={true}>
+                  <FlatList
+                    horizontal={true}
+                    data={shopStore.days}
+                    keyExtractor={index => index}
+                    renderItem={({ item }) => {
+                      return (
+                        <View style={styles.viewStyler}>
+                          <TouchableHighlight onPress={() => {}}>
+                            <Image
+                              style={styles.shopImage}
+                              source={item.image}
+                            />
+                          </TouchableHighlight>
+                        </View>
+                      );
+                    }}
                   />
                 </ScrollView>
                 <Text
-                  style={{ borderBottomWidth: width / 720, marginTop: "3%" }}
+                  style={{
+                    borderBottomWidth: width / 720,
+                    marginTop: "3%",
+                    marginBottom: "2%"
+                  }}
                 >
                   New Stickers
                 </Text>
-                <ScrollView
-                  style={{ marginTop: "2%" }}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                >
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
+                <ScrollView horizontal={true}>
+                  <FlatList
+                    horizontal={true}
+                    data={shopStore.stickers}
+                    keyExtractor={(item, index) => index}
+                    renderItem={({ item }) => {
+                      return (
+                        <View style={styles.viewStyler}>
+                          <TouchableHighlight onPress={() => {}}>
+                            <Image
+                              style={styles.shopImage}
+                              source={item.image}
+                            />
+                          </TouchableHighlight>
+                        </View>
+                      );
+                    }}
                   />
                 </ScrollView>
                 <Text
-                  style={{ borderBottomWidth: width / 720, marginTop: "3%" }}
+                  style={{
+                    borderBottomWidth: width / 720,
+                    marginTop: "3%",
+                    marginBottom: "2%"
+                  }}
                 >
                   New Themes
                 </Text>
-                <ScrollView
-                  style={{ marginTop: "2%" }}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                >
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
-                  />
-                  <Image
-                    source={require("../RES/sampleprofileimage.jpg")}
-                    style={styles.shopImage}
+                <ScrollView horizontal={true}>
+                  <FlatList
+                    horizontal={true}
+                    data={shopStore.themes}
+                    keyExtractor={(item, index) => index}
+                    renderItem={({ item }) => {
+                      return (
+                        <View style={styles.viewStyler}>
+                          <TouchableHighlight onPress={() => {}}>
+                            <Image
+                              style={styles.shopImage}
+                              source={item.image}
+                            />
+                          </TouchableHighlight>
+                        </View>
+                      );
+                    }}
                   />
                 </ScrollView>
                 <View style={{ height: "7%" }} />

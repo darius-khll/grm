@@ -151,17 +151,27 @@ class EditProfile extends Component {
                 >
                   <TouchableOpacity
                     onPress={() => {
-                      ImagePicker.openPicker({
-                        cropperCircleOverlay: true,
-                        cropping: true
-                      }).then(image => {
-                        editProfileStore.image = {
-                          uri: image.path
-                        };
-                        editProfileStore.images[0].source = {
-                          uri: image.path
-                        };
-                      });
+                      ImagePicker.openPicker({})
+                        .then(image =>
+                          ImagePicker.openCropper({
+                            cropperCircleOverlay: true,
+                            path: image.path,
+                            width: image.width,
+                            height: image.width
+                          })
+                        )
+                        .then(image => {
+                          editProfileStore.image = {
+                            uri: image.path,
+                            width: image.width,
+                            height: image.width
+                          };
+                          editProfileStore.images[0].source = {
+                            uri: image.path,
+                            width: image.width,
+                            height: image.width
+                          };
+                        });
                       this.setModalChangeInvisible();
                     }}
                     style={styles.modalTouchable}
@@ -171,17 +181,27 @@ class EditProfile extends Component {
                   <View style={{ width: "10%" }} />
                   <TouchableOpacity
                     onPress={() => {
-                      ImagePicker.openCamera({
-                        cropping: true,
-                        cropperCircleOverlay: true
-                      }).then(image => {
-                        editProfileStore.image = {
-                          uri: image.path
-                        };
-                        editProfileStore.images[0].source = {
-                          uri: image.path
-                        };
-                      });
+                      ImagePicker.openCamera({})
+                        .then(image =>
+                          ImagePicker.openCropper({
+                            cropperCircleOverlay: true,
+                            path: image.path,
+                            width: image.width,
+                            height: image.width
+                          })
+                        )
+                        .then(image => {
+                          editProfileStore.image = {
+                            uri: image.path,
+                            width: image.width,
+                            height: image.width
+                          };
+                          editProfileStore.images[0].source = {
+                            uri: image.path,
+                            width: image.width,
+                            height: image.width
+                          };
+                        });
                       this.setModalChangeInvisible();
                     }}
                     style={styles.modalTouchable}
@@ -866,9 +886,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#e2deef"
   },
   profileImage: {
-    width: width / 5,
-    height: width / 5,
-    resizeMode: "contain"
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    width: width / 4.5,
+    height: width / 4.5,
+    backgroundColor: "#fff",
+    borderRadius: 100,
+    margin: "1%"
   },
   button: {
     borderWidth: width / 180,

@@ -287,11 +287,15 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   profileImage: {
-    margin: "1%",
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
     width: width / 5.5,
     height: width / 5.5,
-    resizeMode: "contain",
-    margin: width / 180
+    backgroundColor: "#fff",
+    borderRadius: 100,
+    margin: "1%"
   },
   textStyle: {
     fontSize: width / 20,
