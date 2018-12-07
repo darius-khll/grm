@@ -501,10 +501,15 @@ const styles = StyleSheet.create({
     width: "90%"
   },
   profileImage: {
-    width: width / 4.8,
-    height: width / 4.8,
-    resizeMode: "contain",
-    margin: width / 180
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    width: width / 4,
+    height: width / 4,
+    backgroundColor: "#fff",
+    borderRadius: 100,
+    margin: "1%"
   },
   imageStyle: {
     width: (0.85 * width) / 8,

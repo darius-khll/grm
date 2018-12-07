@@ -11,7 +11,6 @@ import {
   TouchableHighlight
 } from "react-native";
 import SignInPage from "./Pages/SignInPage";
-import ProfileImage from "./Pages/ProfileImage";
 import MainPage from "./Pages/MainPage";
 import OptionsMenu from "react-native-options-menu";
 import About from "./Pages/Abouts";
@@ -43,12 +42,6 @@ const RootStack = createStackNavigator(
   {
     SignInPage: {
       screen: SignInPage,
-      navigationOptions: {
-        header: null
-      }
-    },
-    ProfileImage: {
-      screen: ProfileImage,
       navigationOptions: {
         header: null
       }

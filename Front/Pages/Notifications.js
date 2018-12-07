@@ -306,9 +306,14 @@ const styles = StyleSheet.create({
     marginBottom: "3%"
   },
   profileImage: {
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
     width: width / 10,
     height: width / 10,
-    resizeMode: "contain",
+    backgroundColor: "#fff",
+    borderRadius: 100,
     margin: "1%"
   },
   imageStyle: {
