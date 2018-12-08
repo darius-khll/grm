@@ -5,8 +5,9 @@ import {
   View,
   Dimensions,
   Linking,
+  Switch,
   ScrollView,
-  TouchableHighlight
+  TouchableOpacity
 } from "react-native";
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import Drawer from "react-native-drawer";
@@ -98,83 +99,99 @@ class Setting extends Component {
               <ScrollView style={{ width: "100%" }}>
                 <View style={{ alignItems: "center" }}>
                   <Text style={styles.headerStyle}>General Settings</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      width: "85%",
+                      padding: "1%",
+                      justifyContent: "space-between"
+                    }}
+                  >
+                    <Text>Shortcut Bar</Text>
+                    <Switch
+                      value={settingStore.isShortcutAvailable}
+                      onValueChange={() => {
+                        settingStore.isShortcutAvailable = !settingStore.isShortcutAvailable;
+                      }}
+                    />
+                  </View>
                   <Text style={styles.headerStyle}>Theme Settings</Text>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => {}}
                   >
                     <Text>Theme</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => {}}
                   >
                     <Text>Change Chat Background</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => {}}
                   >
                     <Text>Chat Font</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                   <Text style={styles.headerStyle}>Notification Settings</Text>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => {}}
                   >
                     <Text>LED Color</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => {}}
                   >
                     <Text>Vibration</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => {}}
                   >
                     <Text>Notificarion Sound</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                   <Text style={styles.headerStyle}>Privacy Settings</Text>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => {}}
                   >
                     <Text>Last Seen Status</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => this.props.navigation.navigate("SignInPage")}
                   >
                     <Text>Log Out!</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
 
                   <Text style={styles.headerStyle}>Support</Text>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => {
                       Linking.openURL("http://www.google.com");
                     }}
                   >
-                    <Text>How does it work?</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
+                    <Text>How does RichMessenger work?</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => {
                       Linking.openURL("http://www.google.com");
                     }}
                   >
                     <Text>Ask a Question</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={styles.optionStyle}
                     onPress={() => {
                       Linking.openURL("http://www.google.com");
                     }}
                   >
                     <Text>Rich Messenger FAQ</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </View>
               </ScrollView>
             </View>
@@ -210,7 +227,6 @@ const styles = StyleSheet.create({
     marginBottom: "1%"
   },
   optionStyle: {
-    borderBottomWidth: width / 720,
     width: "85%",
     padding: "1%"
   },

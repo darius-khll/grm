@@ -4,7 +4,8 @@ import {
   View,
   Image,
   StyleSheet,
-  TouchableHighlight,
+  TouchableOpacity,
+  Linking,
   ScrollView
 } from "react-native";
 import Wallpaper from "./Wallpaper";
@@ -19,76 +20,118 @@ export default class SideBar extends Component {
         }}
       >
         <Wallpaper source={require("../RES/sidebarbackground.jpg")} />
-
+        <View>
+          <TouchableOpacity
+            style={styles.ButtonStyle}
+            onPress={() => this.props.collapser()}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <Image
+                style={{
+                  resizeMode: "contain",
+                  height: "60%",
+                  marginRight: "1%"
+                }}
+                source={require("../RES/collapse.png")}
+              />
+              <Text style={styles.TextStyle}>Collapse Menu</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
         <View
           style={{
             width: "80%",
             height: "40%",
             marginTop: "5%",
             marginBottom: "3%",
-            borderWidth: 1,
-            borderRadius: 5,
             alignItems: "center",
             justifyContent: "center"
           }}
         >
-          <Text> Arash </Text>
+          <Image
+            style={styles.imageProfile}
+            source={require("../RES/anonymous.png")}
+          />
+          <TouchableOpacity onPress={() => this.props.goToMyProfile()}>
+            <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>
+              Your Name
+            </Text>
+          </TouchableOpacity>
+          <Text style={{ fontSize: 15, padding: "5%", color: "white" }}>
+            Days Remaining: 5 Day(s)
+          </Text>
         </View>
         <ScrollView style={{ width: "100%" }}>
           <View style={styles.ViewStyle}>
-            <TouchableHighlight style={styles.ButtonStyle}>
-              <Text style={styles.TextStyle}>Collapse Menu</Text>
-            </TouchableHighlight>
-          </View>
-          <View style={styles.Seprator} />
-          <View style={styles.ViewStyle}>
-            <TouchableHighlight style={styles.ButtonStyle}>
-              <Text style={styles.TextStyle}>My Profile</Text>
-            </TouchableHighlight>
-          </View>
-          <View style={styles.Seprator} />
-          <View style={styles.ViewStyle}>
-            <TouchableHighlight style={styles.ButtonStyle}>
+            <TouchableOpacity
+              style={styles.ButtonStyle}
+              onPress={() => this.props.goToMessages()}
+            >
               <Text style={styles.TextStyle}>Messages</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
-          <View style={styles.Seprator} />
+
           <View style={styles.ViewStyle}>
-            <TouchableHighlight style={styles.ButtonStyle}>
+            <TouchableOpacity
+              style={styles.ButtonStyle}
+              onPress={() => this.props.goToContacts()}
+            >
               <Text style={styles.TextStyle}>Contacts</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
-          <View style={styles.Seprator} />
+
           <View style={styles.ViewStyle}>
-            <TouchableHighlight style={styles.ButtonStyle}>
+            <TouchableOpacity
+              style={styles.ButtonStyle}
+              onPress={() => this.props.goToSearch()}
+            >
               <Text style={styles.TextStyle}>Search For A New Contact</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
-          <View style={styles.Seprator} />
+
           <View style={styles.ViewStyle}>
-            <TouchableHighlight style={styles.ButtonStyle}>
+            <TouchableOpacity
+              style={styles.ButtonStyle}
+              onPress={() => this.props.goToShop()}
+            >
               <Text style={styles.TextStyle}>Shop</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
-          <View style={styles.Seprator} />
+
           <View style={styles.ViewStyle}>
-            <TouchableHighlight style={styles.ButtonStyle}>
+            <TouchableOpacity
+              style={styles.ButtonStyle}
+              onPress={() => this.props.goToSetting()}
+            >
               <Text style={styles.TextStyle}>Settings</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
-          <View style={styles.Seprator} />
+
           <View style={styles.ViewStyle}>
-            <TouchableHighlight style={styles.ButtonStyle}>
+            <TouchableOpacity
+              style={styles.ButtonStyle}
+              onPress={() => {
+                Linking.openURL("http://www.google.com");
+              }}
+            >
               <Text style={styles.TextStyle}>Rich Messenger FAQs</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
-          <View style={styles.Seprator} />
+
           <View style={styles.ViewStyle}>
-            <TouchableHighlight style={styles.ButtonStyle}>
+            <TouchableOpacity
+              style={styles.ButtonStyle}
+              onPress={() => this.props.goToAbout()}
+            >
               <Text style={styles.TextStyle}>About Us</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
-          <View style={styles.Seprator} />
         </ScrollView>
         <View style={{ height: "3%" }} />
       </View>
@@ -105,7 +148,7 @@ const styles = StyleSheet.create({
   TextStyle: {
     fontWeight: "bold",
     fontSize: 18,
-    padding: "1%"
+    padding: "2%"
   },
   Seprator: {
     width: "80%",
@@ -113,5 +156,15 @@ const styles = StyleSheet.create({
     borderColor: "#353535",
     marginLeft: "10%"
   },
-  ButtonStyle: {}
+  imageProfile: {
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    borderRadius: 100,
+    width: "30%",
+    height: "40%",
+    marginBottom: "2%"
+  }
 });
