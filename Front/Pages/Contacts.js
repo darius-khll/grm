@@ -147,24 +147,36 @@ class Contacts extends Component {
   }
 
   navigationToMyProfile() {
+    this._drawer.close();
     this.props.navigation.navigate("MyProfile");
   }
   navigationToMainPage() {
+    this._drawer.close();
     this.props.navigation.navigate("MainPage");
   }
   navigationToShop() {
+    this._drawer.close();
     this.props.navigation.navigate("Shop");
   }
   navigationToContacts() {
+    this._drawer.close();
     this.props.navigation.navigate("Contacts");
   }
   navigationToSetting() {
+    this._drawer.close();
     this.props.navigation.navigate("Setting");
   }
   navigationToAbout() {
+    this._drawer.close();
     this.props.navigation.navigate("About");
   }
-
+  navigationToSearch() {
+    this._drawer.close();
+    this.props.navigation.navigate("SearchPage");
+  }
+  collapseDrawer() {
+    this._drawer.close();
+  }
   toggle() {
     this._drawer.open();
   }
@@ -184,7 +196,19 @@ class Contacts extends Component {
         tweenEasing="linear"
         tweenDuration={500}
         tapToClose={true}
-        content={<SideBar imageStyle={styles.imageStyle} />}
+        content={
+          <SideBar
+            imageStyle={styles.imageStyle}
+            goToMyProfile={this.navigationToMyProfile.bind(this)}
+            goToMessages={this.navigationToMainPage.bind(this)}
+            goToContacts={this.navigationToContacts.bind(this)}
+            goToSearch={this.navigationToSearch.bind(this)}
+            goToShop={this.navigationToShop.bind(this)}
+            goToSetting={this.navigationToSetting.bind(this)}
+            goToAbout={this.navigationToAbout.bind(this)}
+            collapser={this.collapseDrawer.bind(this)}
+          />
+        }
       >
         <View style={styles.container}>
           <View style={{ flexDirection: "row", flex: 1 }}>
