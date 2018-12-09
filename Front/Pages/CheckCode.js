@@ -3,8 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
+  AsyncStorage,
   Dimensions,
   ScrollView,
+  ToastAndroid,
   Linking,
   TextInput,
   TouchableHighlight

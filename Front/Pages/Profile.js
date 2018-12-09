@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  AsyncStorage,
   ScrollView,
   TouchableHighlight,
   Dimensions,
@@ -120,10 +121,10 @@ class Profile extends Component {
     this._drawer.open();
   }
 
-  componentWillMount() {
-    this.props.navigation.addListener("didBlur", () => {
-      if (profileStore.isDrawerOpen) profileStore.isDrawerOpen = false;
-    });
+  async componentWillMount() {
+    if ((await AsyncStorage.getItem("shortcut")) === "false")
+      profileStore.isShortcutAvailable = false;
+    else profileStore.isShortcutAvailable = true;
     requester
       .get("/get", {
         params: {

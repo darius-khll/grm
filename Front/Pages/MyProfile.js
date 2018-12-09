@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
+  AsyncStorage,
   View,
   Dimensions,
   ScrollView,
@@ -34,10 +35,10 @@ class MyProfile extends Component {
     };
   };
 
-  componentWillMount() {
-    this.props.navigation.addListener("didBlur", () => {
-      if (myProfileStore.isDrawerOpen) myProfileStore.isDrawerOpen = false;
-    });
+  async componentWillMount() {
+    if ((await AsyncStorage.getItem("shortcut")) === "false")
+      myProfileStore.isShortcutAvailable = false;
+    else myProfileStore.isShortcutAvailable = true;
     requester
       .get("/get", {
         params: {

@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableHighlight,
   ScrollView,
+  AsyncStorage,
   Dimensions,
   Image
 } from "react-native";
@@ -33,7 +34,10 @@ class Shop extends Component {
     };
   };
 
-  componentWillMount() {
+  async componentWillMount() {
+    if ((await AsyncStorage.getItem("shortcut")) === "false")
+      shopStore.isShortcutAvailable = false;
+    else shopStore.isShortcutAvailable = true;
     requester.get("/").then(response => {
       if (response.status === 200) {
         shopStore.stickers = response.data.sticekrs;

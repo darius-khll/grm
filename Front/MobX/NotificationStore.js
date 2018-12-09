@@ -2,7 +2,7 @@ import { observable } from "mobx";
 
 class NotificationStore {
   @observable
-  respondExpanded = true;
+  respondExpanded;
   @observable
   waitingExpanded = true;
   @observable

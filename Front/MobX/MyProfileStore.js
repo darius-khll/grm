@@ -2,7 +2,7 @@ import { computed, observable } from "mobx";
 
 class MyProfileStore {
   @observable
-  isShortcutAvailable = true;
+  isShortcutAvailable;
   @observable
   expanded = false;
   @observable

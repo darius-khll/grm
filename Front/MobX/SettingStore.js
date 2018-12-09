@@ -2,7 +2,7 @@ import { observable } from "mobx";
 
 class SettingStore {
   @observable
-  isShortcutAvailable = true;
+  isShortcutAvailable;
 }
 
 const settingStore = new SettingStore();
