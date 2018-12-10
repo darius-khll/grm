@@ -6,6 +6,7 @@ import {
   Animated,
   FlatList,
   TouchableHighlight,
+  AsyncStorage,
   ScrollView,
   Image,
   Text
@@ -63,11 +64,10 @@ class Notifications extends Component {
     }).start();
   }
 
-  componentWillMount() {
-    this.props.navigation.addListener("didBlur", () => {
-      if (notificationStore.isDrawerOpen)
-        notificationStore.isDrawerOpen = false;
-    });
+  async componentWillMount() {
+    if ((await AsyncStorage.getItem("shortcut")) === "false")
+      notificationStore.isShortcutAvailable = false;
+    else notificationStore.isShortcutAvailable = true;
     requester
       .get("/get", {
         params: {

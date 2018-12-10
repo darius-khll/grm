@@ -6,6 +6,7 @@ import {
   Dimensions,
   StatusBar,
   View,
+  AsyncStorage,
   Image,
   TextInput,
   FlatList,
@@ -104,7 +105,10 @@ class MainPage extends Component {
     this._drawer.open();
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+    if ((await AsyncStorage.getItem("shortcut")) === "false")
+      mainPageStore.isShortcutAvailable = false;
+    else mainPageStore.isShortcutAvailable = true;
     requester
       .get("/", {
         params: {

@@ -5,6 +5,7 @@ import {
   View,
   Dimensions,
   Linking,
+  AsyncStorage,
   Switch,
   ScrollView,
   TouchableOpacity
@@ -13,6 +14,13 @@ import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import Drawer from "react-native-drawer";
 import ShortcutBar from "../Components/ShortcutBar";
 import settingStore from "../MobX/SettingStore";
+import mainPageStore from "../MobX/MainPageStore";
+import aboutStore from "../MobX/AboutStore";
+import contactsStore from "../MobX/ContactsStore";
+import myProfileStore from "../MobX/MyProfileStore";
+import profileStore from "../MobX/ProfileStore";
+import shopStore from "../MobX/ShopStore";
+import notificationStore from "../MobX/NotificationStore";
 import Wallpaper from "../Components/Wallpaper";
 import SideBar from "../Components/SideBar";
 import { observer } from "mobx-react";
@@ -29,29 +37,42 @@ class Setting extends Component {
     };
   };
 
-  componentWillMount() {
-    this.props.navigation.addListener("didBlur", () => {
-      if (settingStore.isDrawerOpen) settingStore.isDrawerOpen = false;
-    });
+  async componentWillMount() {
+    if ((await AsyncStorage.getItem("shortcut")) === "false")
+      settingStore.isShortcutAvailable = false;
+    else settingStore.isShortcutAvailable = true;
   }
 
   navigationToMyProfile() {
+    this._drawer.close();
     this.props.navigation.navigate("MyProfile");
   }
   navigationToMainPage() {
+    this._drawer.close();
     this.props.navigation.navigate("MainPage");
   }
   navigationToShop() {
+    this._drawer.close();
     this.props.navigation.navigate("Shop");
   }
   navigationToContacts() {
+    this._drawer.close();
     this.props.navigation.navigate("Contacts");
   }
   navigationToSetting() {
+    this._drawer.close();
     this.props.navigation.navigate("Setting");
   }
   navigationToAbout() {
+    this._drawer.close();
     this.props.navigation.navigate("About");
+  }
+  navigationToSearch() {
+    this._drawer.close();
+    this.props.navigation.navigate("SearchPage");
+  }
+  collapseDrawer() {
+    this._drawer.close();
   }
 
   toggle() {
@@ -72,7 +93,19 @@ class Setting extends Component {
         tweenEasing="linear"
         tweenDuration={500}
         tapToClose={true}
-        content={<SideBar imageStyle={styles.imageStyle} />}
+        content={
+          <SideBar
+            imageStyle={styles.imageStyle}
+            goToMyProfile={this.navigationToMyProfile.bind(this)}
+            goToMessages={this.navigationToMainPage.bind(this)}
+            goToContacts={this.navigationToContacts.bind(this)}
+            goToSearch={this.navigationToSearch.bind(this)}
+            goToShop={this.navigationToShop.bind(this)}
+            goToSetting={this.navigationToSetting.bind(this)}
+            goToAbout={this.navigationToAbout.bind(this)}
+            collapser={this.collapseDrawer.bind(this)}
+          />
+        }
       >
         <View style={styles.container}>
           <View style={{ flexDirection: "row", flex: 1 }}>
@@ -110,8 +143,19 @@ class Setting extends Component {
                     <Text>Shortcut Bar</Text>
                     <Switch
                       value={settingStore.isShortcutAvailable}
-                      onValueChange={() => {
+                      onValueChange={async () => {
+                        mainPageStore.isShortcutAvailable = !mainPageStore.isShortcutAvailable;
+                        aboutStore.isShortcutAvailable = !aboutStore.isShortcutAvailable;
+                        contactsStore.isShortcutAvailable = !contactsStore.isShortcutAvailable;
+                        myProfileStore.isShortcutAvailable = !myProfileStore.isShortcutAvailable;
+                        notificationStore.isShortcutAvailable = !notificationStore.isShortcutAvailable;
+                        profileStore.isShortcutAvailable = !profileStore.isShortcutAvailable;
+                        shopStore.isShortcutAvailable = !shopStore.isShortcutAvailable;
                         settingStore.isShortcutAvailable = !settingStore.isShortcutAvailable;
+                        await AsyncStorage.setItem(
+                          "shortcut",
+                          settingStore.isShortcutAvailable ? "true" : "false"
+                        );
                       }}
                     />
                   </View>

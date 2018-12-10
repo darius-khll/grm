@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+  AsyncStorage,
   TextInput,
   Dimensions,
   SectionList,
@@ -129,10 +130,10 @@ class Contacts extends Component {
     }
   ];
 
-  componentWillMount() {
-    this.props.navigation.addListener("didBlur", () => {
-      if (contactsStore.isDrawerOpen) contactsStore.isDrawerOpen = false;
-    });
+  async componentWillMount() {
+    if ((await AsyncStorage.getItem("shortcut")) === "false")
+      contactsStore.isShortcutAvailable = false;
+    else contactsStore.isShortcutAvailable = true;
     requester
       .get("/get", {
         params: {

@@ -13,7 +13,7 @@ class ProfileStore {
     }
   ];
   @observable
-  isShortcutAvailable = true;
+  isShortcutAvailable;
   @observable
   bio = "";
   @observable

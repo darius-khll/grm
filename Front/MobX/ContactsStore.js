@@ -2,7 +2,7 @@ import { computed, observable } from "mobx";
 
 class ContactsStore {
   @observable
-  isShortcutAvailable = true;
+  isShortcutAvailable;
   @observable
   sections = [
     {

@@ -2,7 +2,7 @@ import { observable } from "mobx";
 
 class ShopStore {
   @observable
-  isShortcutAvailable = true;
+  isShortcutAvailable;
   @observable
   days = [
     {

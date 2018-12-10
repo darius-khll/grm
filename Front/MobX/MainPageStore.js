@@ -2,7 +2,7 @@ import { observable } from "mobx";
 
 class MainPageStore {
   @observable
-  isShortcutAvailable = true;
+  isShortcutAvailable;
   @observable
   longClickItemName = "";
   @observable
