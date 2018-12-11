@@ -144,6 +144,7 @@ class Setting extends Component {
                     <Switch
                       value={settingStore.isShortcutAvailable}
                       onValueChange={async () => {
+                        settingStore.isShortcutAvailable = !settingStore.isShortcutAvailable;
                         mainPageStore.isShortcutAvailable = !mainPageStore.isShortcutAvailable;
                         aboutStore.isShortcutAvailable = !aboutStore.isShortcutAvailable;
                         contactsStore.isShortcutAvailable = !contactsStore.isShortcutAvailable;
@@ -151,7 +152,6 @@ class Setting extends Component {
                         notificationStore.isShortcutAvailable = !notificationStore.isShortcutAvailable;
                         profileStore.isShortcutAvailable = !profileStore.isShortcutAvailable;
                         shopStore.isShortcutAvailable = !shopStore.isShortcutAvailable;
-                        settingStore.isShortcutAvailable = !settingStore.isShortcutAvailable;
                         await AsyncStorage.setItem(
                           "shortcut",
                           settingStore.isShortcutAvailable ? "true" : "false"
