@@ -16,19 +16,41 @@ export default class DrawerChat extends Component {
           </TouchableOpacity>
         </View>
         <View style={[styles.controlPanel, { justifyContent: "space-around" }]}>
-          <TouchableOpacity style={styles.button}>
-            <Image
-              style={styles.images}
-              source={require("../RES/imagepicker.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.cameraRoll()}
+          >
             <Image
               style={styles.images}
               source={require("../RES/camera.png")}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.imagePicker()}
+          >
+            <Image
+              style={styles.images}
+              source={require("../RES/imagepicker.png")}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.videoPicker()}
+          >
+            <Image style={styles.images} source={require("../RES/video.png")} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.audioPicker()}
+          >
+            <Image style={styles.images} source={require("../RES/audio.png")} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.filePicker()}
+          >
             <Image style={styles.images} source={require("../RES/files.png")} />
           </TouchableOpacity>
         </View>
@@ -59,6 +81,6 @@ const styles = StyleSheet.create({
   },
   button: {
     height: "100%",
-    width: "25%"
+    width: "18%"
   }
 });
