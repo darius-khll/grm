@@ -35,10 +35,7 @@ class MyProfile extends Component {
     };
   };
 
-  async componentWillMount() {
-    if ((await AsyncStorage.getItem("shortcut")) === "false")
-      myProfileStore.isShortcutAvailable = false;
-    else myProfileStore.isShortcutAvailable = true;
+  componentWillMount() {
     requester
       .get("/get", {
         params: {

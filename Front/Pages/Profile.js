@@ -121,10 +121,7 @@ class Profile extends Component {
     this._drawer.open();
   }
 
-  async componentWillMount() {
-    if ((await AsyncStorage.getItem("shortcut")) === "false")
-      profileStore.isShortcutAvailable = false;
-    else profileStore.isShortcutAvailable = true;
+  componentWillMount() {
     requester
       .get("/get", {
         params: {

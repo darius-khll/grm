@@ -130,10 +130,7 @@ class Contacts extends Component {
     }
   ];
 
-  async componentWillMount() {
-    if ((await AsyncStorage.getItem("shortcut")) === "false")
-      contactsStore.isShortcutAvailable = false;
-    else contactsStore.isShortcutAvailable = true;
+  componentWillMount() {
     requester
       .get("/get", {
         params: {

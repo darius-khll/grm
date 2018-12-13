@@ -16,7 +16,14 @@ import { createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
 import Drawer from "react-native-drawer";
 import { observer } from "mobx-react";
+import settingStore from "../MobX/SettingStore";
 import mainPageStore from "../MobX/MainPageStore";
+import aboutStore from "../MobX/AboutStore";
+import contactsStore from "../MobX/ContactsStore";
+import myProfileStore from "../MobX/MyProfileStore";
+import profileStore from "../MobX/ProfileStore";
+import shopStore from "../MobX/ShopStore";
+import notificationStore from "../MobX/NotificationStore";
 import Wallpaper from "../Components/Wallpaper";
 import ShortcutBar from "../Components/ShortcutBar";
 import Axios from "axios";
@@ -106,9 +113,25 @@ class MainPage extends Component {
   }
 
   async componentWillMount() {
-    if ((await AsyncStorage.getItem("shortcut")) === "false")
+    if ((await AsyncStorage.getItem("shortcut")) === "false") {
       mainPageStore.isShortcutAvailable = false;
-    else mainPageStore.isShortcutAvailable = true;
+      settingStore.isShortcutAvailable = false;
+      aboutStore.isShortcutAvailable = false;
+      contactsStore.isShortcutAvailable = false;
+      myProfileStore.isShortcutAvailable = false;
+      notificationStore.isShortcutAvailable = false;
+      profileStore.isShortcutAvailable = false;
+      shopStore.isShortcutAvailable = false;
+    } else {
+      mainPageStore.isShortcutAvailable = true;
+      settingStore.isShortcutAvailable = true;
+      aboutStore.isShortcutAvailable = true;
+      contactsStore.isShortcutAvailable = true;
+      myProfileStore.isShortcutAvailable = true;
+      notificationStore.isShortcutAvailable = true;
+      profileStore.isShortcutAvailable = true;
+      shopStore.isShortcutAvailable = true;
+    }
     requester
       .get("/", {
         params: {
