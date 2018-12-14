@@ -34,10 +34,7 @@ class Shop extends Component {
     };
   };
 
-  async componentWillMount() {
-    if ((await AsyncStorage.getItem("shortcut")) === "false")
-      shopStore.isShortcutAvailable = false;
-    else shopStore.isShortcutAvailable = true;
+  componentWillMount() {
     requester.get("/").then(response => {
       if (response.status === 200) {
         shopStore.stickers = response.data.sticekrs;

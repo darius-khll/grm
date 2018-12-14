@@ -21,12 +21,6 @@ class About extends Component {
     };
   };
 
-  async componentWillMount() {
-    if ((await AsyncStorage.getItem("shortcut")) === "false")
-      aboutStore.isShortcutAvailable = false;
-    else aboutStore.isShortcutAvailable = true;
-  }
-
   toggle() {
     this._drawer.open();
   }

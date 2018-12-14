@@ -37,12 +37,6 @@ class Setting extends Component {
     };
   };
 
-  async componentWillMount() {
-    if ((await AsyncStorage.getItem("shortcut")) === "false")
-      settingStore.isShortcutAvailable = false;
-    else settingStore.isShortcutAvailable = true;
-  }
-
   navigationToMyProfile() {
     this._drawer.close();
     this.props.navigation.navigate("MyProfile");

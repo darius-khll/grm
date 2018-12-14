@@ -64,10 +64,7 @@ class Notifications extends Component {
     }).start();
   }
 
-  async componentWillMount() {
-    if ((await AsyncStorage.getItem("shortcut")) === "false")
-      notificationStore.isShortcutAvailable = false;
-    else notificationStore.isShortcutAvailable = true;
+  componentWillMount() {
     requester
       .get("/get", {
         params: {

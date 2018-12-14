@@ -25,14 +25,68 @@ const { width, height } = Dimensions.get("window");
 const ImagePicker = NativeModules.ImageCropPicker;
 
 class NormalChat extends React.Component {
+  state = {
+    chatData: [
+      {
+        type: "text",
+        send: true,
+        content: "Hi",
+        date: "13:02",
+        sended: true,
+        watched: true
+      },
+      {
+        type: "text",
+        send: false,
+        content: "Hello",
+        date: "13:02"
+      },
+      {
+        type: "text",
+        send: true,
+        content: "How Are You?",
+        date: "13:02",
+        sended: true,
+        watched: false
+      },
+      {
+        type: "text",
+        send: false,
+        content: "fine, how are you doing?",
+        date: "13:02"
+      },
+      {
+        type: "text",
+        send: true,
+        content: "I'm doing great.",
+        date: "13:02",
+        sended: true,
+        watched: true
+      },
+      {
+        type: "text",
+        send: true,
+        content: "Do you have a plan for tonight?",
+        date: "13:02",
+        sended: true,
+        watched: true
+      },
+      {
+        type: "text",
+        send: false,
+        content: "Not yet!",
+        date: "13:02"
+      }
+    ]
+  };
   closeDrawer() {
     this.drawerNormal.close();
   }
 
   imagePickerFunction() {
-    ImagePicker.openPicker({}).then(() =>
-      ToastAndroid.show("OK", ToastAndroid.SHORT)
-    );
+    ImagePicker.openPicker({
+      mediaType: "photo"
+    }).then(() => ToastAndroid.show("OK", ToastAndroid.SHORT));
   }
 
   cameraRollFunction() {
@@ -90,6 +144,7 @@ class NormalChat extends React.Component {
   }
 
   render() {
+    let currnetDate = new Date();
     return (
       <Drawer
         ref={ref => (this.drawerNormal = ref)}
@@ -114,25 +169,26 @@ class NormalChat extends React.Component {
       >
         <View style={styles.container}>
           <Wallpaper source={require("../RES/background.jpg")} />
-          <View style={{ flex: 9 }}>
-            <ScrollView style={{}}>
-              <FlatList
-                style={{}}
-                data={chatPageStore.chatData}
-                renderItem={({ item }) => {
+          <View style={{ flex: 9, width: "100%" }}>
+            <FlatList
+              inverted
+              style={{ width: "100%", height: "100%" }}
+              data={this.state.chatData}
+              renderItem={({ item }) => {
+                if (!item.send)
                   return (
                     <View
                       style={{
-                        alignSelf: !item.send ? "flex-start" : "flex-end"
+                        alignSelf: "flex-start",
+                        flexDirection: "row",
+                        alignItems: "flex-end",
+                        marginLeft: "3%",
+                        marginRight: "15%",
+                        paddingTop: "1%",
+                        paddingBottom: "1%"
                       }}
                     >
-                      <TouchableOpacity
-                        style={{
-                          marginRight: !item.send ? "15%" : "3%",
-                          marginLeft: item.send ? "15%" : "3%",
-                          marginBottom: "3%"
-                        }}
-                      >
+                      <TouchableOpacity>
                         <Text
                           style={{
                             fontSize: 16,
@@ -141,7 +197,52 @@ class NormalChat extends React.Component {
                             padding: "1%",
                             borderWidth: 0.5,
                             borderRadius: 5,
-                            backgroundColor: item.send ? "green" : "white"
+                            backgroundColor: "white"
+                          }}
+                        >
+                          {item.content}
+                        </Text>
+                      </TouchableOpacity>
+                      <View style={{ width: "2%" }} />
+                      <View style={{ alignItems: "center" }}>
+                        <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                      </View>
+                    </View>
+                  );
+                else {
+                  return (
+                    <View
+                      style={{
+                        alignSelf: "flex-end",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginLeft: "15%",
+                        paddingTop: "1%",
+                        paddingBottom: "1%",
+                        marginRight: "3%"
+                      }}
+                    >
+                      <View style={{ alignItems: "center" }}>
+                        <Text style={{ fontSize: 10 }}>
+                          {item.sended
+                            ? item.watched
+                              ? "Watched"
+                              : "Sent"
+                            : "Sending"}
+                        </Text>
+                        <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                      </View>
+                      <View style={{ width: "2%" }} />
+                      <TouchableOpacity>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            paddingTop: "2%",
+                            paddingBottom: "2%",
+                            padding: "1%",
+                            borderWidth: 0.5,
+                            borderRadius: 5,
+                            backgroundColor: "green"
                           }}
                         >
                           {item.content}
@@ -149,9 +250,9 @@ class NormalChat extends React.Component {
                       </TouchableOpacity>
                     </View>
                   );
-                }}
-              />
-            </ScrollView>
+                }
+              }}
+            />
           </View>
           <View
             style={{
@@ -178,9 +279,36 @@ class NormalChat extends React.Component {
               <TextInput
                 placeholder="Type to start chat ..."
                 style={{ textAlign: "auto" }}
+                onChangeText={text => (chatPageStore.textNormal = text)}
+                ref={input => {
+                  this.textInput = input;
+                }}
               />
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (chatPageStore.textNormal.trim() !== "") {
+                  let currentDate = new Date();
+                  this.setState({
+                    chatData: [
+                      {
+                        type: "text",
+                        send: true,
+                        content: chatPageStore.textNormal.trim(),
+                        date: `${currentDate
+                          .getHours()
+                          .toString()}:${currentDate.getMinutes().toString()}`,
+                        watched: false,
+                        sended: false
+                      },
+                      ...this.state.chatData
+                    ]
+                  });
+                  chatPageStore.textNormal = "";
+                  this.textInput.clear();
+                }
+              }}
+            >
               <Text>Send</Text>
             </TouchableOpacity>
           </View>
