@@ -27,6 +27,7 @@ import notificationStore from "../MobX/NotificationStore";
 import Wallpaper from "../Components/Wallpaper";
 import ShortcutBar from "../Components/ShortcutBar";
 import Axios from "axios";
+import Orientation from "react-native-orientation";
 import { FloatingAction } from "react-native-floating-action";
 
 let { width } = Dimensions.get("window");
@@ -113,6 +114,7 @@ class MainPage extends Component {
   }
 
   async componentWillMount() {
+    Orientation.lockToPortrait();
     if ((await AsyncStorage.getItem("shortcut")) === "false") {
       mainPageStore.isShortcutAvailable = false;
       settingStore.isShortcutAvailable = false;
@@ -286,7 +288,7 @@ class MainPage extends Component {
               </View>
             </Modal>
             <ShortcutBar
-              width={mainPageStore.isShortcutAvailable ? width / 8 : 0}
+              width={mainPageStore.isShortcutAvailable ? "12.5%" : "0%"}
               toggle={this.toggle.bind(this)}
               imageStyle={styles.imageStyle}
               navigationToMyProfile={this.navigationToMyProfile.bind(this)}
@@ -299,9 +301,7 @@ class MainPage extends Component {
             <View
               style={{
                 alignItems: "center",
-                width: mainPageStore.isShortcutAvailable
-                  ? (7 * width) / 8
-                  : width
+                width: mainPageStore.isShortcutAvailable ? "87.5%" : "100%"
               }}
             >
               <Wallpaper source={require("../RES/background.jpg")} />
