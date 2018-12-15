@@ -42,6 +42,14 @@ class NormalChat extends React.Component {
         date: "13:02"
       },
       {
+        type: "image",
+        send: false,
+        date: "13:02",
+        content: require("../RES/anonymous.png"),
+        width: 150,
+        height: 150
+      },
+      {
         type: "text",
         send: true,
         content: "How Are You?",
@@ -175,81 +183,122 @@ class NormalChat extends React.Component {
               style={{ width: "100%", height: "100%" }}
               data={this.state.chatData}
               renderItem={({ item }) => {
-                if (!item.send)
-                  return (
-                    <View
-                      style={{
-                        alignSelf: "flex-start",
-                        flexDirection: "row",
-                        alignItems: "flex-end",
-                        marginLeft: "3%",
-                        marginRight: "15%",
-                        paddingTop: "1%",
-                        paddingBottom: "1%"
-                      }}
-                    >
-                      <TouchableOpacity>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            paddingTop: "2%",
-                            paddingBottom: "2%",
-                            padding: "1%",
-                            borderWidth: 0.5,
-                            borderRadius: 5,
-                            backgroundColor: "white"
-                          }}
-                        >
-                          {item.content}
-                        </Text>
-                      </TouchableOpacity>
-                      <View style={{ width: "2%" }} />
-                      <View style={{ alignItems: "center" }}>
-                        <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                if (item.type === "text") {
+                  if (!item.send)
+                    return (
+                      <View
+                        style={{
+                          alignSelf: "flex-start",
+                          flexDirection: "row",
+                          alignItems: "flex-end",
+                          marginLeft: "3%",
+                          marginRight: "15%",
+                          paddingTop: "1%",
+                          paddingBottom: "1%"
+                        }}
+                      >
+                        <TouchableOpacity>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              paddingTop: "2%",
+                              paddingBottom: "2%",
+                              padding: "1%",
+                              borderWidth: 0.5,
+                              borderRadius: 5,
+                              backgroundColor: "white"
+                            }}
+                          >
+                            {item.content}
+                          </Text>
+                        </TouchableOpacity>
+                        <View style={{ width: "2%" }} />
+                        <View style={{ alignItems: "center" }}>
+                          <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                        </View>
                       </View>
-                    </View>
-                  );
-                else {
-                  return (
-                    <View
-                      style={{
-                        alignSelf: "flex-end",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        marginLeft: "15%",
-                        paddingTop: "1%",
-                        paddingBottom: "1%",
-                        marginRight: "3%"
-                      }}
-                    >
-                      <View style={{ alignItems: "center" }}>
-                        <Text style={{ fontSize: 10 }}>
-                          {item.sended
-                            ? item.watched
-                              ? "Watched"
-                              : "Sent"
-                            : "Sending"}
-                        </Text>
-                        <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                    );
+                  else {
+                    return (
+                      <View
+                        style={{
+                          alignSelf: "flex-end",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          marginLeft: "15%",
+                          paddingTop: "1%",
+                          paddingBottom: "1%",
+                          marginRight: "3%"
+                        }}
+                      >
+                        <View style={{ alignItems: "center" }}>
+                          <Text style={{ fontSize: 10 }}>
+                            {item.sended
+                              ? item.watched
+                                ? "Watched"
+                                : "Sent"
+                              : "Sending"}
+                          </Text>
+                          <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                        </View>
+                        <View style={{ width: "2%" }} />
+                        <TouchableOpacity>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              paddingTop: "2%",
+                              paddingBottom: "2%",
+                              padding: "1%",
+                              borderWidth: 0.5,
+                              borderRadius: 5,
+                              backgroundColor: "green"
+                            }}
+                          >
+                            {item.content}
+                          </Text>
+                        </TouchableOpacity>
                       </View>
-                      <View style={{ width: "2%" }} />
-                      <TouchableOpacity>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            paddingTop: "2%",
-                            paddingBottom: "2%",
-                            padding: "1%",
-                            borderWidth: 0.5,
-                            borderRadius: 5,
-                            backgroundColor: "green"
-                          }}
-                        >
-                          {item.content}
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  );
+                    );
+                  }
+                } else if (item.type === "image") {
+                  if (!item.send) {
+                    return (
+                      <View
+                        style={{
+                          alignSelf: "flex-start",
+                          flexDirection: "row",
+                          alignItems: "flex-end",
+                          marginLeft: "3%",
+                          marginRight: "15%",
+                          paddingTop: "1%",
+                          paddingBottom: "1%"
+                        }}
+                      >
+                        <TouchableOpacity style={{}} onPress={() => {}}>
+                          <Image
+                            style={{
+                              resizeMode: "center",
+                              width: item.width,
+                              height: item.height,
+                              backgroundColor: "white",
+                              paddingTop: "2%",
+                              paddingBottom: "2%",
+                              padding: "1%",
+                              borderWidth: 0.5,
+                              borderRadius: 5
+                            }}
+                            source={item.content}
+                          />
+                        </TouchableOpacity>
+                        <View style={{ width: "2%" }} />
+                        <View style={{ alignItems: "center" }}>
+                          <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                        </View>
+                      </View>
+                    );
+                  } else {
+                    return;
+                  }
                 }
               }}
             />

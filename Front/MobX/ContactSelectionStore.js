@@ -12,6 +12,10 @@ class ContactSelectionStore {
     { name: "Mammad", image: require("../RES/sampleprofileimage.jpg") },
     { name: "Arash", image: require("../RES/sampleprofileimage.jpg") }
   ];
+  @observable
+  name = "";
+  @observable
+  image;
 }
 
 const contactSelectionStore = new ContactSelectionStore();
