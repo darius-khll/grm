@@ -4,7 +4,7 @@ import {
   Image,
   Dimensions,
   View,
-  ToastAndroid,
+  Keyboard,
   StyleSheet,
   NativeModules,
   TextInput,
@@ -86,7 +86,40 @@ class NormalChat extends React.Component {
   imagePickerFunction() {
     ImagePicker.openPicker({
       mediaType: "photo"
-    }).then(() => ToastAndroid.show("OK", ToastAndroid.SHORT));
+    })
+      .then(image => {
+        this.drawerNormal.close();
+        let currentDate = new Date();
+        this.setState({
+          chatData: [
+            {
+              type: "text",
+              content: `width: ${image.width}, height: ${image.height}`,
+              send: true
+            },
+            {
+              type: "image",
+              send: true,
+              content: {
+                uri: image.path,
+                width: image.width,
+                height: image.height
+              },
+              date: `${currentDate
+                .getHours()
+                .toString()}:${currentDate.getMinutes().toString()}`,
+              height: image.height,
+              width: image.width,
+              watched: false,
+              sended: false
+            },
+            ...this.state.chatData
+          ]
+        });
+      })
+      .catch(() => {
+        this.drawerNormal.clsoe();
+      });
   }
 
   cameraRollFunction() {
@@ -144,7 +177,6 @@ class NormalChat extends React.Component {
   }
 
   render() {
-    let currnetDate = new Date();
     return (
       <Drawer
         ref={ref => (this.drawerNormal = ref)}
@@ -175,81 +207,187 @@ class NormalChat extends React.Component {
               style={{ width: "100%", height: "100%" }}
               data={this.state.chatData}
               renderItem={({ item }) => {
-                if (!item.send)
-                  return (
-                    <View
-                      style={{
-                        alignSelf: "flex-start",
-                        flexDirection: "row",
-                        alignItems: "flex-end",
-                        marginLeft: "3%",
-                        marginRight: "15%",
-                        paddingTop: "1%",
-                        paddingBottom: "1%"
-                      }}
-                    >
-                      <TouchableOpacity>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            paddingTop: "2%",
-                            paddingBottom: "2%",
-                            padding: "1%",
-                            borderWidth: 0.5,
-                            borderRadius: 5,
-                            backgroundColor: "white"
-                          }}
-                        >
-                          {item.content}
-                        </Text>
-                      </TouchableOpacity>
-                      <View style={{ width: "2%" }} />
-                      <View style={{ alignItems: "center" }}>
-                        <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                if (item.type === "text") {
+                  if (!item.send)
+                    return (
+                      <View style={styles.ContainView}>
+                        <TouchableOpacity>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              paddingTop: "2%",
+                              paddingBottom: "2%",
+                              padding: "1%",
+                              borderWidth: 0.5,
+                              borderRadius: 5,
+                              backgroundColor: "white"
+                            }}
+                          >
+                            {item.content}
+                          </Text>
+                        </TouchableOpacity>
+                        <View style={{ width: "2%" }} />
+                        <View style={{ alignItems: "center" }}>
+                          <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                        </View>
                       </View>
-                    </View>
-                  );
-                else {
-                  return (
-                    <View
-                      style={{
-                        alignSelf: "flex-end",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        marginLeft: "15%",
-                        paddingTop: "1%",
-                        paddingBottom: "1%",
-                        marginRight: "3%"
-                      }}
-                    >
-                      <View style={{ alignItems: "center" }}>
-                        <Text style={{ fontSize: 10 }}>
-                          {item.sended
-                            ? item.watched
-                              ? "Watched"
-                              : "Sent"
-                            : "Sending"}
-                        </Text>
-                        <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                    );
+                  else {
+                    return (
+                      <View
+                        style={{
+                          alignSelf: "flex-end",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          marginLeft: "15%",
+                          paddingTop: "1%",
+                          paddingBottom: "1%",
+                          marginRight: "3%"
+                        }}
+                      >
+                        <View style={{ alignItems: "center" }}>
+                          <Text style={{ fontSize: 10 }}>
+                            {item.sended
+                              ? item.watched
+                                ? "Watched"
+                                : "Sent"
+                              : "Sending"}
+                          </Text>
+                          <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                        </View>
+                        <View style={{ width: "2%" }} />
+                        <TouchableOpacity>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              paddingTop: "2%",
+                              paddingBottom: "2%",
+                              padding: "1%",
+                              borderWidth: 0.5,
+                              borderRadius: 5,
+                              backgroundColor: "green"
+                            }}
+                          >
+                            {item.content}
+                          </Text>
+                        </TouchableOpacity>
                       </View>
-                      <View style={{ width: "2%" }} />
-                      <TouchableOpacity>
-                        <Text
+                    );
+                  }
+                } else if (item.type === "image") {
+                  if (!item.send) {
+                    return (
+                      <View style={styles.ContainView}>
+                        <TouchableOpacity
                           style={{
-                            fontSize: 16,
-                            paddingTop: "2%",
-                            paddingBottom: "2%",
-                            padding: "1%",
-                            borderWidth: 0.5,
-                            borderRadius: 5,
-                            backgroundColor: "green"
+                            width:
+                              item.width < width * 0.85 &&
+                              item.height < height / 2.5
+                                ? item.width
+                                : item.width >= item.height
+                                ? width * 0.85
+                                : item.width * (height / 2.5 / item.height),
+                            height:
+                              item.width < width * 0.85 &&
+                              item.height < height / 2.5
+                                ? item.height
+                                : item.height >= item.width
+                                ? height / 2.5
+                                : item.height * ((width * 0.85) / item.width),
+
+                            padding: "2%"
                           }}
+                          onPress={() => {}}
                         >
-                          {item.content}
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  );
+                          <Image
+                            style={{
+                              width:
+                                item.width < width * 0.85 &&
+                                item.height < height / 2.5
+                                  ? item.width
+                                  : item.width >= item.height
+                                  ? width * 0.85
+                                  : item.width * (height / 2.5 / item.height),
+                              height:
+                                item.width < width * 0.85 &&
+                                item.height < height / 2.5
+                                  ? item.height
+                                  : item.height >= item.width
+                                  ? height / 2.5
+                                  : item.height * ((width * 0.85) / item.width),
+
+                              padding: "2%"
+                            }}
+                            source={item.content}
+                          />
+                        </TouchableOpacity>
+                        <View style={{ width: "2%" }} />
+                        <View style={{ alignItems: "center" }}>
+                          <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                        </View>
+                      </View>
+                    );
+                  } else {
+                    return (
+                      <View
+                        style={{
+                          alignSelf: "flex-end",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          marginLeft: "15%",
+                          paddingTop: "1%",
+                          paddingBottom: "1%",
+                          marginRight: "3%"
+                        }}
+                      >
+                        <View style={{ alignItems: "center" }}>
+                          <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                        </View>
+                        <View style={{ width: "2%" }} />
+                        <TouchableOpacity
+                          style={{
+                            width:
+                              item.width < width * 0.85 &&
+                              item.height < height / 2.5
+                                ? item.width
+                                : item.width >= item.height
+                                ? width * 0.85
+                                : item.width * (height / 2.5 / item.height),
+                            height:
+                              item.width < width * 0.85 &&
+                              item.height < height / 2.5
+                                ? item.height
+                                : item.height >= item.width
+                                ? height / 2.5
+                                : item.height * ((width * 0.85) / item.width),
+                            padding: "2%"
+                          }}
+                          onPress={() => {}}
+                        >
+                          <Image
+                            style={{
+                              width:
+                                item.width < width * 0.85 &&
+                                item.height < height / 2.5
+                                  ? item.width
+                                  : item.width >= item.height
+                                  ? width * 0.85
+                                  : item.width * (height / 2.5 / item.height),
+                              height:
+                                item.width < width * 0.85 &&
+                                item.height < height / 2.5
+                                  ? item.height
+                                  : item.height >= item.width
+                                  ? height / 2.5
+                                  : item.height * ((width * 0.85) / item.width),
+                              padding: "2%"
+                            }}
+                            source={item.content}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    );
+                  }
                 }
               }}
             />
@@ -265,7 +403,12 @@ class NormalChat extends React.Component {
               alignItems: "center"
             }}
           >
-            <TouchableOpacity onPress={() => this.drawerNormal.open()}>
+            <TouchableOpacity
+              onPress={() => {
+                Keyboard.dismiss();
+                setTimeout(this.drawerNormal.open, 250);
+              }}
+            >
               <Image
                 source={require("../RES/attach.png")}
                 style={{
@@ -343,7 +486,7 @@ class SecureChat extends React.Component {
         <ScrollView style={{ flexDirection: "column-reverse" }}>
           <View
             style={{
-              heigth: "10%",
+              height: "10%",
               flexDirection: "row",
               borderTopWidth: width / 180,
               width: "100%",
@@ -370,6 +513,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center"
+  },
+  ContainView: {
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginLeft: "3%",
+    marginRight: "15%",
+    paddingTop: "1%",
+    paddingBottom: "1%"
   }
 });
 

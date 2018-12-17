@@ -8,7 +8,11 @@ import {
   FlatList,
   TouchableHighlight
 } from "react-native";
-import { HeaderBackButton, createStackNavigator } from "react-navigation";
+import {
+  HeaderBackButton,
+  NavigationEvents,
+  createStackNavigator
+} from "react-navigation";
 import Wallpaper from "../Components/Wallpaper";
 import contactSelectionStore from "../MobX/ContactSelectionStore";
 import { observer } from "mobx-react";
@@ -41,6 +45,14 @@ class ContactSelection extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <NavigationEvents
+          onWillBlur={() => {
+            this.props.navigation.navigate("ChatPage", {
+              name: contactSelectionStore.name,
+              image: contactSelectionStore.image
+            });
+          }}
+        />
         <View style={{ flexDirection: "row", flex: 1 }}>
           <Wallpaper source={require("../RES/background.jpg")} />
           <FlatList
@@ -50,12 +62,11 @@ class ContactSelection extends Component {
             renderItem={({ item }) => {
               return (
                 <TouchableHighlight
-                  onPress={() =>
-                    this.props.navigation.navigate("ChatPage", {
-                      name: item.name,
-                      image: item.image
-                    })
-                  }
+                  onPress={() => {
+                    contactSelectionStore.name = item.name;
+                    contactSelectionStore.image = item.image;
+                    this.props.navigation.navigate("MainPage");
+                  }}
                 >
                   <View
                     style={{
