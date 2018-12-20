@@ -36,6 +36,15 @@ class NormalChat extends React.Component {
         watched: true
       },
       {
+        type: "audio",
+        send: true,
+        sended: true,
+        watched: false,
+        name: "Mohsen Yeganeh.mp3",
+        size: 1235476,
+        date: "13:02"
+      },
+      {
         type: "text",
         send: false,
         content: "Hello",
@@ -123,15 +132,72 @@ class NormalChat extends React.Component {
   }
 
   cameraRollFunction() {
-    ImagePicker.openCamera({}).then(() =>
-      ToastAndroid.show("OK", ToastAndroid.SHORT)
-    );
+    ImagePicker.openCamera({})
+      .then(image => {
+        this.drawerNormal.close();
+        let currentDate = new Date();
+        this.setState({
+          chatData: [
+            {
+              type: "text",
+              content: `width: ${image.width}, height: ${image.height}`,
+              send: true
+            },
+            {
+              type: "image",
+              send: true,
+              content: {
+                uri: image.path,
+                width: image.width,
+                height: image.height
+              },
+              date: `${currentDate
+                .getHours()
+                .toString()}:${currentDate.getMinutes().toString()}`,
+              height: image.height,
+              width: image.width,
+              watched: false,
+              sended: false
+            },
+            ...this.state.chatData
+          ]
+        });
+      })
+      .catch(() => {
+        this.drawerNormal.clsoe();
+      });
   }
 
   videoPickerFucntion() {
     ImagePicker.openPicker({
       mediaType: "video"
-    }).then(() => ToastAndroid.show("OK", ToastAndroid.SHORT));
+    })
+      .then(item => {
+        this.drawerNormal.close();
+        let currentDate = new Date();
+        this.setState({
+          chatData: [
+            {
+              name: "Video" + Date.now().toString(),
+              type: "video",
+              send: true,
+              content: {
+                uri: item.path
+              },
+              date: `${currentDate
+                .getHours()
+                .toString()}:${currentDate.getMinutes().toString()}`,
+              watched: false,
+              sended: false,
+              size: item.size
+            },
+            ...this.state.chatData
+          ]
+        });
+      })
+      .catch(() => {
+        this.drawerNormal.clsoe();
+      });
   }
 
   audioPickerFunction() {
@@ -140,16 +206,28 @@ class NormalChat extends React.Component {
         filetype: [DocumentPickerUtil.audio()]
       },
       (error, res) => {
+        this.drawerNormal.close();
         if (!error) {
-          // Android
-          ToastAndroid.show(
-            `
-         res.uri: ${res.uri},
-         res.type: ${res.type}, // mime type
-         res.fileName: ${res.fileName},
-         res.fileSize: ${res.fileSize}`,
-            ToastAndroid.SHORT
-          );
+          let currentDate = new Date();
+          this.setState({
+            chatData: [
+              {
+                name: res.fileName + res.type,
+                type: "audio",
+                send: true,
+                content: {
+                  uri: res.uri
+                },
+                date: `${currentDate
+                  .getHours()
+                  .toString()}:${currentDate.getMinutes().toString()}`,
+                watched: false,
+                sended: false,
+                size: res.fileSize
+              },
+              ...this.state.chatData
+            ]
+          });
         }
       }
     );
@@ -161,16 +239,28 @@ class NormalChat extends React.Component {
         filetype: [DocumentPickerUtil.allFiles()]
       },
       (error, res) => {
+        this.drawerNormal.close();
         if (!error) {
-          // Android
-          ToastAndroid.show(
-            `
-         res.uri: ${res.uri},
-         res.type: ${res.type}, // mime type
-         res.fileName: ${res.fileName},
-         res.fileSize: ${res.fileSize}`,
-            ToastAndroid.SHORT
-          );
+          let currentDate = new Date();
+          this.setState({
+            chatData: [
+              {
+                name: res.fileName,
+                type: "other",
+                send: true,
+                content: {
+                  uri: res.uri
+                },
+                date: `${currentDate
+                  .getHours()
+                  .toString()}:${currentDate.getMinutes().toString()}`,
+                watched: false,
+                sended: false,
+                size: res.fileSize
+              },
+              ...this.state.chatData
+            ]
+          });
         }
       }
     );
@@ -210,21 +300,9 @@ class NormalChat extends React.Component {
                 if (item.type === "text") {
                   if (!item.send)
                     return (
-                      <View style={styles.ContainView}>
+                      <View style={styles.ContainViewNotSend}>
                         <TouchableOpacity>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              paddingTop: "2%",
-                              paddingBottom: "2%",
-                              padding: "1%",
-                              borderWidth: 0.5,
-                              borderRadius: 5,
-                              backgroundColor: "white"
-                            }}
-                          >
-                            {item.content}
-                          </Text>
+                          <Text style={styles.textNotSend}>{item.content}</Text>
                         </TouchableOpacity>
                         <View style={{ width: "2%" }} />
                         <View style={{ alignItems: "center" }}>
@@ -234,17 +312,7 @@ class NormalChat extends React.Component {
                     );
                   else {
                     return (
-                      <View
-                        style={{
-                          alignSelf: "flex-end",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          marginLeft: "15%",
-                          paddingTop: "1%",
-                          paddingBottom: "1%",
-                          marginRight: "3%"
-                        }}
-                      >
+                      <View style={styles.containViewSend}>
                         <View style={{ alignItems: "center" }}>
                           <Text style={{ fontSize: 10 }}>
                             {item.sended
@@ -257,19 +325,7 @@ class NormalChat extends React.Component {
                         </View>
                         <View style={{ width: "2%" }} />
                         <TouchableOpacity>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              paddingTop: "2%",
-                              paddingBottom: "2%",
-                              padding: "1%",
-                              borderWidth: 0.5,
-                              borderRadius: 5,
-                              backgroundColor: "green"
-                            }}
-                          >
-                            {item.content}
-                          </Text>
+                          <Text style={styles.textSend}>{item.content}</Text>
                         </TouchableOpacity>
                       </View>
                     );
@@ -277,44 +333,24 @@ class NormalChat extends React.Component {
                 } else if (item.type === "image") {
                   if (!item.send) {
                     return (
-                      <View style={styles.ContainView}>
-                        <TouchableOpacity
-                          style={{
-                            width:
-                              item.width < width * 0.85 &&
-                              item.height < height / 2.5
-                                ? item.width
-                                : item.width >= item.height
-                                ? width * 0.85
-                                : item.width * (height / 2.5 / item.height),
-                            height:
-                              item.width < width * 0.85 &&
-                              item.height < height / 2.5
-                                ? item.height
-                                : item.height >= item.width
-                                ? height / 2.5
-                                : item.height * ((width * 0.85) / item.width),
-
-                            padding: "2%"
-                          }}
-                          onPress={() => {}}
-                        >
+                      <View style={styles.ContainViewNotSend}>
+                        <TouchableOpacity style={{}} onPress={() => {}}>
                           <Image
                             style={{
                               width:
-                                item.width < width * 0.85 &&
+                                item.width < width * 0.75 &&
                                 item.height < height / 2.5
                                   ? item.width
                                   : item.width >= item.height
-                                  ? width * 0.85
+                                  ? width * 0.75
                                   : item.width * (height / 2.5 / item.height),
                               height:
-                                item.width < width * 0.85 &&
+                                item.width < width * 0.75 &&
                                 item.height < height / 2.5
                                   ? item.height
                                   : item.height >= item.width
                                   ? height / 2.5
-                                  : item.height * ((width * 0.85) / item.width),
+                                  : item.height * ((width * 0.75) / item.width),
 
                               padding: "2%"
                             }}
@@ -329,61 +365,187 @@ class NormalChat extends React.Component {
                     );
                   } else {
                     return (
-                      <View
-                        style={{
-                          alignSelf: "flex-end",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          marginLeft: "15%",
-                          paddingTop: "1%",
-                          paddingBottom: "1%",
-                          marginRight: "3%"
-                        }}
-                      >
+                      <View style={styles.containViewSend}>
                         <View style={{ alignItems: "center" }}>
+                          <Text style={{ fontSize: 10 }}>
+                            {item.sended
+                              ? item.watched
+                                ? "Watched"
+                                : "Sent"
+                              : "Sending"}
+                          </Text>
                           <Text style={{ fontSize: 10 }}>{item.date}</Text>
                         </View>
                         <View style={{ width: "2%" }} />
-                        <TouchableOpacity
-                          style={{
-                            width:
-                              item.width < width * 0.85 &&
-                              item.height < height / 2.5
-                                ? item.width
-                                : item.width >= item.height
-                                ? width * 0.85
-                                : item.width * (height / 2.5 / item.height),
-                            height:
-                              item.width < width * 0.85 &&
-                              item.height < height / 2.5
-                                ? item.height
-                                : item.height >= item.width
-                                ? height / 2.5
-                                : item.height * ((width * 0.85) / item.width),
-                            padding: "2%"
-                          }}
-                          onPress={() => {}}
-                        >
+                        <TouchableOpacity>
                           <Image
                             style={{
                               width:
-                                item.width < width * 0.85 &&
+                                item.width < width * 0.75 &&
                                 item.height < height / 2.5
                                   ? item.width
                                   : item.width >= item.height
-                                  ? width * 0.85
+                                  ? width * 0.75
                                   : item.width * (height / 2.5 / item.height),
                               height:
-                                item.width < width * 0.85 &&
+                                item.width < width * 0.75 &&
                                 item.height < height / 2.5
                                   ? item.height
                                   : item.height >= item.width
                                   ? height / 2.5
-                                  : item.height * ((width * 0.85) / item.width),
+                                  : item.height * ((width * 0.75) / item.width),
+
                               padding: "2%"
                             }}
                             source={item.content}
                           />
+                        </TouchableOpacity>
+                      </View>
+                    );
+                  }
+                } else {
+                  if (!item.send) {
+                    return (
+                      <View style={styles.ContainViewNotSend}>
+                        <TouchableOpacity>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              borderWidth: 1,
+                              borderRadius: 5,
+                              backgroundColor: "white",
+                              padding: "1%",
+                              alignItems: "center"
+                            }}
+                          >
+                            <View
+                              style={{
+                                justifyContent: "center",
+                                alignItems: "center"
+                              }}
+                            >
+                              <Text>{item.name}</Text>
+                              <Text>
+                                {item.size < 1024
+                                  ? item.size + "B"
+                                  : item.size / 1024 < 1024
+                                  ? parseFloat(
+                                      Math.round((item.size / 1024) * 100) / 100
+                                    ).toFixed(2) + "KB"
+                                  : item.size / (1024 * 1024) < 1024
+                                  ? parseFloat(
+                                      Math.round(
+                                        (item.size / (1024 * 1024)) * 100
+                                      ) / 100
+                                    ).toFixed(2) + "MB"
+                                  : parseFloat(
+                                      Math.round(
+                                        (item.size / (1024 * 1024 * 1024)) * 100
+                                      ) / 100
+                                    ).toFixed(2) + "GB"}
+                              </Text>
+                            </View>
+                            <View style={{ width: "3%" }} />
+                            <TouchableOpacity>
+                              <View
+                                style={{
+                                  paddingTop: "2%",
+                                  PaddingBottom: "2%",
+                                  borderWidth: 0.5,
+                                  borderRadius: 5
+                                }}
+                              >
+                                <Image
+                                  style={{
+                                    width: width / 10,
+                                    height: width / 10,
+                                    resizeMode: "contain"
+                                  }}
+                                  source={require("../RES/download.png")}
+                                />
+                              </View>
+                            </TouchableOpacity>
+                          </View>
+                        </TouchableOpacity>
+                        <View style={{ width: "2%" }} />
+                        <View style={{ alignItems: "center" }}>
+                          <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                        </View>
+                      </View>
+                    );
+                  } else {
+                    return (
+                      <View style={styles.containViewSend}>
+                        <View style={{ alignItems: "center" }}>
+                          <Text style={{ fontSize: 10 }}>
+                            {item.sended
+                              ? item.watched
+                                ? "Watched"
+                                : "Sent"
+                              : "Sending"}
+                          </Text>
+                          <Text style={{ fontSize: 10 }}>{item.date}</Text>
+                        </View>
+                        <View style={{ width: "2%" }} />
+                        <TouchableOpacity>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              borderWidth: 1,
+                              borderRadius: 5,
+                              backgroundColor: "green",
+                              padding: "1%",
+                              alignItems: "center"
+                            }}
+                          >
+                            <TouchableOpacity>
+                              <View
+                                style={{
+                                  paddingTop: "2%",
+                                  PaddingBottom: "2%",
+                                  borderWidth: 0.5,
+                                  borderRadius: 5
+                                }}
+                              >
+                                <Image
+                                  style={{
+                                    width: width / 10,
+                                    height: width / 10,
+                                    resizeMode: "contain"
+                                  }}
+                                  source={require("../RES/download.png")}
+                                />
+                              </View>
+                            </TouchableOpacity>
+                            <View style={{ width: "3%" }} />
+                            <View
+                              style={{
+                                justifyContent: "center",
+                                alignItems: "center"
+                              }}
+                            >
+                              <Text>{item.name}</Text>
+                              <Text>
+                                {item.size < 1024
+                                  ? item.size + "B"
+                                  : item.size / 1024 < 1024
+                                  ? parseFloat(
+                                      Math.round((item.size / 1024) * 100) / 100
+                                    ).toFixed(2) + "KB"
+                                  : item.size / (1024 * 1024) < 1024
+                                  ? parseFloat(
+                                      Math.round(
+                                        (item.size / (1024 * 1024)) * 100
+                                      ) / 100
+                                    ).toFixed(2) + "MB"
+                                  : parseFloat(
+                                      Math.round(
+                                        (item.size / (1024 * 1024 * 1024)) * 100
+                                      ) / 100
+                                    ).toFixed(2) + "GB"}
+                              </Text>
+                            </View>
+                          </View>
                         </TouchableOpacity>
                       </View>
                     );
@@ -514,14 +676,42 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center"
   },
-  ContainView: {
+  ContainViewNotSend: {
     alignSelf: "flex-start",
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "center",
     marginLeft: "3%",
     marginRight: "15%",
     paddingTop: "1%",
     paddingBottom: "1%"
+  },
+  containViewSend: {
+    alignSelf: "flex-end",
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: "15%",
+    paddingTop: "1%",
+    paddingBottom: "1%",
+    alignItems: "center",
+    marginRight: "3%"
+  },
+  textNotSend: {
+    fontSize: 16,
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    padding: "1%",
+    borderWidth: 0.5,
+    borderRadius: 5,
+    backgroundColor: "white"
+  },
+  textSend: {
+    fontSize: 16,
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    padding: "1%",
+    borderWidth: 0.5,
+    borderRadius: 5,
+    backgroundColor: "green"
   }
 });
 
