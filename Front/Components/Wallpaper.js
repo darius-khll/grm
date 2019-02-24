@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image } from "react-native";
+import { Image, View, KeyboardAvoidingView } from "react-native";
 
 export default class Wallpaper extends Component {
   render() {
@@ -8,6 +8,7 @@ export default class Wallpaper extends Component {
         style={{
           position: "absolute",
           width: "100%",
+          resizeMode: this.props.mode || "stretch",
           height: "100%",
           opacity: this.props.opacity
         }}
