@@ -97,6 +97,8 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+     
+
     defaultConfig {
         applicationId "com.richmessenger"
         minSdkVersion 21
@@ -144,6 +146,7 @@ configurations.all {
 }
 
 dependencies {
+    compile project(':react-native-video')
     compile project(':react-native-orientation')
     compile project(':react-native-document-picker')
     compile project(':react-native-image-crop-picker')
