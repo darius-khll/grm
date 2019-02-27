@@ -30,6 +30,7 @@
     "react-native-radio-buttons-group": "^1.0.7",
     "react-native-side-menu": "^1.1.3",
     "react-native-slider": "^0.11.0",
+    "react-native-video": "3.x.x",
     "react-navigation": "^2.17.0"
   },
   "devDependencies": {
