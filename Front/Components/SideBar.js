@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Linking,
+  AsyncStorage,
   ScrollView
 } from "react-native";
 import Wallpaper from "./Wallpaper";
