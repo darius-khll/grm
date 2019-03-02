@@ -6,7 +6,6 @@ import {
   AsyncStorage,
   Dimensions,
   ScrollView,
-  ToastAndroid,
   Linking,
   TextInput,
   TouchableHighlight
@@ -18,8 +17,12 @@ import CheckBox from "react-native-check-box";
 import Wallpaper from "../Components/Wallpaper";
 import ModalTwoButtons from "../Components/ModalTwoButtons";
 import ModalOneButton from "../Components/ModalOneButton";
+import Axios from "axios";
 
 const { width } = Dimensions.get("window");
+const requester = Axios.create({
+  baseURL: "https://localhost:3000/api/getProperties"
+});
 
 @observer
 class CheckCode extends Component {

@@ -2,6 +2,7 @@ import React from "react";
 import {
   Dimensions,
   TouchableOpacity,
+  StyleSheet,
   View,
   NativeModules,
   Image
@@ -154,12 +155,7 @@ class NormalChat extends React.Component {
             }
           >
             <Image
-              style={{
-                width: width / 10,
-                height: height / 18,
-                marginRight: width / 50,
-                marginBottom: "10%"
-              }}
+              style={styles.chatIcon}
               source={require("../RES/photo.png")}
               resizeMode="center"
             />
@@ -167,7 +163,6 @@ class NormalChat extends React.Component {
           <TouchableOpacity
             onPress={() =>
               ImagePicker.openCamera({}).then(image => {
-                this.drawerNormal.close();
                 let message = [
                   {
                     _id: Date.now(),
@@ -183,12 +178,7 @@ class NormalChat extends React.Component {
             }
           >
             <Image
-              style={{
-                width: width / 10,
-                height: height / 18,
-                marginRight: width / 50,
-                marginBottom: "10%"
-              }}
+              style={styles.chatIcon}
               source={require("../RES/camera.png")}
               resizeMode="center"
             />
@@ -235,4 +225,13 @@ class SecureChat extends React.Component {
 export default createMaterialTopTabNavigator({
   Standard: NormalChat,
   Secure: SecureChat
+});
+
+const styles = StyleSheet.create({
+  chatIcon: {
+    width: width / 10,
+    height: height / 18,
+    marginRight: width / 50,
+    marginBottom: "10%"
+  }
 });

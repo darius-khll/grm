@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Image,
-  AsyncStorage,
   TextInput,
   Dimensions,
   SectionList,

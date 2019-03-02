@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Dimensions, AsyncStorage } from "react-native";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { HeaderBackButton, createStackNavigator } from "react-navigation";
 import SideBar from "../Components/SideBar";
 import Drawer from "react-native-drawer";
