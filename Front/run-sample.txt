@@ -1,6 +1,0 @@
-
-one command line =>
-    react-native start --reset-cache
-
-another command line =>
-    react-native run-android
